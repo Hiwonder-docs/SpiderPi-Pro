@@ -14,7 +14,7 @@
 
 - **设备开机**
 
-按照"**[学前先看\3. 首次开机]()**"所学内容，打开树莓派扩展板电源开关，等待开机完成。
+按照"**[学前先看\3. 首次开机](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/1_read_before_studying.html#id12)**"所学内容，打开树莓派扩展板电源开关，等待开机完成。
 
 ### 1.2 设备连接
 
@@ -70,7 +70,7 @@ iOS系统下，需等待手机状态栏显示Wi-Fi图标后再返回APP，否则
 
 <img src="../_static/media/chapter_2/section_1/image9.png"  />
 
-如需了解各个玩法的具体使用方法，可查看目录"**第4章 手机APP试玩\第2课手机APP试玩**"下的文档。
+如需了解各个玩法的具体使用方法，可查看目录"**[2. 手机APP试玩](#anchor_2_1)**"下的文档。
 
 - #### 1.2.3 局域网模式连接方法在
 
@@ -116,6 +116,8 @@ iOS系统下，需等待手机状态栏显示Wi-Fi图标后再返回APP，否则
 <img src="../_static/media/chapter_2/section_1/image9.png"  />
 
 如需了解各个玩法的具体使用方法，可查看下节"**2. 手机APP试玩**"下的文档。
+
+<p id="anchor_2_1"></p>
 
 ## 2. 手机APP试玩
 

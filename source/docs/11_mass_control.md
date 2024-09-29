@@ -75,7 +75,7 @@
 
 1)  至少准备2台及以上的SpiderPi Pro机器人（本节课以2台机器人为例进行示范）。
 
-2)  开发环境搭建。参考“**[远程工具安装与连接]()**”文档内容，下载并安装远程连接工具VNC。
+2)  开发环境搭建。参考“**[远程工具安装与连接](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html)**”文档内容，下载并安装远程连接工具VNC。
 
 ### 2.2 实现原理
 
@@ -162,8 +162,6 @@ vim wifi_conf.py
 :wq
 ```
 
-<img src="../_static/media/chapter_11/section_2/image9.png"  />
-
 6)  输入命令“**sudo reboot**”将设备重启。（**此步不可跳过！**）
 
 ```commandline
@@ -190,7 +188,7 @@ cd spiderpi/functions/
 python3 multi_control_server.py
 ```
 
-4)  参考“**[上手试玩\1. 手机APP的安装和连接]()**”获取从机的IP地址进行连接。
+4)  参考“**[上手试玩\1. 手机APP的安装和连接](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/2_play_first_hand.html#app)**”获取从机的IP地址进行连接。
 
 5)  连接从机之后打开命令行终端，输入指令，按下回车，进入群控文件所在目录。
 

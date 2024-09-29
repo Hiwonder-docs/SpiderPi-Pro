@@ -28,7 +28,7 @@
 指令输入需严格区分大小写及空格，关键字可以使用"Tab"键进行补齐。
 :::
 
-1) 将设备开机，并参照课程资料的"**[学前必看\4. 远程工具安装与连接]()**"内容，通过VNC远程连接工具连接。
+1) 将设备开机，并参照课程资料的"**[远程工具安装与连接](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#id2)**"内容，通过VNC远程连接工具连接。
 
 <img src="../_static/media/chapter_10/section_1/image2.png"  />
 
@@ -572,7 +572,7 @@ python3 color_position_recognition.py
 
 1)  双击系统桌面<img src="../_static/media/chapter_10/section_3/image17.png" style="width:0.51667in;height:0.5in" />图标，在弹出的界面中点击"**执行**"。
 
-<img src="../_static/media/chapter_10/section_3/image18.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_3/image18.png"  />
 
 2)  进入界面后，点击"**Connect**"。
 
@@ -696,7 +696,7 @@ python3 color_position_recognition.py
 
 根据实现的效果，梳理程序的过程逻辑，如下图所示：
 
-<img src="../_static/media/chapter_10/section_3/image50.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_3/image50.png"  />
 
 - #### 3.5.1 导入功能库
 
@@ -1346,7 +1346,7 @@ AprilTag 作为一种视觉定位标志符，类似于二维码或者条形码�
 指令的输入需严格区分大小写及空格。
 :::
 
-1)  将机器人开机，然后通过VNC远程连接树莓派桌面。关于VNC的安装及连接，可参考"**第6章 远程桌面工具安装与连接\第1课 远程工具安装与连接**"。
+1)  将机器人开机，然后通过VNC远程连接树莓派桌面。关于VNC的安装及连接，可参考"**[远程桌面工具安装与连接\1. 远程工具安装与连接](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html)**"。
 
 <img src="../_static/media/chapter_10/section_6/image2.png"  />
 
@@ -2117,11 +2117,11 @@ vim avoidance.py
 
 下表为测得距离与其对应的反馈动作：
 
-| **距离范围（distance）** |     **反馈动作**     |
-|:------------------------:|:--------------------:|
-| 0cm \< distance \< 25cm  | 机器人先后退，再左转 |
-| 25cm \< distance \< 40cm |    机器人直接左转    |
-|     40cm \< distance     |      机器人前进      |
+|   **距离范围（distance）**   |     **反馈动作**     |
+|:----------------------:|:--------------------:|
+| 0cm < distance < 25cm  | 机器人先后退，再左转 |
+| 25cm < distance < 40cm |    机器人直接左转    |
+|    40cm < distance     |      机器人前进      |
 
 通过调用kinematics.IK库中的函数，可以控制SpiderPi Pro机器人移动。下表为用于控制SpiderPi Pro机器人移动的函数：
 
@@ -2347,7 +2347,7 @@ python程序中"**\_\_name\_\_ == '\_\_main\_\_:'**"就是程序的主函数。�
 
 1)  框出物体轮廓后，通过cv2.approxPolyDP获取多边形近似物体形状，如下图所示：
 
-<img class="common_img" style="width:50%" src="../_static/media/chapter_10/section_11/image48.png"  />
+<img src="../_static/media/chapter_10/section_11/image48.png"  />
 
 第一个参数"**areaMaxContour**"表示轮廓的点集；
 
@@ -2357,7 +2357,7 @@ python程序中"**\_\_name\_\_ == '\_\_main\_\_:'**"就是程序的主函数。�
 
 为方便理解，以下图为例：
 
-<img src="../_static/media/chapter_10/section_11/image50.png"  alt="loading" />
+<img class="common_img" style="width:50%" src="../_static/media/chapter_10/section_11/image50.png"  alt="loading" />
 
 首先处理AC，发现B点到AB的距离d大于epsilon，则保留AB，接着处理BC线段。
 

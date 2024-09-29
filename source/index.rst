@@ -15,3 +15,4 @@
    docs/8_forward_inverse_kinematics.md
    docs/10_recognition_tracking.md
    docs/11_mass_control.md
+   docs/12_network_configuration.md

@@ -84,7 +84,7 @@ SpiderPi Pro是一款基于树莓派4B开发的AI视觉六足机器人套件，�
 
 <img class="common_img" style="width:50%" src="../_static/media/chapter_1/section_3/image9.png"  />
 
-接下来可前往"**[上手试玩]()**"继续学习后续内容。
+接下来可前往"**[上手试玩](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/2_play_first_hand.html)**"继续学习后续内容。
 
 ### 3.3 查看电量
 

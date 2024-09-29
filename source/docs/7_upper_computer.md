@@ -307,7 +307,7 @@ SpiderPi Pro机器人在出厂时内置有动作组，其动作组文件储存�
 
 ### 3.1 操作步骤
 
-1)  根据"**[远程工具安装及连接\1. 远程桌面工具安装与连接]()**"内容，安装VNC，远程连接树莓派系统桌面。
+1)  根据"**[远程工具安装及连接\1. 远程桌面工具安装与连接](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#id2)**"内容，安装VNC，远程连接树莓派系统桌面。
 
 2)  双击系统桌面图标<img src="../_static/media/chapter_7/section_3/image1.png" style="width:0.39306in;height:0.40347in" alt="loading" />，在弹出的提示框中点击"**执行**"，即可进入上位机编辑界面，如下图所示：
 
