@@ -26,31 +26,31 @@ STA模式：开发板能够主动去连接指定的热点/Wi-Fi。（可联通�
 
 1) 打开手机APP"**WonderPi**"，依次点击"**初级套件**"、"**MasterPi**"。
 
-<img src="../_static/media/chapter_15/section_1/image1.png"  />
+<img src="../_static/media/chapter_12/section_1/image1.png"  />
 
 2) 点击界面右下方的"**+**"按键，选择"**直连模式**"。
 
-<img src="../_static/media/chapter_15/section_1/image2.png"  />
+<img src="../_static/media/chapter_12/section_1/image2.png"  />
 
 :::{Note}
-如需采用局域网模式进行连接，可参考目录[4.局域网模式连接（选看）](#_4.局域网模式连接（选看）)。**
+如需采用局域网模式进行连接，可参考目录[1.3 局域网模式](#anchor_1_3)。**
 :::
 
 3) 点击"**去连接设备热点**"按键，前往设置界面，连接机器人生成的热点。
 
-<img src="../_static/media/chapter_15/section_1/image3.png"  />
+<img src="../_static/media/chapter_12/section_1/image3.png"  />
 
 4) 热点名称以"**HW**"为开头，热点密码为"**hiwonder**"。
 
-<img class="common_img" src="../_static/media/chapter_15/section_1/image4.png"  style="width:50%" />
+<img class="common_img" src="../_static/media/chapter_12/section_1/image4.png"  style="width:50%" />
 
 :::{Note}
-iOS系统下，需等待手机状态栏显示Wi-Fi图标<img src="../_static/media/chapter_15/section_1/image5.png" style="width:40px"  />后再返回APP，否则可能会搜索不到设备。若出现搜索不到设备的情况，可点击APP界面右上方的刷新图标<img src="../_static/media/chapter_15/section_1/image6.png" style="width:40px"  />。
+iOS系统下，需等待手机状态栏显示Wi-Fi图标<img src="../_static/media/chapter_12/section_1/image5.png" style="width:40px"  />后再返回APP，否则可能会搜索不到设备。若出现搜索不到设备的情况，可点击APP界面右上方的刷新图标<img src="../_static/media/chapter_12/section_1/image6.png" style="width:40px"  />。
 :::
 
 5) 返回手机APP，点击对应的机器人图标，进入模式选择界面。
 
-<img src="../_static/media/chapter_15/section_1/image7.png"  alt="loading" />
+<img src="../_static/media/chapter_12/section_1/image7.png"  alt="loading" />
 
 :::{Note}
 若出现"网络不可用，是否继续连接"提示弹窗，点击"保持连接"按键即可。
@@ -58,11 +58,11 @@ iOS系统下，需等待手机状态栏显示Wi-Fi图标<img src="../_static/med
 
 6) 若提示"**是否切换并进入搜到的产品界面**"，说明产品版本选择错误（步骤1）。可点击"**确定**"按键，直接切换至正确版本的模式选择界面。
 
-<img class="common_img" src="../_static/media/chapter_15/section_1/image8.png" style="width:50%" />
+<img class="common_img" src="../_static/media/chapter_12/section_1/image8.png" style="width:50%" />
 
 7) 模式选择界面如下图所示：
 
-<img src="../_static/media/chapter_15/section_1/image9.png"  alt="loading" />
+<img src="../_static/media/chapter_12/section_1/image9.png"  alt="loading" />
 
 如需了解各个模式的具体使用方法，可查看前面的文档。
 
@@ -70,7 +70,7 @@ iOS系统下，需等待手机状态栏显示Wi-Fi图标<img src="../_static/med
 
 1) 启动机器人，将其连接至远程控制软件VNC。
 
-2) 双击系统桌面的图标<img src="../_static/media/chapter_15/section_1/image10.png"  />，打开命令行终端。
+2) 双击系统桌面的图标<img src="../_static/media/chapter_12/section_1/image10.png"  />，打开命令行终端。
 
 3) 输入指令"**cd hiwonder-toolbox/**"，并按下回车，进入配置文件目录。
 
@@ -86,11 +86,11 @@ vim hiwonder_wifi_conf.py
 
 配置文件默认为AP直连模式，当所有代码都注释掉即为AP直连模式。
 
-<img src="../_static/media/chapter_15/section_1/image13.png"  />
+<img src="../_static/media/chapter_12/section_1/image13.png"  />
 
 5) 如果周围有多台设备，则可通过修改"**HW_WIFI_AP_SSID**"和"**HW_WIFI_AP_PASSWORD**"，自行按需设置名称和密码以作区分，以名称"**HW-Robot**"和密码"**hiwonder**"为例,输入如下图所示：
 
-<img src="../_static/media/chapter_15/section_1/image14.png"  />
+<img src="../_static/media/chapter_12/section_1/image14.png"  />
 
 6) 确认输入无误后，按下"**ESC**"键，再输入"**:wq**"，退出并保存文件。
 
@@ -112,13 +112,15 @@ sudo systemctl restart hw_wifi.service
 
 11) 等待服务重启完成，可以看到热点已经修改完成。
 
-<img class="common_img" src="../_static/media/chapter_15/section_1/image20.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/image20.png"  />
 
 12) 打开远程控制软件VNC，在搜索栏输入新的IP地址，点击搜索到的连接图标。输入登录用户名"**pi**"和密码"**raspberrypi**"，再点击"**OK**"即可进入系统桌面。
 
-<img class="common_img" src="../_static/media/chapter_15/section_1/image21.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/image21.png"  />
 
-<img src="../_static/media/chapter_15/section_1/image22.png"  />
+<img src="../_static/media/chapter_12/section_1/image22.png"  />
+
+<p id="anchor_1_3"></p>
 
 ### 1.3 局域网模式
 
@@ -135,39 +137,39 @@ sudo systemctl restart hw_wifi.service
 
 1) 先将手机连接至Wi-Fi，这里以连接"**Hiwomder_5G**"Wi-Fi为例。（支持双频的路由器，在双频分开设置的情况下，Wi-Fi 名默认会区分开，像这个 Hiwonder是 2.4G 频段，Hiwonder_5G 就是 5G 频段的）
 
-<img class="common_img"  style="width:50%" src="../_static/media/chapter_15/section_1/image23.jpeg"  alt="loading" />
+<img class="common_img"  style="width:50%" src="../_static/media/chapter_12/section_1/image23.jpeg"  alt="loading" />
 
 2) 打开手机APP"**WonderPi**"，依次点击"**初级套件**"、"**MasterPi**"。
 
-<img src="../_static/media/chapter_15/section_1/image1.png"  />
+<img src="../_static/media/chapter_12/section_1/image1.png"  />
 
 3) 然后单击右下角"**+**"按钮，选择"**局域网模式**"。
 
-<img src="../_static/media/chapter_15/section_1/image24.png"  alt="loading" />
+<img src="../_static/media/chapter_12/section_1/image24.png"  alt="loading" />
 
 4) 此时APP会提示输入你所连接Wi-Fi的密码（请确认密码是否输入正确，如果输入错误会导致连接失败），输入完成后点击"**确定**"。
 
-<img src="../_static/media/chapter_15/section_1/image25.jpeg"  alt="loading" />
+<img src="../_static/media/chapter_12/section_1/image25.jpeg"  alt="loading" />
 
 5) 再点击"**去连接设备热点**"。
 
-<img src="../_static/media/chapter_15/section_1/image26.jpeg"  alt="loading" />
+<img src="../_static/media/chapter_12/section_1/image26.jpeg"  alt="loading" />
 
 6) 此时手机会自动跳转到Wi-Fi连接页面，找到"**HW**"开头的热点，输入密码"**hiwonder**"，完成之后点击"**返回**"按钮。
 
-<img class="common_img"  style="width:50%" src="../_static/media/chapter_15/section_1/image27.jpeg"  alt="loading" />
+<img class="common_img"  style="width:50%" src="../_static/media/chapter_12/section_1/image27.jpeg"  alt="loading" />
 
 7) 此时可以看到APP已经开始进行连接。
 
-<img src="../_static/media/chapter_15/section_1/image28.jpeg"  alt="loading" />
+<img src="../_static/media/chapter_12/section_1/image28.jpeg"  alt="loading" />
 
 8) 稍等片刻，主界面会显示机器人的图标，同时扩展板上的LED也会保持常亮。
 
-<img src="../_static/media/chapter_15/section_1/image7.png"  alt="loading" /><img src="../_static/media/chapter_15/section_1/image29.png"  />
+<img src="../_static/media/chapter_12/section_1/image7.png"  alt="loading" /><img src="../_static/media/chapter_12/section_1/image29.png"  />
 
 9) 长按APP中的机器人图标，可以查看分配给机器人的IP地址和设备ID。
 
-<img src="../_static/media/chapter_15/section_1/image30.png"  alt="loading" />
+<img src="../_static/media/chapter_12/section_1/image30.png"  alt="loading" />
 
 10) 我们在远程桌面连接工具上搜索它的IP地址，就可以与远程桌面工具进行连接了。
 
@@ -179,7 +181,7 @@ sudo systemctl restart hw_wifi.service
 
 1) 启动机器人，将其连接至远程控制软件NoMachine。
 
-2) 双击系统桌面的图标<img src="../_static/media/chapter_15/section_1/image10.png"  />，打开命令行终端。
+2) 双击系统桌面的图标<img src="../_static/media/chapter_12/section_1/image10.png"  />，打开命令行终端。
 
 3) 输入指令"**cd hiwonder-toolbox/**"，并按下回车，进入配置文件目录。
 
@@ -201,7 +203,7 @@ vim hiwonder_wifi_conf.py
 选择5G信号的Wi-Fi，传输速率会更高，如连接普通Wi-FiI感觉卡顿，可以重新修改选择5G信号的Wi-Fi。
 :::
 
-<img src="../_static/media/chapter_15/section_1/image32.png"  />
+<img src="../_static/media/chapter_12/section_1/image32.png"  />
 
 7) 确认输入无误后，按下"**ESC**"键，再输入"**:wq"**，退出并保存文件。
 
