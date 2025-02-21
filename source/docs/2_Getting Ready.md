@@ -2,7 +2,7 @@
 
 <p id="anchor_1"></p>
 
-## [1. APP Installation and Connection ]()
+## [1. APP Installation and Connection ](https://docs.hiwonder.com/projects/TurboPi/en/latest/docs/2.quick_user_experience.html#app-installation-and-connection)
 
 <p id="anchor_2_1"></p>
 
@@ -10,7 +10,7 @@
 
 ### 2.1 Getting ready
 
-Follow the tutorial in [1. APP Installation and Connection]() under "[3. Color Threshold Adjustment]()" to install the app and connect to the SpiderPi Pro.
+Follow the tutorial in [1. APP Installation and Connection](https://docs.hiwonder.com/projects/TurboPi/en/latest/docs/2.quick_user_experience.html#app-installation-and-connection) under "[3. Color Threshold Adjustment](https://docs.hiwonder.com/projects/TurboPi/en/latest/docs/2.quick_user_experience.html#adjust-color-threshold)" to install the app and connect to the SpiderPi Pro.
 
 ### 2.2 Start Games
 
@@ -58,7 +58,7 @@ This game can recognize red, green, and blue. SpiderPi Pro will nod when it dete
 
 * When recognizing, please do not have the same or similar colored object within the detected range to avoid interference.
 
-* If the recognition effect is not good enough, please refer to  "[3. Color Threshold Adjustment]()".
+* If the recognition effect is not good enough, please refer to  "[3. Color Threshold Adjustment](https://docs.hiwonder.com/projects/TurboPi/en/latest/docs/2.quick_user_experience.html#adjust-color-threshold)".
 :::
 
 (1) Click "Color Recognition" to enter this game. Its interface consists three parts:
@@ -91,7 +91,7 @@ Please start this game under a well-lit environment, but try to keep it from dir
 
 When recognizing, please do not have the same or similar colored object within the detected range to avoid interference.
 
-If the recognition effect is not good enough, please refer to "[3.Color Threshold Adjustment]()".
+If the recognition effect is not good enough, please refer to "[3.Color Threshold Adjustment](https://docs.hiwonder.com/projects/TurboPi/en/latest/docs/2.quick_user_experience.html#adjust-color-threshold)".
 
 :::
 
@@ -115,7 +115,7 @@ If the recognition effect is not good enough, please refer to "[3.Color Threshol
 
 * When recognizing, please do not have the same or similar colored object within the detected range to avoid interference.
 
-* If the recognition effect is not good enough, please refer to "[3. Color Threshold Adjustment]()".
+* If the recognition effect is not good enough, please refer to "[3. Color Threshold Adjustment](https://docs.hiwonder.com/projects/TurboPi/en/latest/docs/2.quick_user_experience.html#adjust-color-threshold)".
   :::
 
 <img src="../_static/media/chapter_2/section_2/image16.png"  alt="loading" />
@@ -205,4 +205,4 @@ Do not detect object at close range for a long time.
 
 <p id="anchor_3"></p>
 
-## [3.Adjust Color Threshold]()
+## [3.Adjust Color Threshold](https://docs.hiwonder.com/projects/TurboPi/en/latest/docs/2.quick_user_experience.html#adjust-color-threshold)
