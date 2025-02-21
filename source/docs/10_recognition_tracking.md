@@ -1,2537 +1,3819 @@
-# AI视觉识别与追踪课程
+# 7. AI Vision Basic Lesson
 
-## 1. 识别单个颜色
+## 1. Single Color Recognition
 
-本节通过摄像头来识别颜色,识别到红色小球时，蜂鸣器发出滴滴报警声，并在回传画面中圈出，打印 "Color：red"。
+In this section, the camera detects colors. When a red ball is recognized, the buzzer will emit a beep, and the red ball will be highlighted in the transmitted image with "Color: red" displayed.
 
-### 1.1 实现原理
+### 1.1 Program Description
 
-颜色识别的实现分为颜色识别和识别后的执行反馈两部分。
+The implementation of color recognition consists of two parts: color detection and execution feedback after recognition.
 
-首先颜色识别部分，先进行高斯滤波（对图像中进行减噪），通过Lab颜色空间来对物品的颜色进行转换(关于Lab颜色空间的这个部分可以前往教程资料中 "**[OpenCV视觉基础课程]()**"进行详细学习)。
+First, for the color detection part, Gaussian filtering is applied to the image to reduce noise. The Lab color space is then used to convert the color of the object (you can learn more about the Lab color space in the "[OpenCV Vision Basic Course]()" section of the tutorial materials). 
 
-接着通过颜色阈值对圆圈中的物体颜色进行识别，再对图像部分进行掩膜（掩膜是用选定的图像、图形或物体，对处理的图像进行全局或者局部遮挡）。
+Next, the object's color within the circle is recognized using color thresholding, followed by masking (masking involves using selected images, shapes, or objects to globally or locally obscure the image being processed). 
 
-然后经过对物品图片开闭运算处理后，最后将轮廓最大的物体用圆圈圈出。
+After performing morphological operations such as opening and closing on the object image, the object with the largest contour is circled. 
 
-开运算：先对图像腐蚀后膨胀。作用：用来消除小的物体，平滑形状边界，并且不改变其面积。可以去除小颗粒噪声，断开物体之间的粘连。
+Opening: The image undergoes erosion followed by dilation. This operation removes small objects, smooths shape boundaries, and preserves the area. It can eliminate small noise particles and separate connected objects.  
 
-闭运算：先对图像膨胀后腐蚀。作用：用来填充物体内的小空洞，连接邻近的物体，连接断开的轮廓线，平滑其边界的同时不改变面积。
+Closing: The image undergoes dilation followed by erosion. This operation fills small holes within objects, connects nearby objects, closes broken contour lines, and smooths boundaries while preserving the area.
 
-在识别后对蜂鸣器进行设置，使小车根据不同颜色来做出对应的反馈。比如识别红色，蜂鸣器响一声。
+After recognition, the servo and buzzer are set up to provide feedback based on the detected color. For example, when red is detected, the buzzer will emit a sound.
 
-关于详细对应的反馈效果，可参考本文档[1.3 功能实现](#anchor_1_3)。
+For detailed feedback behavior, please refer to  [1.3 Program Outcome]()  of this document.
 
-### 1.2 玩法开启及关闭步骤
+### 1.2 Start and Close the Game
 
 :::{Note}
-指令输入需严格区分大小写及空格，关键字可以使用"Tab"键进行补齐。
+The input command is case-sensitive, and keywords can be auto-completed using the Tab key.
 :::
 
-1) 将设备开机，并参照课程资料的"**[远程工具安装与连接](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#id2)**"内容，通过VNC远程连接工具连接。
+(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\1.VNC Installation and Connection]()", use the VNC remote connection tool to connect.
 
-<img src="../_static/media/chapter_10/section_1/image2.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_1/image2.png"  />
 
-2) 点击系统桌面左上角的图标<img src="../_static/media/chapter_10/section_1/image3.png" style="width:0.375in;height:0.3125in" />，打开LX终端。
+(2) Click the icon<img src="../_static/media/chapter_10/section_1/image3.png" style="width:0.375in;height:0.3125in" />，in the top left corner of the system desktop or press the shortcut "**Ctrl+Alt+T**" to open the Terminator terminal.
 
-<img src="../_static/media/chapter_10/section_1/image4.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_1/image4.png"  />
 
-3) 输入指令，按下回车，则可定位到存放玩法程序的目录。
+(3) Execute the command to navigate to the directory where the program is located, then press Enter: 
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-4) 输入指令，然后按下回车键，玩法启动。
+(4) Enter the command and press Enter to start the program:
 
-```commandline
+```bash
 python3 color_recognition.py
 ```
 
-5) 如需关闭此玩法，只需要在LX终端界面中按下"Ctrl+c"。若关闭失败，可多次按下。
+(5) To close the program, simply press "**Ctrl+C**" in the LX terminal. If it does not close, press it multiple times.
 
 <p id="anchor_1_3"></p>
 
-### 1.3 实现效果
+### 1.3 Program Outcome
 
-玩法开启后，通过摄像头来识别颜色,识别到红色小球时，蜂鸣器发出滴滴报警声，并在回传画面中圈出，打印 "Color：red"
+After starting the game, the camera will be used to detect colors. When a red ball is recognized, the buzzer will emit a beep sound, and the ball will be circled in the transmitted image, with "Color: red" printed.
 
 :::{Note}
-1. 识别过程中，请尽量保证在光线充足环境下进行识别，避免因光线问题导致识别不准确。
 
-2. 识别过程中，摄像头视觉范围之内的背景中，不要出现与要识别颜色相近或相同的物体，避免误识别。
+* During the recognition process, ensure the environment is well-lit to avoid inaccurate recognition due to poor lighting conditions.
+
+* Ensure that no objects with similar or matching colors to the target are present in the background within the cameras visual range, as this may cause misrecognition.
+
+* If color recognition is inaccurate, refer to the section "[1.5 Function Extensions -> 1.5.1 Adjusting Color Thresholds]()" in this document to adjust the color threshold settings.
+
 :::
 
-### 1.4 功能延伸
+### 1.4 Program Analysis
 
-- #### 1.4.1 更换默认识别颜色
+The source code of this program is saved in: [/home/pi/spiderpi/functions/color_recognition.py]()
 
-颜色识别程序内置了三种颜色：红色、绿色以及蓝色，其中默认识别到红色，蜂鸣器发出滴滴响声，并在回传画面中圈出，打印 "Color：red"。
+**1.4.1 Import Function Library**
 
-**这里我们将识别颜色更换为绿色为例，具体修改步骤如下所示：**
+{lineno-start=4}
 
-1) 输入指令切换到源码路径下的指令，按下回车。
+```python
+import sys
+import cv2
+import math
+import time
+import threading
+import numpy as np
+from common import misc
+from common import yaml_handle
+from calibration.camera import Camera
+from sensor.ultrasonic_sensor import Ultrasonic
+```
 
-```commandline
+(1) Import Libraries for OpenCV, Time, Math, and Threading
+To use functions from a library, we can call them with the syntax:
+**library_name.function_name(parameter1, parameter2, ..**.) 
+
+{lineno-start=199}
+
+```python
+            time.sleep(0.01)
+```
+
+For example, to call the `sleep` function from the `time` library, we use: 
+
+In Python, several libraries like `time`, `cv2`, and `math` are built-in and can be directly imported and used. You can also create your own libraries, like the `yaml_handle` file-reading library mentioned above.
+
+(2) Instantiate a Library
+
+Some library names can be long and hard to remember. To simplify function calls, we often instantiate libraries. For example: 
+
+{lineno-start=12}
+
+```python
+from calibration.camera import Camera
+```
+
+After instantiating the library, we can call functions from the `Board` library using the shorter syntax:  
+
+Board.function_name(parameter1, parameter2, ...)
+
+This makes it much easier and more convenient to use.
+
+**1.4.2 Main Function Analysis**
+
+In a Python program, `__name__ == '__main__'` indicates the main function of the program, where the program starts by reading an image.
+
+(1) Image Processing
+
+{lineno-start=186}
+
+```python
+    camera = Camera()
+```
+
+When the play mode starts, the video stream is obtained and stored in "cap".
+
+(2) Entering Image Processing
+
+When an image is read, the  `run()` function is called for image processing.
+
+{lineno-start=189}
+
+```python
+    while True:
+        img = camera.frame
+        if img is not None:
+            frame = img.copy()
+            Frame = run(frame)
+            cv2.imshow('Frame', Frame)
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
+```
+
+① The function `img.copy()` is used to copy the content of `img` to `frame`.
+
+② The function `run()` performs image processing.
+
+{lineno-start=108}
+
+```python
+def run(img):
+    global draw_color
+    global color_list
+    global detect_color
+    global action_finish
+    global count
+    img_copy = img.copy()
+    img_h, img_w = img.shape[:2]
+
+    
+    
+    frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
+    frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3)      
+    frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间(convert the image to LAB space)
+```
+
+(3) Resizing the image for easier processing.
+
+{lineno-start=119}
+
+```python
+    frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
+```
+
+The first parameter `img_copy` is the input image.
+
+The second parameter `size` is the size of the output image. The size can be set by yourself.
+
+The third parameter `interpolation=cv2.INTER_NEAREST` is the interpolation method. `INTER_NEAREST`: Nearest-neighbor interpolation.
+
+` INTER_LINEAR`: Bilinear interpolation. If you do not specify the last parameter, this method will be used by default. 
+
+`INTER_CUBIC`: Bicubic interpolation within a 4x4 pixel neighborhood. 
+
+`INTER_LANCZOS4`: Lanczos interpolation within an 8x8 pixel neighborhood.
+
+(4) Gaussian Filtering
+
+There is always noise mixed in the image, which affects the image quality and makes the features less prominent. Different filtering methods are selected according to different types of noise, common ones include: Gaussian filtering, median filtering, mean filtering, etc.
+
+Gaussian filtering is a linear smoothing filter, suitable for eliminating Gaussian noise and widely used in the noise reduction process of image processing.
+
+{lineno-start=120}
+
+```python
+    frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3) 
+```
+
+he first parameter `frame_resize` is the input image.
+
+The second parameter `(3, 3)` is the size of the Gaussian kernel.
+
+The third parameter `3` is the standard deviation of the Gaussian kernel in the X direction.
+
+(5) Converting the Image to LAB Color Space, where the function cv2.cvtColor() is a color space conversion function.
+
+{lineno-start=121}
+
+```python
+    frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间(convert the image to LAB space)
+```
+
+The first parameter `frame_gb` is the input image.
+
+The second parameter `cv2.COLOR_BGR2LAB` is the conversion format. `cv2.COLOR_BGR2LAB`converts from BGR format to LAB format. If you want to convert to RGB, you can use `cv2.COLOR_BGR2RGB`.
+
+(6) Converting the Image into a Binary Image, which only has 0 and 1, making the image simpler and reducing the data volume, and thus easier to process.
+
+The `inRange()` function in the cv2 library is used to binarize the image.
+
+{lineno-start=131}
+
+```python
+                frame_mask = cv2.inRange(frame_lab,
+                                         (lab_data[i]['min'][0],
+                                          lab_data[i]['min'][1],
+                                          lab_data[i]['min'][2]),
+                                         (lab_data[i]['max'][0],
+                                          lab_data[i]['max'][1],
+                                          lab_data[i]['max'][2]))  #对原图像和掩模进行位运算(perform bitwise operation to original image and mask)
+```
+
+The first parameter `frame_lab` is the input image;
+
+The second parameter `(lab_data[i]['min'][0],lab_data[i]['min'][1],lab_data[i]['min'][2])` is the lower color threshold;
+
+The third parameter `(lab_data[i]['max'][0],lab_data[i]['max'][1],lab_data[i]['max'][2])` is the upper color threshold;
+
+(7) To reduce interference and make the image smoother, erosion and dilation operations need to be performed on the image. Erosion and dilation are two basic morphological operations, often used in image processing, especially in binary image processing. These two operations are usually used to remove small noise, separate and identify objects in the image, and adjust the size of the image, etc.
+
+{lineno-start=138}
+
+```python
+                eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
+                dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
+```
+
+he first parameter is the input image;
+
+The second parameter is the structural element (also known as the kernel), which defines the nature of the operation. The size and shape of the kernel determine the degree of erosion and dilation.
+
+(8) Obtaining the Contour with the Largest Area
+
+The first parameter `dilated` is the input image;
+
+{lineno-start=142}
+
+```python
+                contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
+```
+
+The second parameter `cv2.RETR_EXTERNAL` is the contour retrieval mode;
+
+The third parameter `cv2.CHAIN_APPROX_NONE)[-2]` is the contour approximation method.
+
+Among the obtained contours, the contour with the largest area is searched for, and in order to avoid interference, a minimum value needs to be set, and the target contour is valid only when the area is larger than this value.
+
+{lineno-start=143}
+
+```python
+                areaMaxContour, area_max = get_area_max_contour(contours)  #找出最大轮廓(find the largest contour)
+                if areaMaxContour is not None:
+                    if area_max > max_area:#找最大面积(find the maximum area)
+                        max_area = area_max
+                        color_area_max = i
+                        areaMaxContour_max = areaMaxContour
+```
+
+(9) Displaying the Returned Imag
+
+{lineno-start=192}
+
+```python
+            frame = img.copy()
+            Frame = run(frame)
+            cv2.imshow('Frame', Frame)
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
+```
+
+The function `cv2.imshow()` is used to display the image in a window, `'Frame'` is the window name, and `Frame` is the display content. There must be cv2.waitKey() afterwards, otherwise, it cannot be displayed.
+
+The function `cv2.waitKey()` is used to wait for key input, and the parameter "**1**" is the delay time.
+
+**1.4.3 drive the buzzer**
+
+{lineno-start=91}
+
+```python
+                board.set_buzzer(2400, 0.1, 0.2, 1)
+                time.sleep(0.2)
+```
+
+The function `set_buzzer()` is used to drive the buzzer.
+
+The code `time.sleep(0.2)` is a delay function, and `0.2` is the buzzing time.
+
+### 1.5 Function Extensions
+
+**1.5.1 Adjusting Color Thresholds**
+
+The color recognition program is pre-configured to recognize three colors: red, green, and blue. By default, the program identifies red, triggering the buzzer to emit a beep and drawing a circle around the red ball in the transmitted image, displaying "Color: red."
+
+**To change the recognized color to green, follow these steps:**
+
+(1) Enter the following command and press Enter to navigate to the source code directory:
+
+```bash
 cd spiderpi/functions
 ```
 
-2) 然后再输入指令打开程序文件的指令，按下回车。
+(2) Then, enter the following command and press Enter to open the program file:
 
-```commandline
+```bash
 sudo vim color_recognition.py
 ```
 
+(3) Locate the code shown in the image below:
 
-3) 找到下图所示代码：
+<img class="common_img" src="../_static/media/chapter_10/section_1/image8.png"  />
 
-<img src="../_static/media/chapter_10/section_1/image8.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_1/image9.png"  />
 
-<img src="../_static/media/chapter_10/section_1/image9.png"  />
+(4) Press the "i" key on the keyboard to enter edit mode.
 
-4) 按下键盘上的"**i**"键，进入到编辑模式。
+<img class="common_img" src="../_static/media/chapter_10/section_1/image10.png"  alt="loading" />
 
-<img src="../_static/media/chapter_10/section_1/image10.png"  alt="loading" />
+(5) Replace "red" (highlighted in red in the image) with "green", as shown in the image below:
 
-5)  将步骤 3 中代码更换为下图代码：
+<img class="common_img" src="../_static/media/chapter_10/section_1/image11.png"  />
 
-<img src="../_static/media/chapter_10/section_1/image11.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_1/image12.png"  />
 
-<img src="../_static/media/chapter_10/section_1/image12.png"  />
+(6) To save your changes, press the "Esc" key, then type ":wq" (note the colon before "wq") and press Enter to save and exit.
 
-6) 接下来，保存我们修改的内容。按下"**Esc**"键，然后依次输入"**:wq**"（注意wq前为冒号：），回车即可保存并退出。
+<img class="common_img" src="../_static/media/chapter_10/section_1/image13.png"  alt="loading" />
 
-<img src="../_static/media/chapter_10/section_1/image13.png"  alt="loading" />
+(7) Enter the following command and press Enter to start the color recognition functionality: 
 
-7) 输入开启颜色识别玩法的指令，按下回车。
-
-```commandline
+```bash
 sudo python3 color_recognition.py
 ```
 
-### 1.4 程序分析
+## 2. Color Recognition
 
-该程序的源代码位于：**/home/pi/spiderpi/functions/color_recognition.py**
+### 2.1 Program Logic
 
-根据实现的效果，梳理程序的过程逻辑，如下图所示：
+For humans, it is easy to distinguish different colors in the world. How can robots recognize object colors? For SpiderPi Pro, we can install a camera vision module to it and control it to identify different colors through visual recognition.
 
-<img src="../_static/media/chapter_10/section_1/image31.png"  alt="loading" />
+The overall implementation process is as follows: 
 
-- #### 1.5.1导入功能库
+First, program SpiderPi Pro to recognize colors with Lab color space. Convert the RGB color space to Lab, and then perform image binarization and operations such as dilation and corrosion to obtain an outline containing only the target color. 
 
-<img src="../_static/media/chapter_10/section_1/image32.png"  />
-
-1)  导入opencv、时间、数学、线程相关的库。我们如果想要调用功能库里的函数，就可以使用"功能库名+函数名（参数，参数...）"如：
-
-<img src="../_static/media/chapter_10/section_1/image33.png"  />
-
-就是调用"**time**"库中的"**sleep**"函数，sleep()的作用是延时。
-
-在python中有一些已经内置的库，我们直接导入调用就可以，比如"**time**"、"**cv2**"、"**math**"等。我们也可以自己写一个库，比如上面的"**yaml_handle**"文件读取库。
-
-2)  实例化函数库。
-
-我们有些函数库的名称太长，并且不容易记忆，为了方便调用函数，我们经常会对函数库进行实例化，如：
-
-<img src="../_static/media/chapter_10/section_1/image34.png"  />
-
-进行实例化后，在使用Board库中的函数，就可以像这样"**Board.函数名(参数,参数...)**"直接调用了，非常方便。
-
-- #### 1.5.2 主函数分析
-
-python程序中"**\_\_name\_\_ == '\_\_main\_\_:'**"就是程序的主函数。
-
-1. **读取摄像头图像**
-
-<img src="../_static/media/chapter_10/section_1/image35.png"  />
-
-当玩法启动时，获取视频流并存储在"cap"中。
-
-2. **进入图像处理**
-
-读取到图像时，调用run()函数进行图像处理。
-
-<img src="../_static/media/chapter_10/section_1/image36.png"  />
-
-- 函数img.copy()的作用是将"**img**"的内容复制给"**frame**"。
-
-- 函数run()进行图像处理。
-
-<img src="../_static/media/chapter_10/section_1/image37.png"  />
-
-- 对图片大小进行缩放，方便处理。
-
-<img src="../_static/media/chapter_10/section_1/image37.png"  />
-
-第一个参数"**img_copy**"是输入图像。
-
-第二个参数"**size**"是输出图像的大小。大小可以自己设定。
-
-第三个参数"**interpolation=cv2.INTER_NEAREST**"是插值方式。INTER_NEAREST：最邻近插值。INTER_LINEAR：双线性插值，如果最后一个参数你不指定，将默认使用这种方法。INTER_CUBIC：4x4像素邻域内的双立方插值。INTER_LANCZOS4：8x8像素邻域内的Lanczos插值。
-
-- 高斯滤波
-
-图像中总是会混入噪声，影响图像的质量，让特征不明显。根据不同的噪声种类选择对应的滤波方法，常见的有：高斯滤波、中值滤波、均值滤波等。
-
-高斯滤波是一种线性平滑滤波，适用于消除高斯噪声，广泛应用于图像处理的减噪过程。
-
-<img src="../_static/media/chapter_10/section_1/image37.png"  />
-
-第一个参数"**frame_resize**"是输入图像。
-
-第二个参数"**(3, 3)**"是高斯内核大小。
-
-第三个参数"**3**"是X方向上的高斯核标准偏差。
-
-- 将图像转换到LAB空间，其中函数cv2.cvtColor()是颜色空间转换函数。
-
-<img src="../_static/media/chapter_10/section_1/image37.png"  />
-
-第一个参数"**frame_gb**"是输入图像。
-
-第二个参数"**cv2.COLOR_BGR2LAB**"是转换格式。"**cv2.COLOR_BGR2LAB**"是将BGR格式转换到LAB格式。如果要转换到RGB就可以使用"**cv2.COLOR_BGR2RGB**"。
-
-- 将图像转换成二值图像，只有0和1，图像变得简单并且数据量减小，更容易处理。
-
-采用cv2库中的inRange()函数对图像进行二值化处理。
-
-<img src="../_static/media/chapter_10/section_1/image38.png"  />
-
-第一个参数"**frame_lab**"是输入图像；
-
-第二个参数"**(lab_data\[i\]\['min'\]\[0\],lab_data\[i\]\['min'\]\[1\],lab_data\[i\]\['min'\]\[2\])**"是颜色阈值下限；
-
-第三个参数"**(lab_data\[i\]\['max'\]\[0\],lab_data\[i\]\['max'\]\[1\],lab_data\[i\]\['max'\]\[2\])**"是颜色阈值上限；
-
-- 为了降低干扰，令图像更平滑，需要对图像进行腐蚀和膨胀操作，腐蚀（erosion）和膨胀（dilation）是两种基本的形态学操作，常用于图像处理，特别是在二值化图像的处理中。这两种操作通常用于去除小的噪声、分离和识别图像中的物体、以及调整图像的大小等。
-
-<img src="../_static/media/chapter_10/section_1/image39.png"  />
-
-第一个参数是输入图像；
-
-第二个参数是结构元素（也称为内核），它定义了操作的性质。内核的大小和形状决定了腐蚀和膨胀的程度。
-
-- 获取最大面积轮廓
-
-完成上述的图像处理后，需要获取识别目标的轮廓，此处涉及cv2库中的findContours()函数。
-
-<img src="../_static/media/chapter_10/section_1/image40.png"  />
-
-第一个参数"dilated"是输入图像；
-
-第二个参数"**cv2.RETR_EXTERNAL**"是轮廓的检索模式；
-
-第三个参数"**cv2.CHAIN_APPROX_NONE)\[-2\]**"是轮廓的近似方法。
-
-在获得的轮廓中寻找面积最大的轮廓，而为了避免干扰，需要设定一个最小值，仅当面积大于该值时，目标轮廓才有效。
-
-<img src="../_static/media/chapter_10/section_1/image41.png"  />
-
-3. **显示回传画面**
-
-<img src="../_static/media/chapter_10/section_1/image42.png"  />
-
-函数cv2.imshow()的作用是在窗口显示图像，"**'Frame'**"是窗口名称、"**Frame**"是显示内容。后面一定要有cv2.waitKey()，否则无法显示。
-
-函数cv2.waitKey()的作用是等待按键输入，参数"**1**"是延迟时间。
-
-- #### 1.5.3 驱动蜂鸣器
-
-<img src="../_static/media/chapter_10/section_1/image43.png"  />
-
-函数set_buzzer()是驱动蜂鸣器
-
-代码time.sleep(0.1)为延时函数，"**0.2**"是响的时间。
-
-## 2. 颜色分类
-
-### 2.1 玩法简要说明
-
-人类的眼睛可以很轻松的区分世界上不同的颜色，对于机器人而言，怎样可以识别物体颜色呢？我们可以给SpiderPi机器人加上摄像头视觉模块，通过视觉识别识别不同的颜色。
-
-下面我们看下本节课整体实现的流程：
-
-首先需要对颜色进行识别，我们使用Lab颜色空间来进行处理。先将RGB颜色空间转换为Lab，然后进行二值化处理，再经过膨胀腐蚀等操作，可获得只包含目标颜色的轮廓，再将该颜色轮廓用圆圈框起，便可实现物体颜色的识别。
-
-接着根据识别的颜色进行判断，如果满足设定的颜色，即让头部舵机进行上下转动，否则进行左右转动。
+Lastly, circle the obtained color outline and control the robot to take action according to the result of color recognition.
 
 <p id="anchor_2_2"></p>
 
-### 2.2 玩法开启及关闭步骤
+### 2.2 Start and Close the Game
 
 :::{Note}
-指令输入需严格区分大小写及空格。
+The input command should be case sensitive and space sensitive.
 :::
 
-1)  启动SpiderPi Pro机器人，通过VNC远程连接树莓派桌面。
+(1) Start the SpiderPi Pro robot and connect to the Raspberry Pi desktop remotely via VNC.
 
-2)  单击桌面左上角的的图标<img src="../_static/media/chapter_10/section_2/image3.png" style="width:0.39583in;height:0.33333in" />，打开LX终端。
+(2) Click  <img src="../_static/media/chapter_10/section_2/image3.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
 
-3)  输入进入玩法程序所在目录的指令，按下回车。
+(3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-4)  输入启动玩法的指令，回车。
+(4) Enter command, then press "Enter" to start the game.
 
-```commandline
+```bash
 python3 color_detect.py
 ```
 
-5)  如需关闭此玩法，可在LX终端界面按下"**Ctrl+C**"。若关闭失败，可多次按下。
+(5) If you want to exit the game programming, press "Ctrl+C" in the LX terminal interface. If the exit fails, please try it a few more times.
 
-### 2.3 功能实现
+### 2.3 Project Outcome
 
 :::{Note}
-程序默认将红色作为识别的正确颜色，如需将默认颜色更换为蓝色或绿色，可参考[2.4 功能延伸\ 更换默认识别颜色](#anchor_2_4_1)。
+The default recognition color is red. If you want to change it to blue or green, please refer to "2.4.1 Modify Default Recognition Color".
 :::
 
-将红色放置到摄像头前，机器人在识别到后会"**点头**"。当识别到蓝色或绿色小球，机器人识别到后将会"**摇头**"。
+Place the red ball in front of SpiderPi Pro's camera and it will nod when recognizing the red ball. It will "shake head" when detecting the green and blue balls.
 
-### 2.4 功能延伸
+### 2.4 Program Analysis
 
-<span id="anchor_2_4_1" class="anchor"></span>
+The source code of this program is located at: [/home/pi/spiderpi/functions/color_detect.py]()
 
--  #### 2.4.1 更换默认识别颜色
+**2.4.1 Import Function Libraries**
 
-颜色识别程序内置了三种颜色：红色、绿色、蓝色。其中，默认识别到红色时，机器人便执行点头动作。
+{lineno-start=4}
 
-此处**将默认识别颜色更换为绿色**为例，具体的修改步骤如下所示：
+```python
+import sys
+import cv2
+import math
+import time
+import threading
+import numpy as np
+from common import misc
+from common import yaml_handle
+from calibration.camera import Camera
+from sensor.ultrasonic_sensor import Ultrasonic
+```
 
-1)  输入进入玩法程序所在目录的指令，按下回车。
+**2.4.2 Image Processing**
 
-```commandline
+**(1) Gaussian Filtering**
+
+Before converting the image from RGB into LAB space, denoise the image and use `GaussianBlur()` function in cv2 library for Gaussian filtering.
+
+{lineno-start=179}
+
+```python
+    frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3)    
+```
+
+The meaning of the parameters in bracket is as follows:
+
+The first parameter `frame_resize` is the input image;
+
+The second parameter `(3, 3)` is the size of the Gaussian kernel;
+
+The third parameter `3` is the variance allowed near the average value in Gaussian filtering. The larger this value, the larger the variance allowed around the average value; the smaller the value, the smaller the variance allowed around the average value.
+
+**(2) Binarization Processing**
+
+The `inRange()` function in the cv2 library is used to perform binarization processing on the image.
+
+{lineno-start=189}
+
+```python
+                frame_mask = cv2.inRange(frame_lab,
+                                         (lab_data[i]['min'][0],
+                                          lab_data[i]['min'][1],
+                                          lab_data[i]['min'][2]),
+                                         (lab_data[i]['max'][0],
+                                          lab_data[i]['max'][1],
+                                          lab_data[i]['max'][2]))  #对原图像和掩模进行位运算(perform bitwise operation to original image and mask)
+```
+
+The first parameter in the bracket is the input image. 
+
+The second and the third parameters respectively are the lower limit and upper limit of the threshold. When the RGB value of the pixel is between the upper limit and lower limit, the pixel is assigned a value of 1, otherwise, 0.
+
+**(3) Corrosion and dilation**
+
+To reduce the interference and make the image smoother, it is necessary to perform corrosion and dilation on the image.
+
+{lineno-start=196}
+
+```python
+                eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
+                dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
+```
+
+`erode()` function is used for corrosion. Take `eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))` for example. 
+
+The meaning of the parameters in bracket are as follow.
+
+The first parameter `frame_mask` is the input image.
+
+The second parameter `cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))` is the structural element and kernel deciding the nature of the operation. And the first parameter in the parenthesis is the kernel shape and the second parameter is the kernel dimension.
+
+`dilate()` function is used for image dilation. And the meaning of the parameters in parenthesis is the same as that of `erode()` function.
+
+**(4) Acquire the maximum contour**
+
+After processing the image, acquire the contour of the target to be recognized, which involves `findContours()` function in cv2 library.
+
+{lineno-start=200}
+
+```python
+                contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
+```
+
+The first parameter in parentheses is the input image;
+
+The second parameter is the retrieval mode of the contour; 
+
+The third parameter is the approximation method of the contour.
+
+Find the contour of the maximum area among the obtained contours. To avoid interference, please set a minimum value. Only when the area is larger than this value, the target contour is valid.
+
+{lineno-start=205}
+
+```python
+        if max_area > 100:  # 有找到最大面积(the maximum area has been found)
+            ((centerX, centerY), radius) = cv2.minEnclosingCircle(areaMaxContour_max)  # 获取最小外接圆(obtain the minimum circumscribed circle)
+            centerX = int(misc.map(centerX, 0, size[0], 0, img_w))
+            centerY = int(misc.map(centerY, 0, size[1], 0, img_h))
+            radius = int(misc.map(radius, 0, size[0], 0, img_w))            
+            cv2.circle(img, (centerX, centerY), radius, range_rgb[color_area_max], 2)#画圆(drwa circle)
+```
+
+**2.4.3 Feedback Information**
+
+After the contour of the maximum area is obtained, call `circle()` function in cv2 library, and circle the recognized target. The color of the circle is in line with the color of the object. 
+
+{lineno-start=210}
+
+```python
+            cv2.circle(img, (centerX, centerY), radius, range_rgb[color_area_max], 2)#画圆(drwa circle)
+
+```
+
+To improve the accuracy of the recognition result, it is necessary to make several judgments.
+
+{lineno-start=212}
+
+```python
+            if color_area_max == 'red':  #红色最大(red is the maximum)
+                color = 1
+            elif color_area_max == 'green':  #绿色最大(green is the maximum)
+                color = 2
+            elif color_area_max == 'blue':  #蓝色最大(blue is the maximum)
+                color = 3
+            else:
+                color = 0
+            color_list.append(color)
+
+            if len(color_list) == 3:  #多次判断(multiple judgements)
+                # 取平均值(get mean)
+                color = int(round(np.mean(np.array(color_list))))
+                color_list = []
+                if color == 1:
+                    detect_color = 'red'
+                    draw_color = range_rgb["red"]
+                elif color == 2:
+                    detect_color = 'green'
+                    draw_color = range_rgb["green"]
+                elif color == 3:
+                    detect_color = 'blue'
+                    draw_color = range_rgb["blue"]
+                else:
+                    detect_color = 'None'
+                    draw_color = range_rgb["black"]               
+        else:
+            detect_color = 'None'
+            draw_color = range_rgb["black"]
+            
+    cv2.putText(img, "Color: " + detect_color, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, draw_color, 2)
+```
+
+After the judgment is completed, the color of the recognition target is printed in the feedback image. Here, the  `putText()` function in the cv2 library is involved.
+
+{lineno-start=244}
+
+```python
+    cv2.putText(img, "Color: " + detect_color, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, draw_color, 2)
+```
+
+The meaning of the parameters is as follow.
+
+The first parameter `img` is the input image. 
+
+The second parameter `"Color: " + detect_color` represents the displayed content. 
+
+The third parameter `(10, img.shape[0] - 10)` is the displayed position. 
+
+The fourth parameter `cv2.FONT_HERSHEY_SIMPLEX` represents the font type.
+
+The fifth parameter `0.65` represents the font size.
+
+The sixth parameter `draw_color` represents the color of the font.
+
+The seventh parameter `2` represents the font weight.
+
+**2.4.4 Main Function Analysis**
+
+The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+
+{lineno-start=248}
+
+```python
+if __name__ == '__main__':
+    from common.ros_robot_controller_sdk import Board
+```
+
+**(1) Read the Camera Image**
+
+{lineno-start=263}
+
+```python
+    while True:
+        img = camera.frame
+        if img is not None:
+            frame = img.copy()
+```
+
+When the game starts, the image is stored in "img".
+
+**(2) Enter Image Processing**
+
+When the captured image is read, call `run` function to process the image.
+
+{lineno-start=266}
+
+```python
+            frame = img.copy()
+            Frame = run(frame)
+            cv2.imshow('Frame', Frame)
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
+```
+
+① The function `img.copy()` is used to copy the content of `img` to `frame`.
+
+② The function `run()` performs image processing.
+
+{lineno-start=248}
+
+```python
+if __name__ == '__main__':
+    from common.ros_robot_controller_sdk import Board
+
+    board = Board()
+    ultrasonic = Ultrasonic()
+
+    debug = False
+    if debug:
+        print('Debug Mode')
+
+    init()
+    start()
+    camera = Camera()
+    camera.camera_open(correction=True) # 开启畸变矫正,默认不开启(enable the distortion correction which is not started by default)
+    
+    while True:
+        img = camera.frame
+        if img is not None:
+            frame = img.copy()
+            Frame = run(frame)
+            cv2.imshow('Frame', Frame)
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
+        else:
+            time.sleep(0.01)
+    camera.camera_close()
+    cv2.destroyAllWindows()
+```
+
+**2.4.5 Subthread Analysis**
+
+Run the  `move()`  function of the SpiderPi Pro as a subthread. When a color is recognized, the  `move()`  function is executed. 
+The function mainly involves processing the image results, making a judgment, and executing different feedback accordingly.
+
+{lineno-start=112}
+
+```python
+def move():
+    global draw_color
+    global detect_color
+    global action_finish
+
+    while True:
+        if debug:
+            return
+        if __isRunning:
+            if detect_color != 'None':
+                action_finish = False
+                if detect_color == 'red':
+                    board.pwm_servo_set_position(0.2, [[1, 1200]])
+                    time.sleep(0.2)
+                    board.pwm_servo_set_position(0.2, [[1, 1800]])
+                    time.sleep(0.2)
+                    board.pwm_servo_set_position(0.2, [[1, 1200]])
+                    time.sleep(0.2)
+                    board.pwm_servo_set_position(0.2, [[1, 1800]])
+                    time.sleep(0.2)
+                    board.pwm_servo_set_position(0.2, [[1, 1500]])
+                    time.sleep(0.1)
+                    detect_color = 'None'
+                    draw_color = range_rgb["black"]                    
+                    time.sleep(1)
+                elif detect_color == 'green' or detect_color == 'blue':
+                    board.pwm_servo_set_position(0.2, [[2, 1200]])
+                    time.sleep(0.2)
+                    board.pwm_servo_set_position(0.2, [[2, 1800]])
+                    time.sleep(0.2)
+                    board.pwm_servo_set_position(0.2, [[2, 1200]])
+                    time.sleep(0.2)
+                    board.pwm_servo_set_position(0.2, [[2, 1800]])
+                    time.sleep(0.2)
+                    board.pwm_servo_set_position(0.2, [[2, 1500]])
+                    time.sleep(0.1)
+                    detect_color = 'None'
+                    draw_color = range_rgb["black"]                    
+                    time.sleep(1)
+                else:
+                    time.sleep(0.01)                
+                action_finish = True                
+                detect_color = 'None'
+            else:
+               time.sleep(0.01)
+        else:
+            time.sleep(0.01)
+```
+### 2.5 Function Extensions
+
+**2.5.1 Change the Default Recognition Color**
+
+There are three built-in colors, including red, green and blue, in the color recognition program. The robot defaults to nod when recognizing red.
+
+Take modifying the default recognition color as green as an example. The specific operation steps are as follow. 
+
+(1) Input command "cd spiderpi/functions" and press "Enter" to navigate to the directory where the game programs are stored. 
+
+```bash
 cd spiderpi/functions
 ```
 
-2)  输入打开程序文件的指令"**vim color_detect.py**"，按下回车。
-```commandline
+(2) Enter the command "vim color_detect.py" and press "Enter" to open the program file.
+
+```bash
 vim color_detect.py
 ```
 
-3)  找到下图所示代码：
+(3) Locate the codes shown below:
 
-<img src="../_static/media/chapter_10/section_2/image9.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_2/image9.png" />
 
 :::{Note}
-在键盘输入代码位置序号后按下"Shift+G"键，可以直接跳转到对应位置。（本节旨在介绍快速跳转方法，故代码位置序号仅供参考，请以实际为准。）
+ we can input the serial number of the line and press "Shift+G" to jump to the corresponding position. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-4)  点击"**i**"键进入编辑模式，将"**if detect_color == 'red':**"的"**red**"修改为"**green**"，将"**elif detect_color == 'green' or detect_color == 'blue':**"的"**green**"改为"**red**"即可。（如需更换为蓝色，同理）
+(4) Press "i" to enter the editing mode, then modify "red" in `if detect_color == 'red':` to "green". And replace "green" with "red" in `elif detect_color == 'green' or detect_color == 'blue':`. And you can modify it as blue in the same way.
 
-<img src="../_static/media/chapter_10/section_2/image10.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_2/image10.png" />
 
-修改完成后，按下"**Esc**"键，输入指令并回车，进行保存与退出。
+After modification, Press "Esc" and input ":wq" and then press "Enter" to save the file and exit the editor.
 
-```commandline
+```bash
 :wq
 ```
 
-5)  修改完成后，再执行"[2.2 玩法开启及关闭步骤](#anchor_2_2)"内容，即可实现修改效果。
+(5) After the modification is completed, you can follow the steps in "[2.2 Operation Steps]()" to check the game performance. 
 
-- #### 2.4.2 增加新的识别颜色
+**2.5.2 Add New Recognition Colors**
 
-除了内置的红、绿、蓝三种可识别颜色，还可以添加其它可识别颜色。此处以**新增橙色**为例，具体的修改步骤如下：
+In addition to the built-in recognition colors, you can set other recognition colors in the program. Take orange as example.
 
-1.  打开VNC，输入打开Lab颜色设置文件的指令。
+(1) Open VNC, input command "vim spiderpi/config/lab_config.yaml" to open Lab color setting document.
 
-```commandline
-Vim spiderpi/config/lab_config.yaml
-```
-
-可使用截图或文件备份的方式记录初始数值。
-
-<img class="common_img" src="../_static/media/chapter_10/section_2/image13.png"  />
-
-2.  双击桌面的调试工具图标<img src="../_static/media/chapter_10/section_2/image14.png" style="width:0.31458in;height:0.25139in" />。若弹出提示框，选择"**执行**"即可。
-
-<img src="../_static/media/chapter_10/section_2/image15.png"  />
-
-点击"**Connect**"按键，若摄像头回传画面显示正常，代表连接成功。将调试颜色选择为"**red**"。
-
-<img src="../_static/media/chapter_10/section_2/image16.png"  />
-
-3.  将摄像头朝向想要识别的颜色，拖动滑杆以调整L、A、B参数，直到左侧画面中的目标颜色区域变为白色，其他区域变成黑色。
-
-此处以橙色为例，将橙色物体置于摄像头的视野范围内，调整L、A、B对应滑杆，直到左侧画面中橙色部分变为白色，其他区域变为黑色。调节好参数后，点击下图所示的"**Save**"按键，保存数据。
-
-<img src="../_static/media/chapter_10/section_2/image17.png"  />
-
-4.  修改完成之后，检查修改值是否被成功写入。打开命令行终端，输入打开Lab颜色设置文件的命令。
-
-```commandline
+```bash
 Vim spiderpi/config/lab_config.yaml
 ```
 
 :::{Note}
-为了避免对玩法造成影响，在修改Lab参数后，建议通过LAB_Tool工具将数值恢复为初始值。
+
+It is recommended to screenshot the initial value for recording. 
+
 :::
 
-5.  查看参数可知，修改值已经成功写入配置程序中。按下"**Esc**"键，输入指令并回车，进行保存与退出。
+<img class="common_img" src="../_static/media/chapter_10/section_2/image13.png" />
 
-```commandline
+(2) Double click the icon of debugging tool <img src="../_static/media/chapter_10/section_2/image14.png" style="width:0.31458in;height:0.25139in" /> in the system desktop. If the prompt box pops up, choose "Execute".
+
+<img class="common_img" src="../_static/media/chapter_10/section_2/image15.png" />
+
+Click "Connect" button. When the interface displays the camera returned image, the connection is successful. Select "red" in the drop-down box.
+
+<img class="common_img" src="../_static/media/chapter_10/section_2/image16.png" />
+
+(3) Face the camera to the color to recognize. Drag the sliders of L, A, and B until the object to be recognized in the left screen becomes white and other areas become black.
+
+For example, if you want to recognize orange, you can put the orange ball within camera's vision. Adjust the corresponding sliders of L, A, and B until the orange part in the left screen turns white and other colors become black, and then click "Save" button to keep the modified data.
+
+<img class="common_img" src="../_static/media/chapter_10/section_2/image17.png" />
+
+(4) After the modification is completed, check whether the modified data was successfully written in. Enter the command again "vim spiderpi/config/lab config.yaml" to open file of Lab color setting.
+
+```bash
+Vim spiderpi/config/lab_config.yaml
+```
+
+:::{Note}
+In order to avoid the game performance, it's recommended to use the LAB_Tool tool to modify the value back to the initial value after the modification.
+:::
+
+(5) The modified data is written successfully into the configuration program. Then you can press "Esc" and input ":wq" and then press "Enter" to save and exit.
+
+```bash
 :wq
 ```
 
-6.  参照[2.4 功能延伸\ 更换默认识别颜色](#anchor_2_4_1)，将默认识别颜色修改为红色。
+(6) According to the steps in "[2.5.1 Modify Default Recognition Color]()", set the default recognition color as red.
 
-<img src="../_static/media/chapter_10/section_2/image9.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_2/image9.png" />
 
-7.  再次启动该玩法，将橙色物品置于摄像头的视野范围内，当识别到该物体，SpiderPi Pro机器人会点头。如需要增加其它颜色作为可识别颜色，可参考前面步骤进行操作。
+(7) Start the game again and put the orange object in front of the camera. SpiderPi Pro will nod when recognizing the color. If you want to add other color as recognition color, you can follow the previous steps to set.
 
-### 2.5 程序简要分析
+## 3. Target Position Recognition
 
-该程序的源代码位于：**/home/pi/spiderpi/functions/color_detect.py**
+In this lesson, the camera will be used to recognize red, green, and blue balls. The detected balls will be highlighted in the live feed, and their XY coordinates will be displayed.
 
-<img src="../_static/media/chapter_10/section_2/image18.png"  />
+### 3.1 Brief Analysis of the Task
 
-根据实现的效果，梳理程序的过程逻辑，如下图所示：
+The implementation of target tracking can be divided into two parts: color recognition and position marking.
 
-<img src="../_static/media/chapter_10/section_2/image19.png"  />
+First, for the color recognition part, Gaussian filtering is applied to the image for noise reduction. The Lab color space is then used to convert the color of the objects (for more details on the Lab color space, please refer to the "[OpenCV Vision Basic Course]()").
 
-- #### 2.5.1 导入功能库
+Next, color thresholding is used to identify the color of objects within the circle. The image is then masked (masking involves using a selected image, shape, or object to globally or locally occlude the processed image).
 
-<img src="../_static/media/chapter_10/section_2/image20.png"  />
+After performing morphological operations (open and close operations) on the object's image, the largest contour is outlined with a circle.
 
-**处理图像**
+Opening operation: The image is eroded first and then dilated. This operation is used to remove small objects, smooth shape boundaries, and preserve the overall area. It helps remove small noise particles and separate objects that are connected.
 
-- **高斯滤波**
+Closing operation: The image is dilated first and then eroded. This operation is used to fill small holes within the objects, connect adjacent objects, and reconnect broken contour lines while smoothing the boundaries without changing the area.
 
-在将图像的颜色空间由RGB转换为Lab前，需要先对其进行降噪处理，此处用到cv2库中的GaussianBlur()函数，该函数用于对图像进行高斯滤波处理。
+Position marking requires specific detection algorithms. The basic principle is to search for areas in the image that match predefined features or patterns, then return the position and bounding box of these areas.
 
-<img src="../_static/media/chapter_10/section_2/image21.png"  />
-
-函数括号内的参数含义如下：
-
-第一个参数"**frame_resize**"是输入图像；
-
-第二个参数"**(3, 3)**"是高斯内核大小；
-
-第三个参数"**3**"是在高斯滤波中其平均值附近允许的方差大。该值越大，平均值周围允许的方差越大；数值越小，平均值周围允许的方差越小。
-
-- **二值化处理**
-
-采用cv2库中的inRange()函数对图像进行二值化处理。
-
-<img src="../_static/media/chapter_10/section_2/image22.png"  />
-
-函数括号内的第一个参数是输入图像；第二个、第三个参数分别是阈值的下限和上限。当像素点RGB的颜色数值处于上、下限之间时，该像素点被赋值为1，否则为0。
-
-- **腐蚀膨胀处理**
-
-为了降低干扰，令图像更平滑，需要对图像进行腐蚀和膨胀处理。
-
-<img src="../_static/media/chapter_10/section_2/image23.png"  />
-
-erode()函数用于对图像进行腐蚀操作。以代码"**eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))**"为例，括号内的参数含义如下：
-
-第一个参数"**frame_mask**"是输入图像；
-
-第二个参数"**cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))**"是决定操作性质的结构元素或内核。其中，括号内的第一个参数是内核形状，第二个参数是内核尺寸。
-
-dilate()函数用于对图像进行膨胀操作。此函数括号内参数的含义与erode()函数的相同。
-
-- **获取最大面积轮廓**
-
-完成上述的图像处理后，需要获取识别目标的轮廓，此处涉及cv2库中的findContours()函数。
-
-<img src="../_static/media/chapter_10/section_2/image24.png"  />
-
-函数括号内的第一个参数是输入图像；第二个参数是轮廓的检索模式；第三个参数是轮廓的近似方法。
-
-在获得的轮廓中寻找面积最大的轮廓，而为了避免干扰，需要设定一个最小值，仅当面积大于该值时，目标轮廓才有效。
-
-<img src="../_static/media/chapter_10/section_2/image25.png"  />
-
-- #### 2.5.3 反馈信息
-
-获得最大面积轮廓后，通过调用cv2库中的circle()函数，用圆圈对识别目标进行标识，圆圈的线条颜色是识别目标的颜色。
-
-<img src="../_static/media/chapter_10/section_2/image26.png"  />
-
-为了提高识别结果的准确率，需要对其进行多次判断。
-
-<img src="../_static/media/chapter_10/section_2/image27.png"  />
-
-完成判断后，在回传画面内打印识别目标的颜色，此处涉及cv2库中的putText()函数。
-
-<img src="../_static/media/chapter_10/section_2/image28.png"  />
-
-函数括号内的参数含义如下：
-
-第一个参数"**img**"，为输入图像；
-
-第二个参数"**"Color: " + detect_color**"，表示显示内容；
-
-第三个参数"**(10, img.shape\[0\] - 10)**"，是显示位置；
-
-第四个参数"**cv2.FONT_HERSHEY_SIMPLEX**"，表示字体类型；
-
-第五个参数"**0.65**"，表示字体大小；
-
-第六个参数"**draw_color**"，代表字体颜色；
-
-第七个参数"**2**"，表示字体粗细。
-
-- #### 2.5.4 主函数分析
-
-python程序中"**\_\_name\_\_ == '\_\_main\_\_:'**"就是程序的主函数。首先调用函数init()进行初始化配置。本程序中初始化包括：舵机回到初始位置、读取颜色阈值文件。一般还有端口、外设、定时中断等配置，这些都要在初始化内容中完成。
-
-<img src="../_static/media/chapter_10/section_2/image29.png"  />
-
-1. **读取摄像头图像**
-
-<img src="../_static/media/chapter_10/section_2/image30.png"  />
-
-当玩法启动时，将图像存储在"**img**"中。
-
-2. **进入图像处理**
-
-<img src="../_static/media/chapter_10/section_2/image31.png"  />
-
-- 函数img.copy()的作用是将"**img**"的内容复制给"**frame**"。
-
-- 函数run()进行图像处理。
-
-<img src="../_static/media/chapter_10/section_2/image32.png"  />
-
-- #### 2.5.5 子线程分析
-
-小车移动函数move()作为子线程运行，当识别到颜色后，就会执行move()函数。
-
-主要是对图像处理结果进行判断，再执行不同的反馈。
-
-<img src="../_static/media/chapter_10/section_2/image33.png"  />
-
-### 3. 颜色位置识别
-
-本节课可以通过摄像头进行颜色识别红绿蓝三色小球，并在回传画面中圈出，显示其XY坐标位置。
-
-### 3.1 实现原理
-
-目标追踪的实现可分为颜色识别和位置标记两部分。
-
-首先颜色识别部分，先进行高斯滤波（对图像中进行减噪），通过Lab颜色空间来对物品的颜色进行转换(关于Lab颜色空间的这个部分可以前往"**[OpenCV视觉基础课程]()**"课程进行详细学习)。
-
-接着通过颜色阈值对圆圈中的物体颜色进行识别，再对图像部分进行掩膜（掩膜是用选定的图像、图形或物体，对处理的图像进行全局或者局部遮挡）。
-
-然后经过对物品图片开闭运算处理后，最后将轮廓最大的物体用圆圈圈出。
-
-开运算：先对图像腐蚀后膨胀。作用：用来消除小的物体，平滑形状边界，并且不改变其面积。可以去除小颗粒噪声，断开物体之间的粘连。
-
-闭运算：先对图像膨胀后腐蚀。作用：用来填充物体内的小空洞，连接邻近的物体，连接断开的轮廓线，平滑其边界的同时不改变面积。
-
-位置标记需要使用特定的检测算法。其基本原理是在图像中寻找符合预定义特征或模式的区域，然后返回这些区域的位置和边界框。
-
-### 3.2 玩法开启及关闭步骤
+### 3.2 Start and Close the Game
 
 :::{Note}
-指令的输入需严格区分大小写和空格，另外可按键盘"Tab"键进行关键词补齐。
+The input of commands must strictly distinguish between uppercase and lowercase letters, as well as spaces. Additionally, you can use the "Tab" key on the keyboard to auto-complete keywords.
 :::
 
-1)  将设备开机，并参照课程资料的"**[远程桌面工具安装与连接\1. 远程工具安装与连接]()**"内容，通过VNC远程连接工具连接。
+(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\1.VNC Installation and Connection]()", use the VNC remote connection tool to connect.
 
-<img src="../_static/media/chapter_10/section_3/image3.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_3/image3.png"  />
 
-3)  点击系统桌面左上角的图标<img src="../_static/media/chapter_10/section_3/image6.png" style="width:0.375in;height:0.3125in" />，打开LX终端。
+(2) Click the icon<img src="../_static/media/chapter_10/section_3/image6.png" style="width:0.375in;height:0.3125in" />in the top left corner of the system desktop or press the shortcut "**Ctrl+Alt+T**" to open the LX terminal.
 
-<img src="../_static/media/chapter_10/section_3/image8.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_3/image8.png"  />
 
-4)  在打开的界面中，输入进入玩法程序所在目录的指令，按下回车键。
+(3) In the terminal, enter the command to navigate to the directory where the program is located, then press Enter:
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-5)  输入指令，然后按下回车，启动玩法。
+(4) Enter the command and press Enter to start the program:
 
-```commandline
+```bash
 python3 color_position_recognition.py
 ```
 
-6)  如需关闭此玩法，只需要在LX终端界面中按下"**Ctrl+c**"。若关闭失败，可多次按下。
+(5) To close the program, simply press "**Ctrl+C**" in the LX terminal. If it does not close, press it multiple times.
 
-### 3.3 实现效果
+### 3.3 Program Outcome
 
-**程序默认的追踪颜色为红绿蓝三色小球，识别完成后在回传画面中圈出，并显示其XY坐标位置**。
+The program defaults to recognizing red, green, and blue balls. After recognition, it will highlight the objects in the transmitted image and display their XY coordinates.
 
 :::{Note}
-1)  识别过程中，请尽量保证在光线充足环境下进行识别，避免因光线问题导致识别不准确。
 
-2)  识别过程中，摄像头视觉范围之内的背景中，不要出现与要识别颜色相近或相同的物体，避免误识别。
+* During the recognition process, ensure the environment is well-lit to avoid inaccurate recognition due to lighting issues.
 
-3)  若颜色识别不准确可参照本文档"4.功能延伸--\>4.1颜色调节阈值"，对颜色阈值进行设置。
-:::
+* Ensure there are no objects with similar or identical colors to the target colors within the camera's field of view to prevent misrecognition.
 
-### 3.4 功能延伸
+* If color recognition is inaccurate, refer to the section "[3.5 Function Extension/ 3.5.1 Adjusting Color Threshold]()" in this document to adjust the color threshold settings.
+  :::
 
-- #### 3.4.1 调节颜色阈值
 
-在玩法体验的过程中，如识别物体颜色效果不佳，则需调节颜色阈值。**本节以调节红色为例，其他颜色设置方法皆可参考，操作步骤如下：**
 
-1)  双击系统桌面<img src="../_static/media/chapter_10/section_3/image17.png" style="width:0.51667in;height:0.5in" />图标，在弹出的界面中点击"**执行**"。
+### 3.4 Program Description
 
-<img class="common_img" src="../_static/media/chapter_10/section_3/image18.png"  />
+The source code for this program is located at：[/home/pi/spiderpi/functions/color_position_recognition.py]()
 
-2)  进入界面后，点击"**Connect**"。
+**3.4.1 Importing Libraries**
 
-<img src="../_static/media/chapter_10/section_3/image19.png"  />
-
-3)  连接成功后，在界面右下角的颜色选项栏中选择"**red**"。
-
-<img src="../_static/media/chapter_10/section_3/image20.png"  />
-
-4)  若在弹出的界面中未出现回传画面，说明摄像头未连接成功，需检查一下摄像头连接线是否连接好。
-
-下图界面右侧是实时回传画面，左侧是需要被采集的颜色。将摄像头对准红色色块，然后拖动下方的六个滑杆，使得左侧画面中红色色块的区域全部变为白色，其它区域为黑色。接着点击"Save"按钮保存数据。
-
-<img src="../_static/media/chapter_10/section_3/image21.png"  />
-
-- #### 3.4.2 增加新的识别颜色
-
-除了内置三种识别的颜色，我们还可以设置其它可识别的颜色，**比如我们以紫色作为新增的识别颜色为例，具体的修改步骤如下：**
-
-1)  双击系统桌面图标，然后弹出的提示框内直接选择"**执行**"即可。
-
-<img class="common_img" src="../_static/media/chapter_10/section_3/image18.png"  />
-
-<img class="common_img" src="../_static/media/chapter_10/section_3/image17.png"  />
-
-2)  在弹出的界面中依次选择"**Connect**"。
-
-<img src="../_static/media/chapter_10/section_3/image19.png"  />
-
-3)  点击"**Add**"，然后为新增颜色命名（这里以"**purple**"为例），再点击"**OK**"。
-
-<img src="../_static/media/chapter_10/section_3/image22.png"  />
-
-4)  然后点击颜色选框的下拉按钮，选择"**purple**"。
-
-<img src="../_static/media/chapter_10/section_3/image23.png"  />
-
-5)  将摄像头对准紫色物体，拖动L、A、B应的滑杆，直到左侧画面里要识别的颜色区域变为白色，其他区域变成黑色。
-
-<img src="../_static/media/chapter_10/section_3/image24.png"  />
-
-6)  最后，再点击"**Save**"，保存一下调节好的颜色阈值。
-
-<img src="../_static/media/chapter_10/section_3/image25.png"  />
-
-7)  修改完成后，我们可以检查一下修改的值是否成功被写入进去，输入指令，并按下回车，进入到程序代码所在目录。
-
-```commandline
-cd spiderpi/config
-```
-
-8)  再输入指令，并按下回车，打开程序文件。
-
-```commandline
-sudo vim lab_config.yaml
-```
-
-9)  打开颜色阈值程序文件后，即可查看紫色阈值参数。
-
-<img src="../_static/media/chapter_10/section_3/image31.png"  alt="loading" />
-
-10) 输入":q"后，按下回车，退出此文件。
-
-<img src="../_static/media/chapter_10/section_3/image33.png"  />
-
-11) 输入指令，按下回车，切换到主目录。
-
-```commandline
-cd
-```
-
-12) 输入指令，按下回车，则可定位到存放玩法程序的目录。
-
-```commandline
-cd spiderpi/functions
-```
-
-13) 然后再输入指令打开程序文件的指令，按下回车。
-
-```commandline
-sudo vim color_position_recognition.py
-```
-
-14) 接着找到如下图所示代码。
-
-<img src="../_static/media/chapter_10/section_3/image36.png"  />
-
-15) 按下键盘上的"**i**"键，进入到编辑模式。
-
-<img src="../_static/media/chapter_10/section_3/image37.png"  alt="loading" />
-
-16) 手动输入添加"**'purple': (128,** **0,** **128)**"，如下图所示：(128, 0, 128)为紫色的RGB紫，用户可通过网络搜索关键词"紫色RGB值"来获取。
+{lineno-start=4}
 
 ```python
-'purple': (128, 0, 128),
+import sys
+import cv2
+import math
+import time
+import threading
+import numpy as np
+from common import misc
+from common import yaml_handle
+from calibration.camera import Camera
+from sensor.ultrasonic_sensor import Ultrasonic
 ```
 
-<img src="../_static/media/chapter_10/section_3/image38.png"  />
+(1) Import the necessary libraries, including OpenCV, time, math, threading, and inverse kinematics. To call a function from a library, use the format `LibraryName.FunctionName(Parameters)`. For example:
 
-17) 找到图示代码，插入红框中的代码段。
+{lineno-start=189}
 
-<img src="../_static/media/chapter_10/section_3/image39.png"  />
-
-<img src="../_static/media/chapter_10/section_3/image40.png"  />
-
-18) 按下键盘上的"ESC"按键，输入'：wq'，退出并保存代码。
-
-<img src="../_static/media/chapter_10/section_3/image41.png"  alt="loading" />
-
-19) 输入指令,并按下回车开启玩法。
-
-```commandline
-python3 color_position_recognition.py
+```python
+            time.sleep(0.01)
 ```
 
-20) 如果需要添加其他颜色作为可识别颜色，可参考前面步骤进行操作。
+This calls the  `sleep` function from the  `time`  library, which is used for adding delays.
 
-### 3.5 程序说明
+Python comes with several built-in libraries like  `time`, `cv2`, `math`, which can be imported directly. You can also create your own libraries, such as the "yaml_handle" file reading library.
 
-该程序的源代码位于：/home/pi/spiderpi/functions/color_position_recognition.py
+(2) Instantiating Libraries  
 
-根据实现的效果，梳理程序的过程逻辑，如下图所示：
+Sometimes, library names are long and hard to remember. To make function calls more convenient, we often instantiate libraries using shorter names. For example:
 
-<img class="common_img" src="../_static/media/chapter_10/section_3/image50.png"  />
+{lineno-start=12}
 
-- #### 3.5.1 导入功能库
+```python
+from calibration.camera import Camera
+```
 
-<img src="../_static/media/chapter_10/section_3/image51.png"  />
+After instantiation, functions from the `Board` library can be called as:
 
-1)  导入opencv、时间、数学、线程、逆运动学相关的库。我们如果想要调用功能库里的函数，就可以使用"**功能库名+函数名（参数，参数...）**"如：
+Board.FunctionName(Parameters)
 
-<img src="../_static/media/chapter_10/section_3/image54.png"  />
+This makes calling functions much easier.
 
-就是调用"**time**"库中的"**sleep**"函数。sleep()的作用是延时。
+**3.4.2 Main Function Analysis**
 
-在python中有一些已经内置的库，我们直接导入调用就可以，比如"**time**"、"**cv2**"、"**math**"等。我们也可以自己写一个库，比如上面的"**yaml_handle**"文件读取库等。
+In a Python program, the `if __name__ == '__main__':` block indicates the main function. The program starts by opening the camera and reading the video stream. The `read()` method captures each frame of the image, where the program searches for and marks the color of the ball, then displays the result. The video is displayed through a loop, and once the display is finished, the `release()` function is called to release the resources.
 
-2)  实例化函数库
+{lineno-start=167}
 
-我们有些函数库的名称太长，并且不容易记忆，为了方便调用函数，我们经常会对函数库进行实例化，如：
+```python
+if __name__ == '__main__':
+    from common.ros_robot_controller_sdk import Board
 
-<img src="../_static/media/chapter_10/section_3/image57.png"  />
+    board = Board()
+    ultrasonic = Ultrasonic()
 
-进行实例化后，在使用Misc库中的函数，就可以像这样"**Misc.函数名(参数,参数...)**"直接调用了，非常方便。
+    load_config()
+    init_move()
+    reset()
+    camera = Camera()
+    camera.camera_open(correction=True) # 开启畸变矫正,默认不开启(enable the distortion correction which is not started by default)
+```
 
-- #### 3.5.2 主函数分析
+**(1) Capturing Camera Image**
 
-python程序中"**\_\_name\_\_ == '\_\_main\_\_:'**"就是程序的主函数。加载相机校准参数，并使用这些参数来校正图像的畸变和进行图像的裁剪，以便更好地进行后续处理，如特征检测、图像识别等。
+{lineno-start=176}
 
-<img src="../_static/media/chapter_10/section_3/image60.png"  />
+```python
+    camera = Camera()
+```
 
-**读取摄像头图像**
+When the program starts, the camera is initialized.
 
-<img src="../_static/media/chapter_10/section_3/image63.png"  />
+**(2) Image Processing**
 
-当玩法启动时，首先读取摄像头。
+① The `run()` function handles image processing.
 
-**进入图像处理**
+{lineno-start=183}
 
-1)  函数run()进行图像处理。
+```python
+            Frame = run(frame)
+```
 
-<img src="../_static/media/chapter_10/section_3/image66.png"  />
+{lineno-start=85}
 
-<img src="../_static/media/chapter_10/section_3/image67.png"  />
+```python
+def run(img):
+    global draw_color
+    global color_list
+    global detect_color
+    global action_finish
+    
+    img_copy = img.copy()
+    img_h, img_w = img.shape[:2]
 
-- 对图片大小进行缩放，方便处理。
 
-<img src="../_static/media/chapter_10/section_3/image70.png"  />
+    frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
+    frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3)      
+    frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间(convert the image to LAB space)
+```
 
-第一个参数"**img_copy**"是输入图像。
+② Resize the image to make it easier to process.
 
-第二个参数"**size**"是输出图像的大小。大小可以自己设定。
+{lineno-start=95}
 
-第三个参数"**interpolation=cv2.INTER_NEAREST**"是插值方式。INTER_NEAREST：最邻近插值。INTER_LINEAR：双线性插值，如果最后一个参数你不指定，将默认使用这种方法。INTER_CUBIC：4x4像素邻域内的双立方插值。INTER_LANCZOS4：8x8像素邻域内的Lanczos插值。
+```python
+    frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
+```
 
-- 高斯滤波
+The first parameter `img_copy` is the input image.
 
-图像中总是会混入噪声，影响图像的质量，让特征不明显。根据不同的噪声种类选择对应的滤波方法，常见的有：高斯滤波、中值滤波、均值滤波等。
+The second parameter `size` is the size of the output image, which can be set as needed.
 
-高斯滤波是一种线性平滑滤波，适用于消除高斯噪声，广泛应用于图像处理的减噪过程。
+The third parameter `interpolation=cv2.INTER_NEAREST` is the interpolation method. 
 
-<img src="../_static/media/chapter_10/section_3/image73.png"  />
+Options include:
 
-第一个参数"**frame_resize**"是输入图像。
+`INTER_NEAREST`: Nearest-neighbor interpolation.
 
-第二个参数"**(3, 3)**"是高斯内核大小。
+`INTER_LINEAR`: Bilinear interpolation (default if no other method is specified).
 
-第三个参数"**3**"是X方向上的高斯核标准偏差。
+`INTER_CUBIC`: Bicubic interpolation in a 4x4 pixel neighborhood.
 
-- 将图像转换到LAB空间，其中函数cv2.cvtColor()是颜色空间转换函数。
+`INTER_LANCZOS4`: Lanczos interpolation in an 8x8 pixel neighborhood.
 
-<img src="../_static/media/chapter_10/section_3/image76.png"  />
+③ Apply Gaussian Blur to reduce noise
 
-第一个参数"**frame_gb**"是输入图像。
+Gaussian blur is a linear smoothing filter used to eliminate Gaussian noise and is widely used in image denoising.
 
-第二个参数"**cv2.COLOR_BGR2LAB**"是转换格式。"**cv2.COLOR_BGR2LAB**"是将BGR格式转换到LAB格式。如果要转换到RGB就可以使用"**cv2.COLOR_BGR2RGB**"。
+{lineno-start=96}
 
-- 将图像转换成二值图像，只有0和1，图像变得简单并且数据量减小，更容易处理。
+```python
+    frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3) 
+```
 
-采用cv2库中的inRange()函数对图像进行二值化处理。
+The first parameter `frame_resize` is the input image.
 
-<img src="../_static/media/chapter_10/section_3/image79.png"  />
+The second parameter `(3, 3)` is the size of the Gaussian kernel.
 
-第一个参数"**frame_lab**"是输入图像；
+The third parameter `3` is the standard deviation of the Gaussian kernel in the X-direction.
 
-第二个参数"**(lab_data\[i\]\['min'\]\[0\],lab_data\[i\]\['min'\]\[1\],lab_data\[i\]\['min'\]\[2\])**"是颜色阈值下限；
+④ Convert the image to LAB color space.
 
-第三个参数"**(lab_data\[i\]\['max'\]\[0\],lab_data\[i\]\['max'\]\[1\],lab_data\[i\]\['max'\]\[2\])**"是颜色阈值上限；
+{lineno-start=97}
 
-- 为了降低干扰，令图像更平滑，需要对图像进行腐蚀和膨胀操作，腐蚀和膨胀是一种形态学操作，腐蚀通常用于减小图像中前景对象的尺寸或消除小的对象；膨胀通常用于增大图像中前景对象的尺寸或填补对象内部的小洞。
+```python
+    frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间(convert the image to LAB space)
+```
 
-<img src="../_static/media/chapter_10/section_3/image82.png"  />
+The first parameter `frame_gb` is the input image.
 
-- 获取最大面积轮廓
+The second parameter `cv2.COLOR_BGR2LAB` specifies the conversion from BGR to LAB format. To convert to RGB, use `cv2.COLOR_BGR2RGB`.
 
-完成上述的图像处理后，需要获取识别目标的轮廓，此处涉及cv2库中的findContours()函数。
+⑤ Convert the image to a binary image with only 0s and 1s, simplifying the image and reducing data for easier processing.
 
-<img src="../_static/media/chapter_10/section_3/image85.png"  />
+The `cv2.inRange()` function is used for binarization:
 
-第一个参数"dilated"是输入图像；
+{lineno-start=}
 
-第二个参数"**cv2.RETR_EXTERNAL**"是轮廓的检索模式；
+```python
+                frame_mask = cv2.inRange(frame_lab,
+                                         (lab_data[i]['min'][0],
+                                          lab_data[i]['min'][1],
+                                          lab_data[i]['min'][2]),
+                                         (lab_data[i]['max'][0],
+                                          lab_data[i]['max'][1],
+                                          lab_data[i]['max'][2]))  #对原图像和掩模进行位运算(perform bitwise operation to original image and mask)
+```
 
-第三个参数"**cv2.CHAIN_APPROX_NONE)\[-2\]**"是轮廓的近似方法。
+The first parameter `frame_lab` is the input image.
 
-在获得的轮廓中寻找面积最大的轮廓，而为了避免干扰，需要设定一个值，仅当面积大于该值时，目标轮廓才有效。
+The second parameter `(lab_data[i]['min'][0], lab_data[i]['min'][1], lab_data[i]['min'][2])` is the lower threshold for the color.
 
-<img src="../_static/media/chapter_10/section_3/image88.png"  />
+The third parameter `(lab_data[i]['max'][0], lab_data[i]['max'][1], lab_data[i]['max'][2])` is the upper threshold for the color.
 
-- 获取位置信息
+⑥ Perform erosion and dilation to smooth the image and reduce interference.
 
-采用cv2库中的cv2.putText() 函数在图像上绘制文本
+Erosion reduces the size of foreground objects and eliminates small objects, while dilation increases the size of foreground objects and fills small holes.
 
-<img src="../_static/media/chapter_10/section_3/image90.png"  />
+{lineno-start=113}
 
-第一个参数"img"是输入图像；
+```python
+                eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
+                dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
+```
 
-第二个参数 "Color: " + detect_color"是要绘制的文本内容，通常以字符串形式传入；
+⑦ Find the contour with the largest area
 
-第三个参数"(10, img.shape\[0\] - 10)"是文本在图像中的起始坐标点，即文本左下角的位置（x, y）；
+After the image processing steps, use the `cv2.findContours()` function to find contours:
 
-第四个参数"cv2.FONT_HERSHEY_SIMPLEX"表示使用简单的字体；
+{lineno-start=117}
 
-第五个参数"0.65" 字体大小的缩放因子，指定文本字体的大小缩小到默认大小的0.65倍；
+```python
+                contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
+```
 
-第六个参数"draw_color"是文本的颜色；
+The first parameter `dilated` is the input image.
 
-第七个参数"2"是文本字体的线条粗细。
+The second parameter `cv2.RETR_EXTERNAL` specifies the contour retrieval mode.
 
-**显示回传画面**
+The third parameter `cv2.CHAIN_APPROX_NONE)[-2]` specifies the contour approximation method.
 
-<img src="../_static/media/chapter_10/section_3/image93.png"  />
+The program searches for the largest contour and sets a threshold area to ensure the detected contour is valid.
 
-函数cv2.imshow()的作用是在窗口显示图像，"**'Frame'**"是窗口名称、"**frame**"是显示内容。后面一定要有cv2.waitKey()，否则无法显示。
+{lineno-start=118}
 
-函数cv2.waitKey()的作用是等待按键输入，参数"**1**"是延迟时间。
+```python
+                areaMaxContour, area_max = get_area_max_contour(contours)  #找出最大轮廓(find the largest contour)
+                if areaMaxContour is not None:
+                    if area_max > max_area:#找最大面积(find the maximum area)
+                        max_area = area_max
+                        color_area_max = i
+                        areaMaxContour_max = areaMaxContour
+        if max_area > 100:  # 有找到最大面积(the maximum area has been found)
+```
 
-## 4. 颜色追踪
+⑧ Extract the position information
 
-### 4.1 玩法简要说明
+Use `cv2.putText()` to draw text on the image:
 
-下面我们看下本节课整体实现的流程：
+{lineno-start=162}
 
-首先需要对颜色进行识别，我们使用Lab颜色空间来进行处理。先将RGB颜色空间转换为Lab，然后进行二值化处理，再经过膨胀腐蚀等操作，可获得只包含目标颜色的轮廓，再将该颜色轮廓用圆圈框起，便可实现物体颜色的识别。
+```python
+    cv2.putText(img, "Color: " + detect_color, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, draw_color, 2)
+```
 
-接着在识别到后对云台部分进行处理，以图像的中心点的x、y坐标作为设定值，以当前获取的x、y坐标作为输入值进行更新pid。
+The first parameter `img` is the input image.
 
-然后根据图像位置的反馈进行计算，最后通过目标位置的变化使云台舵机跟随转动，从而达到颜色跟踪的效果。
+The second parameter `"Color: " + detect_color` is the text to display (e.g., the detected color).
 
-### 4.2 玩法开启及关闭步骤
+The third parameter `(10, img.shape[0] - 10)` and `(centerX, centerY - 20)` specify the starting coordinates for the text (bottom-left position).
+
+The fourth parameter `cv2.FONT_HERSHEY_SIMPLEX` specifies the font type.
+
+The fifth parameter `0.65` is the scaling factor for the font size.
+
+The sixth parameter `draw_color` is the color of the text.
+
+The seventh parameter `2` specifies the thickness of the text line.
+
+(3) Displaying the Return Image
+
+{lineno-start=179}
+
+```python
+    while True:
+        img = camera.frame
+        if img is not None:
+            frame = img.copy()
+            Frame = run(frame)
+            cv2.imshow('Frame', Frame)
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
+```
+
+The `cv2.imshow()` function is used to display the image in a window. The first parameter is the window name (e.g., 'Frame'), and the second parameter is the image to display.  
+
+The function `cv2.waitKey()` is used to wait for a key press; the parameter `1` specifies the delay time.
+
+### 3.5 Function Extension
+
+**3.5.1 Adjusting Color Threshold**
+
+During the game experience, if the color recognition of objects is not accurate, you may need to adjust the color threshold. This section uses adjusting the red color as an example; the process for adjusting other colors is similar. Follow the steps below:
+
+(1) Double-click the system desktop icon <img src="../_static/media/chapter_10/section_3/image17.png" style="width:0.51667in;height:0.5in" /> and click "Execute" in the pop-up window.
+
+<img class="common_img" src="../_static/media/chapter_10/section_3/image18.png"  />
+
+(2) Once the interface opens, click "**Connect**."
+
+<img class="common_img" src="../_static/media/chapter_10/section_3/image19.png"  />
+
+(3) After a successful connection, select "red" from the color options in the bottom-right corner of the interface.
+
+<img class="common_img" src="../_static/media/chapter_10/section_3/image20.png"  />
+
+(4) If the transmitted image does not appear in the pop-up window, it indicates the camera is not connected properly. Check the camera connection cable to ensure it is securely connected.
+
+The image on the right side of the interface shows the real-time transmitted video, and the left side shows the color to be captured.
+
+Point the camera at the red color block, and then adjust the six sliders at the bottom to ensure that the red color block on the left side of the screen turns completely white, while other areas remain black.
+
+Finally, click the "Save" button to save the data.
+
+<img class="common_img" src="../_static/media/chapter_10/section_3/image21.png"  />
+
+## 4. Target Tracking
+
+### 4.1 Program logic
+
+First, program SpiderPi Pro to recognize colors with Lab color space. Convert the RGB color space to Lab, perform image binarization, and then operations such as expansion and corrosion to obtain an outline containing only the target color. And circle the obtained outline.
+
+After color recognition, take X and Y coordinate of the image center as setting value. And take the X and Y coordinate of the target as input value to update PID.
+
+Lastly, calculate according to the feedback about the image position and control SpiderPi Pro to move with the target, so as to realize color tracking.
+
+### 4.2 Operation steps
 
 :::{Note}
-指令输入需严格区分大小写及空格。
+The input command should be case sensitive and space sensitive. 
 :::
 
-1)  启动SpiderPi Pro机器人，通过VNC远程连接树莓派桌面。
+(1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
-2)  单击桌面左上角的的图标<img src="../_static/media/chapter_10/section_4/image2.png" style="width:0.39583in;height:0.33333in" />，打开LX终端。
+(2) Click <img src="../_static/media/chapter_10/section_4/image2.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
 
-<img src="../_static/media/chapter_10/section_4/image3.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_4/image3.png"  />
 
-3)  输入进入玩法程序所在目录的指令，按下回车。
+(3) Enter the command "cd spiderpi/functions" and press "Enter" to navigate to the directory where the game program is located.
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-4)  输入启动玩法的指令"**python3 color_track.py**"，按下回车。
+(4) Enter "python3 color_track.py", then press "Enter" to start the game.
+
+```bash
+python3 color_track.py
+```
+
+(5) If you want to exit the game programming, press "Ctrl+C" in the LX terminal interface. If the exit fails, please try it few more times.
+
+### 4.3 Project outcome
 
 :::{Note}
-**python3 color_track.py**
+The default recognized and tracking color is green. If you want to change it to blue, please refer to "4.4.1 Modify Default Recognition Color". And, please don't move the ball too fast and out of the camera vision. 
 :::
 
-5)  如需关闭此玩法，可在LX终端界面按下"**Ctrl+C**"，若关闭失败，可多次按下。
+After the game starts, move the green ball slowly, and the robotic arm of SpiderPi Pro will move with the green ball. 
 
-### 4.3 功能实现
 
-:::{Note}
-程序默认识别到绿色时会进行追踪。如需将默认识别颜色修改为蓝色，可参考[4.4 功能延伸\ 更换默认识别颜色](#anchor_4_4_1)。另外，手持小球移动时，速度不宜过快，并应保持在摄像头的视野范围内。
-:::
+### 4.4 Program Analysis
 
-玩法开启后，手持绿色小球进行缓慢移动，SpiderPi Pro的机械臂将随着目标颜色的移动而跟随转动。
+The source code of this program is located in：[/home/pi/spiderpi/functions/color_track.py]()
 
-### 4.4 功能延伸
+**4.4.1 Import Function Library**
+
+{lineno-start=4}
+
+```python
+import sys
+import cv2
+import math
+import time
+import numpy as np
+from common import misc
+from common.pid import PID
+from common import yaml_handle
+from calibration.camera import Camera 
+from calibration.CalibrationConfig import *
+from sensor.ultrasonic_sensor import Ultrasonic
+import arm_ik.arm_move_ik as AMK
+```
+
+**(1) Gaussian filtering**
+
+Before converting the image from RGB into LAB space, denoise the image and use "GaussianBlur()" function in cv2 library for Gaussian filtering.
+
+{lineno-start=146}
+
+```python
+    frame_gb = cv2.GaussianBlur(frame_resize, (5, 5), 5) 
+```
+
+The meaning of the parameters in bracket is as follow
+
+The first parameter `frame_resize` is the input image
+
+The second parameter `(5, 5)` is the size of Gaussian kernel.
+
+The third parameter `5` is the allowable variance around the average in Gaussian filtering. The larger the value, the larger the allowable variance around the average value; The smaller the value, the smaller the allowable variance around the average value.
+
+**(2)  Binaryzation processing**
+
+Adopt `inRange()` function in cv2 library to perform binaryzation on the image.
+
+{lineno-start=187}
+
+```python
+            frame_mask = cv2.inRange(frame_lab,
+                                         (lab_data[i]['min'][0],
+                                          lab_data[i]['min'][1],
+                                          lab_data[i]['min'][2]),
+                                         (lab_data[i]['max'][0],
+                                          lab_data[i]['max'][1],
+                                          lab_data[i]['max'][2]))  #对原图像和掩模进行位运算(perform bitwise operation to original image and mask)
+```
+
+The first parameter in the bracket is the input image. The second and the third parameters respectively are the lower limit and upper limit of the threshold. When the RGB value of the pixel is between the upper limit and lower limit, the pixel is assigned a value of 1, otherwise, 0.
+
+**(3)  Corrosion and dilation**
+
+To reduce the interference and make the image smoother, it is necessary to perform corrosion and dilation on the image.
+
+{lineno-start=161}
+
+```python
+            eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
+            dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
+```
+
+The `erode()` function is used for corrosion. Take `eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))`  for example. The meaning of the parameters in bracket are as follow.
+The first parameter `frame_mask` is the input image.
+The second parameter `cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))` is the structural element and kernel deciding the nature of the operation. And the first parameter in the parenthesis is the kernel shape and the second parameter is the kernel dimension.
+The `dilate()`function is used for image dilation. And the meaning of the parameters in parenthesis is the same as that of `erode()` function.
+
+**(4) Acquire the maximum contour**
+
+After processing the image, acquire the contour of the target to be recognized, which involves findContours() function in cv2 library.
+
+{lineno-start=165}
+
+```python
+            contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  # 找出轮廓(find contours)
+```
+
+The first parameter in parentheses is the input image; the second parameter is the retrieval mode of the contour; the third parameter is the approximation method of the contour.
+
+Find the contour of the maximum area among the obtained contours. To avoid interference, please set a minimum value. Only when the area is larger than this value, the target contour is valid.
+
+{lineno-start=168}
+
+```python
+    if area_max > 50:  # 有找到最大面积(the maximum area has been found)
+        (centerX, centerY), radius = cv2.minEnclosingCircle(areaMaxContour) #获取最小外接圆(obtain the minimum circumscribed circle)
+        centerX = int(misc.map(centerX, 0, size[0], 0, img_w))
+        centerY = int(misc.map(centerY, 0, size[1], 0, img_h))
+        radius = int(misc.map(radius, 0, size[0], 0, img_w))
+        cv2.circle(img, (int(centerX), int(centerY)), int(radius), range_rgb[detect_color], 2)
+```
+
+**4.5.2 Feedback Information**
+
+After the contour of the maximum area is obtained, call `minEnclosingCircle()` function in cv2 library to obtain the smallest circumscribed circle of the target contour.
+
+{lineno-start=169}
+
+```python
+        (centerX, centerY), radius = cv2.minEnclosingCircle(areaMaxContour) #获取最小外接圆(obtain the minimum circumscribed circle)
+```
+
+Then circle the recognized target, which involves `circle()` function in cv2 library. 
+
+{lineno-start=173}
+
+```python
+        cv2.circle(img, (int(centerX), int(centerY)), int(radius), range_rgb[detect_color], 2)
+```
+
+**4.5.3 Drive the servo**
+
+Take X and Y coordinate of the center of the image as setting value. And take the X and Y coordinate of the recognized target as the input value to update PID.
+
+{lineno-start=175}
+
+```python
+        # use_time = 0
+        x_pid.SetPoint = img_w/2  #设定(set)
+        x_pid.update(centerX)  #当前(current)
+        dx = int(x_pid.output)
+        # use_time = abs(dx*0.00025)
+        x_dis += dx  #输出(output)
+        
+        x_dis = 0 if x_dis < 0 else x_dis          
+        x_dis = 1000 if x_dis > 1000 else x_dis
+            
+        y_pid.SetPoint = img_h/2
+        y_pid.update(centerY)
+        dy = int(y_pid.output)
+        # use_time = round(max(use_time, abs(dy*0.00025)), 5)
+        y_dis += dy
+        
+        y_dis = 0 if y_dis < 0 else y_dis
+        y_dis = 1000 if y_dis > 1000 else y_dis    
+        
+        if not debug:
+            board.bus_servo_set_position(0.02, [[24, y_dis], [21, x_dis]])
+            time.sleep(0.02)
+```
+
+Drive the specific servo to rotate to the designated position through calling the `bus_servo_set_position()` function in Board library
+
+{lineno-start=194}
+
+```python
+        if not debug:
+            board.bus_servo_set_position(0.02, [[24, y_dis], [21, x_dis]])
+            time.sleep(0.02)
+```
+
+Take `bus_servo_set_position(0.02, [[24, y_dis], [21, x_dis]])` function for example. 
+
+The meaning of the parameter in bracket is as follow.
+
+The first parameter `0.02` is the rotation time in the unit of "24". 
+
+The second parameter `24` is the servo ID to be driven.
+
+The third parameter `y_dis` is the rotation position.
+
+### 4.5 Function extension
 
 <span id="anchor_4_4_1" class="anchor"></span>
 
-- #### 4.4.1 更换默认识别颜色
+**4.5.1 Modify Default Recognized Color**
 
-颜色追踪程序内置了两种颜色：绿色和蓝色。其中，默认识别到绿色时，SpiderPi Pro机械臂会跟随目标的移动而转动。
+There are two built-in colors in the program of color tracking, including green and blue. And its robotic arm will move with the target. 
 
-本节以**将默认识别颜色更换为蓝色**为例，具体修改步骤如下所示：
+Take modifying the default recognition color as blue for example. The specific operation steps are as follow.
 
-1)  输入进入玩法程序所在目录的指令，按下回车。
+(1) Input command "cd spiderpi/functions/" and press "Enter" into the directory where the game programs are stored.
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-2)  输入打开程序文件的指令，按下回车。
+(2) Enter command "vim color_track.py" and press "Enter" to open the program file.
 
-```commandline
+```bash
 vim color_track.py
 ```
 
-3)  找到下图所示代码：
+(3) Locate the code shown below:
 
-<img src="../_static/media/chapter_10/section_4/image7.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_4/image7.png"  />
 
 :::{Note}
-在键盘输入代码位置序号后按下"Shift+G"键，可以直接跳转到对应位置。（本节旨在介绍快速跳转方法，故代码位置序号仅供参考，请以实际为准。）**
+press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-3)  点击"**i**"键进入编辑模式，将"\_**\_target_color = ('green',)**"内的"**green**"修改为"**blue**"。
+(4) Press "i" to enter the editing mode. And modify "green" in "__target_color = ('green',)" as "blue".
 
-<img src="../_static/media/chapter_10/section_4/image8.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_4/image8.png"  />
 
-4)  修改完成后，按下"**Esc**"键，输入指令并回车，进行保存与退出。
+(5) After modification, press "Esc" and input ":wq" and then press Enter to save and exit. 
 
-```commandline
+```bash
 :wq
 ```
 
-- #### 4.4.2 增加新的识别颜色
+**4.5.2 Add New Recognition Color**
 
 :::{Note}
-为了更好的体验效果，尽量不增加红色作为识别颜色。
+ for better game performance, please do not add red as the recognition color.
 :::
 
-除了内置的绿、蓝两种可识别颜色，还可以添加其它可识别颜色。此处以**新增橙色**为例，具体的修改步骤如下：
+In addition to the built-in recognition colors, you can set other recognition colors in the program. Take orange as example
 
-1.  打开VNC，输入打开Lab颜色设置文件的指令。
+(1) Open VNC, input command "vim spiderpi/config/lab_config.yaml" to open Lab color setting document.
 
-```commandline
+```bash
 Vim spiderpi/config/lab_config.yaml
 ```
 
-可使用截图或文件备份的方式记录初始数值。
+:::{Note}
+
+It is recommended to screenshot the initial value for recording.
+
+:::
 
 <img class="common_img" src="../_static/media/chapter_10/section_4/image11.png"  />
 
-2.  双击桌面的调试工具图标<img src="../_static/media/chapter_10/section_4/image12.png" style="width:0.31458in;height:0.25139in" />。若弹出提示框，选择"**执行**"即可。
+(2) Double click the icon of debugging tool <img src="../_static/media/chapter_10/section_4/image12.png" style="width:0.31458in;height:0.25139in" /> in the system desktop. If the prompt box pops up, choose "Execute".
 
-<img src="../_static/media/chapter_10/section_4/image13.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_4/image13.png"  />
 
-点击"**Connect**"按键，若摄像头回传画面显示正常，代表连接成功。将调试颜色选择为"**green**"。
+(3) Click "Connect" button. When the interface displays the camera returned image, the connection is successful. Select "green" in the drop-down box.
 
-<img src="../_static/media/chapter_10/section_4/image14.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_4/image14.png"  />
 
-3.  将摄像头朝向想要识别的颜色，拖动滑杆以调整L、A、B参数，直到左侧画面中的目标颜色区域变为白色，其他区域变成黑色。
+Face the camera to the color to recognize. Drag the sliders of L, A, and B until the target color in the left screen becomes white and other areas become black.
 
-此处以橙色为例，将橙色物体置于摄像头的视野范围内，调整L、A、B对应滑杆，直到左侧画面中橙色部分变为白色，其他区域变为黑色。调节好参数后，点击下图所示的"**Save**"按键，保存数据。
+For example, if you want to recognize orange, you can put the orange ball within camera's vision. Adjust the corresponding sliders of L, A, and B until the orange part in the left screen turns white and other colors become black, and then click "Save" button to keep the modified data.
 
-<img src="../_static/media/chapter_10/section_4/image15.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_4/image15.png"  />
 
-4.  修改完成之后，检查修改值是否被成功写入。打开命令行终端，输入打开Lab颜色设置文件的命令。
+(4) After the modification is completed, check whether the modified data was successfully written in. Enter the command again "Vim spiderpi/config/lab_config.yaml" to open file of Lab color setting.
 
-```commandline
+```bash
 Vim spiderpi/config/lab_config.yaml
 ```
 
-为了避免对玩法造成影响，在修改Lab参数后，建议通过LAB_Tool工具将数值恢复为初始值。
+:::{Note}
 
-5.  查看参数可知，修改值已经成功写入配置程序中。按下"**Esc**"键，输入指令并回车，进行保存与退出。
+In order to avoid the game performance, it's recommended to use the LAB_Tool tool to modify the value back to the initial value after the modification.
 
-```commandline
+:::
+
+(5) The modified data is written successfully into the configuration program. Then you can press "Esc" and input ":wq" and then press Enter to save and exit.
+
+```bash
 :wq
 ```
 
-6.  参照[4.4 功能延伸\ 更换默认识别颜色](#anchor_4_4_1)，将默认识别颜色修改为绿色。
+(6) According to the steps in "[4.4.1 Modify Default Recognition Color]()", set the default recognition color as green.
 
-<img src="../_static/media/chapter_10/section_4/image7.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_4/image7.png"  />
 
-7.  再次启动该玩法，手持橙色物品在摄像头的视野范围内移动。当识别到该物体，机器人头部会随着目标颜色的移动而转动。如需要增加其它颜色作为可识别颜色，可参考前面步骤进行操作。
+(7) Start the game again and put the orange object in front of the camera. SpiderPi Pro will nod when recognizing the color. If you want to add other color as recognition color, you can follow the previous steps to set.
 
-#### 4.5 程序简要分析
 
-该程序的源代码位于：**/home/pi/spiderpi/functions/color_track.py**
+## 5. Line Following
 
-<img src="../_static/media/chapter_10/section_4/image16.png"  />
+### 5.1 Program Logic
 
-根据实现的效果，梳理程序的过程逻辑，如下图所示：
+Line following is common in robot competitions which is implemented by two-channel or four-channel line follower. Different from this, SpiderPi Pro can recognize the line color through visual module, and process with image algorithms, to realize line following.
 
-<img class="common_img" src="../_static/media/chapter_10/section_4/image17.png"  />
+First, program SpiderPi Pro to recognize colors with Lab color space. Convert the RGB color space to Lab, then perform image binarization, and then operations such as expansion and corrosion to obtain an outline containing only the target color. Next, circle color outline.
 
-- #### 4.5.1导入功能库
-
-<img src="../_static/media/chapter_10/section_4/image18.png"  />
-
-- **高斯滤波**
-
-在将图像的颜色空间由RGB转换为Lab前，需要先对其进行降噪处理，此处用到cv2库中的GaussianBlur()函数，该函数用于对图像进行高斯滤波处理。
-
-<img src="../_static/media/chapter_10/section_4/image19.png"  />
-
-函数括号内的参数含义如下：
-
-第一个参数"**frame_resize**"是输入图像；
-
-第二个参数"**(5, 5)**"是高斯内核大小；
-
-第三个参数"**5**"是在高斯滤波中其平均值附近允许的方差大。该值越大，平均值周围允许的方差越大；数值越小，平均值周围允许的方差越小。
-
-- **二值化处理**
-
-采用cv2库中的inRange()函数对图像进行二值化处理。
-
-<img src="../_static/media/chapter_10/section_4/image20.png"  />
-
-函数括号内的第一个参数是输入图像；第二个、第三个参数分别是阈值的下限和上限。当像素点RGB的颜色数值处于上、下限之间时，该像素点被赋值为1，否则为0。
-
-- **腐蚀膨胀处理**
-
-为了降低干扰，令图像更平滑，需要对图像进行腐蚀和膨胀处理。
-
-<img src="../_static/media/chapter_10/section_4/image21.png"  />
-
-erode()函数用于对图像进行腐蚀操作。以代码"**eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))**"为例，括号内的参数含义如下：
-
-第一个参数"**frame_mask**"是输入图像；
-
-第二个参数"**cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))**"是决定操作性质的结构元素或内核。其中，括号内的第一个参数是内核形状，第二个参数是内核尺寸。
-
-dilate()函数用于对图像进行膨胀操作。此函数括号内参数的含义与erode()函数的相同。
-
-- **获取最大面积轮廓**
-
-完成上述的图像处理后，需要获取识别目标的轮廓，此处涉及cv2库中的findContours()函数。
-
-<img src="../_static/media/chapter_10/section_4/image22.png"  />
-
-函数括号内的第一个参数是输入图像；第二个参数是轮廓的检索模式；第三个参数是轮廓的近似方法。
-
-在获得的轮廓中寻找面积最大的轮廓，而为了避免干扰，需要设定一个最小值，仅当面积大于该值时，目标轮廓才有效。
-
-<img src="../_static/media/chapter_10/section_4/image23.png"  />
-
-- #### 4.5.2 反馈信息
-
-获得最大面积轮廓后，通过调用cv2库中的minEnclosingCircle()函数，获取目标轮廓的最小外接圆。
-
-<img src="../_static/media/chapter_10/section_4/image24.png"  />
-
-用圆圈对识别目标进行标识，此处涉及cv2库中的circle()函数。
-
-<img src="../_static/media/chapter_10/section_4/image25.png"  />
-
-- #### 4.5.3 驱动舵机
-
-以图像中心点的X、Y坐标为设定值，云台追踪使用PID算法，让摄像头中心靠近目标中心坐标。以当前识别目标的X、Y坐标为输入值，对PID进行更新。
-
-<img src="../_static/media/chapter_10/section_4/image26.png"  />
-
-通过调用Board库中的bus_servo_set_position()函数，驱动指定的舵机转动到指定位置，即可实现追踪效果。
-
-<img src="../_static/media/chapter_10/section_4/image27.png"  />
-
-以"**bus_servo_set_position(0.02, \[\[24, y_dis\], \[21, x_dis\]\])**"函数为例，括号内的参数含义如下：
-
-第一个参数"0.02"是转动时间，单位为s"**24**"；
-
-第二个参数"24"是要驱动的舵机ID；
-
-第三个参数"**y_dis**"，是转动位置。
-
-## 5. 智能巡线
-
-### 5.1 实验原理
-
-巡线是机器人比赛中的常见项目，传统的巡线项目通过二路或者四路巡线传感器来进行实现，而在SpiderPi Pro机器人仅需通过视觉模块识别线条颜色，再经过图像算法处理，即可实现巡线移动。  
-下面我们看下本节课整体实现的流程：
-
-首先，需要对线条颜色进行识别，此处使用Lab颜色空间进行处理，将图像颜色空间由RGB转换为Lab，随后对图像进行二值化、腐蚀、膨胀等操作，获得只包含目标颜色的轮廓，并用圆圈将其标识出来。
-
-接着在识别到后对云台部分进行处理，以图像的中心点的x、y坐标作为设定值，以当前获取的x、y坐标作为输入值进行更新pid。
-
-然后根据图像中线条位置的反馈进行计算，最后通过位置的变化使机器人跟随线条轨迹进行移动，从而达到智能巡线的效果。
+After color recognition, calculate according to the the position feedback of the line in the image, and then program SpiderPi Pro to move along the line so as to realize line following.
 
 <p id="anchor_5_2"></p>
 
-### 5.2 玩法开启及关闭步骤
+### 5.2 Operation Steps
 
 :::{Note}
-指令输入需严格区分大小写及空格。
+The input command should be case sensitive and space sensitive.
 :::
 
-1)  启动SpiderPi Pro机器人，通过VNC远程连接树莓派桌面。
+(1)  Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
-2)  单击桌面左上角的的图标<img src="../_static/media/chapter_10/section_5/image3.png" style="width:0.39583in;height:0.33333in" />，打开LX终端。
+(2) Click <img src="../_static/media/chapter_10/section_5/image3.png" style="width:0.39583in;height:0.33333in" />at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
 
-<img src="../_static/media/chapter_10/section_5/image4.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_5/image4.png"  />
 
-3)  输入进入玩法程序所在目录的指令，按下回车。
+(3)  Enter the command "cd spiderpi/functions" and press "Enter" to navigate to the directory where the game program is located.
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-4)  输入启动玩法的指令"**python3 visual_patrol.py**"，按下回车。
+(4) Enter "python3 visual_patrol.py", then press "Enter" to start the game.
 
-```commandline
+```bash
 python3 visual_patrol.py
 ```
 
-5)  如需关闭此玩法，可在LX终端界面按下"**Ctrl+C**"，如关闭失败，可多次按下。
+(5) 5)If you want to exit the game program, press "Ctrl+C" in the LX terminal interface. If the exit fails, please try it a few more times.
 
-### 5.3 功能实现
+### 5.3 Project Outcome
 
 :::{Note}
-程序默认的识别颜色为红色，如需修改为白色或黑色，可参考[5.4 功能延伸\ 更换默认巡线颜色](#anchor_5_4_1)。
+The default recognition color is red. If you want to change it to white or black, please refer to "5.4.1Modify Default Recognition Color".
 :::
 
-将红色的电工胶带铺设在所用场地，并将SpiderPi Pro机器人置于红色线条上。启动玩法后，机器人将巡红色线条进行移动。
+Paste red electrical tape to form a path. Then place SpiderPi Pro on the red line. After the game starts, the robot will move along the red line.
 
-### 5.4 功能延伸
 
-<span id="anchor_5_4_1" class="anchor"></span>
+### 5.4 Program Analysis
 
-- #### 5.4.1 更换默认巡线颜色
+The source code of this program is stored in：[/home/pi/spiderpi/functions/visual_patrol.py]()
 
-程序内置了三种颜色：红色、白色、黑色。其中，巡线默认颜色为红色。此处以**将默认颜色修改为白色**为例，修改步骤如下所示：
+**5.4.1 Import Function Library**
 
-1)  输入进入玩法程序所在目录的指令，按下回车。
+{lineno-start=4}
 
-```commandline
+```python
+import sys
+import cv2
+import time
+import math
+import threading
+import numpy as np
+from common import yaml_handle
+from calibration.camera import Camera 
+from calibration.CalibrationConfig import *
+from common import kinematics
+from sensor.ultrasonic_sensor import Ultrasonic
+import arm_ik.arm_move_ik as AMK
+```
+
+(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "library name+function name (parameter, parameter)". For example:
+
+{lineno-start=218}
+
+```python
+            time.sleep(0.01)
+```
+
+Call `sleep` function in `time` library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
+
+(2) Instantiate Function Library
+
+The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:
+
+{lineno-start=11}
+
+```python
+from calibration.camera import Camera 
+```
+
+After instantiating, you can directly input and call the function `Board.function name (parameter, parameter)`.
+
+**5.4.2 Define Global Variable**
+
+{lineno-start=17}
+
+```python
+if sys.version_info.major == 2:
+    print('Please run this program with python3!')
+    sys.exit(0)
+
+lab_data = None
+servo_data = None
+def load_config():
+    global lab_data, servo_data
+    
+    lab_data = yaml_handle.get_yaml_data(yaml_handle.lab_file_path)
+
+load_config()
+
+__target_color = ('red',)
+# 设置检测颜色(set target color)
+def setLineTargetColor(target_color):
+    global __target_color
+
+    __target_color = target_color
+    return (True, ())
+```
+
+**5.4.3 Main Function Analysis**
+
+The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function "init()" is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+
+{lineno-start=182}
+
+```python
+if __name__ == '__main__':
+    from common.ros_robot_controller_sdk import Board
+    from sensor.ultrasonic_sensor import Ultrasonic
+    
+    board = Board()
+    ik = kinematics.IK(board)  # 实例化逆运动学库(instantiate inverse kinematics library)
+    ultrasonic = Ultrasonic()
+    ak = AMK.ArmIK()
+```
+
+(1) Read the Captured Image
+
+{lineno-start=207}
+
+```python
+    while True:
+        img = camera.frame
+        if img is not None:
+```
+
+When the the game is started, store the image in "img".
+
+(2)  Enter Image Processing
+
+When the captured image is read, call `run` function to process the image
+
+{lineno-start=209}
+
+```python
+        if img is not None:
+            frame = img.copy()
+            frame = cv2.remap(frame, mapx, mapy, cv2.INTER_LINEAR)  # 畸变矫正(distortion correction)
+            Frame = run(frame)           
+            cv2.imshow('Frame', Frame)
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
+```
+
+The function `img.copy()` is used to copy the content of `img` to `frame`. 
+
+(3) Gaussian filtering
+
+Before converting the image from RGB into LAB space, denoise the image and use GaussianBlur() function in cv2 library for Gaussian filtering.
+
+{lineno-start=141}
+
+```python
+    frame_gb = cv2.GaussianBlur(img, (3, 3), 3)
+```
+
+The meaning of the parameters in bracket is as follow
+
+The first parameter `img` is the input image
+
+The second parameter `(3, 3)` is the size of Gaussian kernel
+
+The third parameter `3` is the allowable variance around the average in Gaussian filtering. The larger the value, the larger the allowable variance around the average value; The smaller the value, the smaller the allowable variance around the average value.
+
+(4) Binaryzation processing
+
+Adopt inRange() function in cv2 library to perform binaryzation on the image.
+
+{lineno-start=150}
+
+```python
+                frame_mask = cv2.inRange(frame_lab,
+                                         (lab_data[i]['min'][0],
+                                          lab_data[i]['min'][1],
+                                          lab_data[i]['min'][2]),
+                                         (lab_data[i]['max'][0],
+                                          lab_data[i]['max'][1],
+                                          lab_data[i]['max'][2]))  #对原图像和掩模进行位运算(perform bitwise operation to original image and mask)
+```
+
+The first parameter in the bracket is the input image. The second and the third parameters respectively are the lower limit and upper limit of the threshold. When the RGB value of the pixel is between the upper limit and lower limit, the pixel is assigned a value of 1, otherwise, 0.
+
+(5) Corrosion and dilation
+
+To reduce the interference and make the image smoother, it is necessary to perform corrosion and dilation on the image.
+
+{lineno-start=157}
+
+```python
+                eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
+                dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #膨胀(dilate)
+```
+
+erode() function is used for corrosion. Take `eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))` for example. The meaning of the parameters in bracket are as follow.
+The first parameter `frame_mask` is the input image.
+The second parameter `cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))` is the structural element and kernel deciding the nature of the operation. And the first parameter in the parenthesis is the kernel shape and the second parameter is the kernel dimension.
+`dilate()` function is used for image dilation. And the meaning of the parameters in parenthesis is the same as that of `erode()` function.
+
+(6) Acquire the maximum contour
+
+After processing the image, acquire the contour of the target to be recognized, which involves findContours() function in cv2 library.
+
+{lineno-start=159}
+
+```python
+                cnts = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_TC89_L1)[-2]  #找出所有轮廓(find all contours)
+```
+
+The first parameter in parentheses is the input image; 
+
+the second parameter is the retrieval mode of the contour; the third parameter is the approximation method of the contour.
+
+{lineno-start=160}
+
+```python
+                cnt_large, area = get_area_maxContour(cnts)  #找到最大面积的轮廓(find the largest contour)
+                if area > 10:
+                    rect = cv2.minAreaRect(cnt_large)  #最小外接矩形(the minimum bounding rectangle)
+                    
+                    box = np.intp(cv2.boxPoints(rect))  #最小外接矩形的四个顶点(the four corner points of the minimum bounding rectangle)
+                    for j in range(4):
+                        box[j, 1] = box[j, 1] + r[0]
+
+                    cv2.drawContours(img, [box], -1, (0, 255, 255), 2)  #画出四个点组成的矩形(draw the rectangle composed of the four points)
+```
+
+(7)  Obtain location
+
+`minAreaRect()` function in cv2 library is used to obtain the smallest circumscribed rectangle of the target outline and the coordinate of 4 vertexes will be obtained by `boxPoints()` function. Next, the coordinates of the center point of the rectangle can be deduced from the coordinates of the vertex.
+
+{lineno-start=164}
+
+```python
+                    box = np.intp(cv2.boxPoints(rect))  #最小外接矩形的四个顶点(the four corner points of the minimum bounding rectangle)
+                    for j in range(4):
+                        box[j, 1] = box[j, 1] + r[0]
+
+                    cv2.drawContours(img, [box], -1, (0, 255, 255), 2)  #画出四个点组成的矩形(draw the rectangle composed of the four points)
+
+                    #获取矩形的对角点(obtain the diagonal points of the rectangle)
+                    pt1_x, pt1_y = box[0, 0], box[0, 1]
+                    pt3_x, pt3_y = box[2, 0], box[2, 1]
+                    line_center_x, line_center_y = (pt1_x + pt3_x) / 2, (pt1_y + pt3_y) / 2  #中心点(center point)
+                    cv2.circle(img, (int(line_center_x), int(line_center_y)), 5, (0, 0, 255), -1)  #画出中心点(draw the center point)
+                    line_center = line_center_x
+```
+
+**5.4.4 Line following**
+
+After the image processing, control SpiderPi Pro to move through calling the function in kinematics.IK library.
+
+{lineno-start=111}
+
+```python
+            if line_center >= 0:              
+                if abs(line_center -img_center_x) < 60:
+                    ik.go_forward(ik.initial_pos, 2, 60, 50, 1)
+                elif line_center -img_center_x >= 60:
+                    ik.turn_right(ik.initial_pos, 2, 30, 50, 1)
+                else:
+                    ik.turn_left(ik.initial_pos, 2, 30, 50, 1)
+                last_line_center = line_center
+
+            elif line_center == -1:
+                if last_line_center >= img_center_x:
+                    ik.turn_left(ik.initial_pos, 2, 30, 50, 1)
+                else:
+                    ik.turn_right(ik.initial_pos, 2, 30, 50, 1)
+        else:
+            time.sleep(0.01)
+```
+
+The functions used to control the SpiderPi Pro's movement are listed below.
+
+| **Function**                                  | **Usage**                           |
+| --------------------------------------------- | ----------------------------------- |
+| ik.go_forward(ik.initial_pos, 2, 50, 80, 1)   | robot moves straight forward 50mm   |
+| ik.back(ik.initial_pos, 2, 100, 80, 1)        | robot moves straight backward 100mm |
+| ik.turn_left(ik.initial_pos, 2, 30, 100, 1)   | turn left on the spot 30 degrees    |
+| ik.turn_right(ik.initial_pos, 2, 30, 100, 1)  | turn right on the spot 30 degrees   |
+| ik.left_move(ik.initial_pos, 2, 100, 100, 1)  | move left 100mm                     |
+| ik.right_move(ik.initial_pos, 2, 100, 100, 1) | move right 100mm                    |
+
+Take `ik.go_forward(ik.initial_pos, 2, 50, 80, 1)` for example. The meaning of the parameter in bracket is as follow.
+
+The first parameter `ik.initial_pos` represents the posture.
+
+The second parameter `2` is the mode, and "2" is spider mode.
+
+The third parameter `50` is the stride and the unit is mm when it goes straight, and degree when it turns.
+
+The fourth parameter `80` is the speed in mm/s.
+
+The fifth parameter `1` is the number of execution. When it is "0", it means that the robot will perform one action at loop.
+
+### 5.5 Function Extension
+
+<span id="anchor_5_4_1" ></span>
+
+**5.5.1 Modify Default Recognition Color**
+
+There are three built-in colors, including red, black and white, in the program. Take modify the default recognition color as white for example.
+
+(1) Input command and press Enter into the directory where the game programs are stored.
+
+```bash
 cd spiderpi/functions
 ```
 
-2)  输入打开程序文件的指令"**vim visual_patrol.py**"，按下回车。
+(2) Enter command and press Enter to open the program file.
 
-```commandline
+```bash
 vim visual_patrol.py
 ```
 
-3)  找到下图所示代码：
+(3) Locate the code shown below:
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image9.png"  />
 
 :::{Note}
-在键盘输入代码位置序号后按下"Shift+G"键，可以直接跳转到对应位置。（本节旨在介绍快速跳转方法，故代码位置序号仅供参考，请以实际为准。）
+press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-4)  点击"**i**"键进入编辑模式，将"\_**\_target_color = ('red',)**"内的"**red**"修改为"**white**"。（如需更换为黑色，修改为"**black**"）
+(4) Press "i" key to enter the editing mode. And modify "red" in "__target_color = ('red',)" as "white". Or you can modify it as black if you want. 
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image10.png"  />
 
-5)  修改完成后，按下"**Esc**"键，输入"**:wq**"并回车，进行保存与退出。
+(5) After modification, press "Esc" key and input ":wq" and then press Enter to save and exit.
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image11.png"  />
 
-- #### 5.4.2 增加新的巡线颜色
+**5.5.2 Add New Recognition Color**
 
-除了内置的三种巡线颜色，还可以添加其它可识别颜色，此处以**新增蓝色**为例，具体的修改步骤如下：
+In addition to the three built-in tracked colors, you can set other colors in the program. Take blue as example
 
-1.  打开VNC，输入打开Lab颜色设置文件的指令。
+(1) Open VNC, input command to open Lab color setting document.
 
-```commandline
+```bash
 Vim spiderpi/config/lab_config.yaml
 ```
 
-可使用截图或文件备份的方式记录初始数值。
+:::{Note}
+
+It is recommended to screenshot the initial value for recording.
+
+:::
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image13.png"  />
 
-2.  双击桌面的调试工具图标<img src="../_static/media/chapter_10/section_5/image14.png" style="width:0.31458in;height:0.25139in" />。若弹出提示框，选择"**执行**"即可。
+(2) Double click the icon of debugging tool <img src="../_static/media/chapter_10/section_5/image14.png" style="width:0.31458in;height:0.25139in" />in the system desktop. If the prompt box pops up, choose "Execute".
 
-<img src="../_static/media/chapter_10/section_5/image15.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_5/image15.png"  />
 
-3.  点击"**Connect**"按键，若摄像头回传画面显示正常，代表连接成功。将调试颜色选择为"**red**"。
+(3) Click "Connect" button. When the interface displays the camera returned image, the connection is successful. Select "red" in the drop-down box.
 
-<img src="../_static/media/chapter_10/section_5/image16.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_5/image16.png"  />
 
-4.  将摄像头朝向想要识别的颜色，拖动滑杆以调整L、A、B参数，直到左侧画面中的目标颜色区域变为白色，其他区域变成黑色。
+(4) Face the camera to the color to recognize. Drag the sliders of L, A, and B until the target color area in the left screen becomes white and other areas become black.
 
-此处以蓝色为例，将蓝色线条置于摄像头的视野范围内，调整L、A、B对应滑杆，直到左侧画面中蓝色部分变为白色，其他区域变为黑色。调节好参数后，点击下图所示的"**Save**"按键，保存数据。
+For example, if you want to modify the default color as blue, you can put the blue line within camera's vision. Adjust the corresponding sliders of L, A, and B until the blue part in the left screen turns white and other colors become black, and then click "Save" button to keep the modified data.
 
-<img src="../_static/media/chapter_10/section_5/image17.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_5/image17.png"  />
 
-为了避免对玩法造成影响，在修改Lab参数后，建议通过LAB_Tool工具将数值恢复为初始值。
+:::{Note}
 
-5.  修改完成之后，检查修改值是否被成功写入。打开命令行终端，输入打开Lab颜色设置文件的命令。
+In order to avoid the influence on game performance, it's recommended to use the "LAB_Tool" tool to modify the value back to the initial value after the modification.
 
-```commandline
+:::
+
+(5) After the modification is completed, check whether the modified data was successfully written in. Enter the command again to open file of Lab color setting.
+
+```bash
 Vim spiderpi/config/lab_config.yaml
 ```
 
-6.  查看参数可知，修改值已经成功写入配置程序中。按下"**Esc**"键，输入指令并回车，进行保存与退出。
+(6) The modified data is written successfully into the configuration program. Then you can press "Esc" and input ":wq" and then press Enter to save and exit.
 
-```commandline
+```bash
 :wq
 ```
 
-7.  参照[5.4 功能延伸\ 更换默认巡线颜色](#anchor_5_4_1)，将默认巡线颜色设置为红色。
+(7) According to the steps in "[5.4.1 Modify Default Recognition Color]()", set the default recognition color as red.
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image9.png"  />
 
-8.  再次按照"[5.2 玩法开启及关闭步骤](#anchor_5_2)"启动该玩法，SpiderPi Pro机器人会沿着蓝色线条进行移动。如需要增加其它颜色作为可识别颜色，可参考前面步骤进行操作。
+(8) Start the line following game again according to the steps in "[5.2 Operation Steps]()". Then SpiderPi Pro will move along the blue line.
 
-### 5.5 程序简要分析
 
-该程序的源代码位于：**/home/pi/spiderpi/functions/visual_patrol.py**
+## 6. Tag Detection
 
-<img src="../_static/media/chapter_10/section_5/image19.png"  />
+### 6.1 Brief Game Description
 
-根据实现的效果，梳理程序的过程逻辑，如下图所示：
+When the robot detects a tag, the buzzer emits a sound, and the feedback image is returned.
 
-<img class="common_img" src="../_static/media/chapter_10/section_5/image20.png"  />
+AprilTag, a visual fiducial marker, is similar to a QR code or barcode. It can be used to quickly detect markers and calculate relative positions, meeting real-time requirements. It is widely used in various applications such as augmented reality (AR), robotics, and camera calibration. Currently, AprilTags can be printed using a standard printer, and their detection programs can calculate precise 3D position, orientation, and ID relative to the camera.
 
-- #### 5.5.1 导入库文件
+In this lesson, we will combine OpenCV with AprilTag to complete a small project for detecting AprilTag markers. When the camera detects the tag, the robot's onboard buzzer will sound as a prompt, and the feedback image will be displayed.
 
-<img src="../_static/media/chapter_10/section_5/image21.png"  />
-
-1)  导入opencv、时间、数学、线程相关的库。我们如果想要调用功能库里的函数，就可以使用"**功能库名+函数名（参数，参数...）**"如：
-
-<img src="../_static/media/chapter_10/section_5/image22.png"  />
-
-就是调用"**time**"库中的"**sleep**"函数，sleep()的作用是延时。
-
-在python中有一些已经内置的库，我们直接导入调用就可以，比如"**time**"、"**cv2**"、"**math**"等。我们也可以自己写一个库，比如上面的"**yaml_handle**"文件读取库。
-
-2)  实例化函数库。
-
-我们有些函数库的名称太长，并且不容易记忆，为了方便调用函数，我们经常会对函数库进行实例化，如：
-
-<img src="../_static/media/chapter_10/section_5/image23.png"  />
-
-进行实例化后，在使用Board库中的函数，就可以像这样"**Board.函数名(参数,参数...)**"直接调用了，非常方便。
-
-- #### 5.5.2 定义全局变量
-
-<img src="../_static/media/chapter_10/section_5/image24.png"  />
-
-- #### 5.5.3 主函数分析
-
-python程序中"**\_\_name\_\_ == '\_\_main\_\_:'**"就是程序的主函数。首先调用函数init()进行初始化配置。本程序中初始化包括：舵机回到初始位置、读取颜色阈值文件。一般还有端口、外设、定时中断等配置，这些都要在初始化内容中完成。
-
-<img src="../_static/media/chapter_10/section_5/image25.png"  />
-
-**读取摄像头图像**
-
-<img src="../_static/media/chapter_10/section_5/image26.png"  />
-
-当玩法启动时，将图像存储在"**img**"中。
-
-**进入图像处理**
-
-读取到图像时，调用run()函数进行图像处理。
-
-<img src="../_static/media/chapter_10/section_5/image27.png"  />
-
-1)  函数img.copy()的作用是将"**img**"的内容复制给"**frame**"。
-
-- **高斯滤波**
-
-在将图像的颜色空间由RGB转换为Lab前，需要先对其进行降噪处理，此处用到cv2库中的GaussianBlur()函数，该函数用于对图像进行高斯滤波处理。
-
-<img src="../_static/media/chapter_10/section_5/image28.png"  />
-
-函数括号内的参数含义如下：
-
-第一个参数"**img**"是输入图像；
-
-第二个参数"**(3, 3)**"是高斯内核大小；
-
-第三个参数"**3**"是在高斯滤波中其平均值附近允许的方差大。该值越大，平均值周围允许的方差越大；数值越小，平均值周围允许的方差越小。
-
-- **二值化处理**
-
-采用cv2库中的inRange()函数对图像进行二值化处理。
-
-<img src="../_static/media/chapter_10/section_5/image29.png"  />
-
-函数括号内的第一个参数是输入图像；第二个、第三个参数分别是阈值的下限和上限。当像素点RGB的颜色数值处于上、下限之间时，该像素点被赋值为1，否则为0。
-
-- **腐蚀膨胀处理**
-
-为了降低干扰，令图像更平滑，需要对图像进行腐蚀和膨胀处理。
-
-<img src="../_static/media/chapter_10/section_5/image30.png"  />
-
-erode()函数用于对图像进行腐蚀操作。以代码"**eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))**"为例，括号内的参数含义如下：
-
-第一个参数"**frame_mask**"是输入图像；
-
-第二个参数"**cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))**"是决定操作性质的结构元素或内核。其中，括号内的第一个参数是内核形状，第二个参数是内核尺寸。
-
-dilate()函数用于对图像进行膨胀操作。此函数括号内参数的含义与erode()函数的相同。
-
-- **获取最大面积轮廓**
-
-完成上述的图像处理后，需要获取识别目标的轮廓，此处涉及cv2库中的findContours()函数。
-
-<img src="../_static/media/chapter_10/section_5/image31.png"  />
-
-函数括号内的第一个参数是输入图像；第二个参数是轮廓的检索模式；第三个参数是轮廓的近似方法。
-
-在获得的轮廓中寻找面积最大的轮廓，而为了避免干扰，需要设定一个最小值，仅当面积大于该值时，目标轮廓才有效。
-
-<img src="../_static/media/chapter_10/section_5/image32.png"  />
-
-- **获取位置信息**
-
-采用cv2库中的minAreaRect()函数获取目标轮廓的最小外接矩形，并通过boxPoints()函数得到其四个顶点的坐标。随后，可以由矩形的顶点坐标推算出其中心点坐标。
-
-<img src="../_static/media/chapter_10/section_5/image33.png"  />
-
-**5.4 控制巡线**
-
-完成图像处理后，通过调用kinematics.IK库中的函数控制SpiderPi Pro机器人移动。
-
-<img src="../_static/media/chapter_10/section_5/image34.png"  />
-
-下表为用于控制SpiderPi Pro机器人移动的函数：
-
-|                   **函数**                    |   **作用**    |
-|:---------------------------------------------:|:-------------:|
-|  ik.go_forward(ik.initial_pos, 2, 50, 80, 1)  | 朝前直走50mm  |
-|    ik.back(ik.initial_pos, 2, 100, 80, 1)     | 朝后直走100mm |
-|  ik.turn_left(ik.initial_pos, 2, 30, 100, 1)  | 原地左转30度  |
-| ik.turn_right(ik.initial_pos, 2, 30, 100, 1)  | 原地右转30度  |
-| ik.left_move(ik.initial_pos, 2, 100, 100, 1)  |   左移100mm   |
-| ik.right_move(ik.initial_pos, 2, 100, 100, 1) |   右移100mm   |
-
-以"**ik.go_forward(ik.initial_pos, 2, 50, 80, 1)**"为例，其中，函数括号内的参数含义如下：
-
-第一个参数"**ik.initial_pos**"代表姿态；
-
-第二个参数"**2**"是模式，"**2**"为六足模式；
-
-第三个参数"**50**"是步幅，单位为mm（转弯时是角度，单位为度）；
-
-第四个参数"**80**"是速度，单位为mm/s；
-
-第五个参数"**1**"是执行次数，当值为"**0**"时表示无限循环。
-
-## 6. 标签检测
-
-### 6.1 玩法简要说明
-
-机器人通过识别到标签时，蜂鸣器发出声音，并返回回传画面，并打印标签的 tag_id 及 tag_family 信息。。
-
-AprilTag 作为一种视觉定位标志符，类似于二维码或者条形码，可以用于快速地检测标志 并计算出相对位置，能够满足实时性的要求。
-
-同时，它也可被应用于各种任务，包括 AR、机器人和相机校准等。目前，AprilTag 可以直 接用打印机打印出来，并且其检测程序可以计算相对于相机的精确 3D 位置、方向和 ID。
-
-本节课我们通过结合 OpenCV 与 AprilTag，完成一个检测 AprilTag 标签的小项目。当摄 像头识别到标签时，机器人板载蜂鸣器则发出声音作为提示，并返回回传画面。
-
-### 6.2 玩法开启及关闭
+### 6.2 Start and Close the Game
 
 :::{Note}
-指令的输入需严格区分大小写及空格。
+The input of commands must strictly distinguish between uppercase and lowercase letters, as well as spaces.
 :::
 
-1)  将机器人开机，然后通过VNC远程连接树莓派桌面。关于VNC的安装及连接，可参考"**[远程桌面工具安装与连接\1. 远程工具安装与连接](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html)**"。
+(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\ 1.VNC Installation and Connection]()", use the VNC remote connection tool to connect.
 
-<img src="../_static/media/chapter_10/section_6/image2.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_6/image2.png"  />
 
-2)  点击系统桌面左上角的图标<img src="../_static/media/chapter_10/section_6/image3.png" style="width:0.375in;height:0.3125in" />，打开LX终端。
+(2) Click the icon<img src="../_static/media/chapter_10/section_6/image3.png" style="width:0.375in;height:0.3125in" />in the top left corner of the system desktop or press the shortcut "Ctrl+Alt+T" to open the LX terminal.
 
-<img src="../_static/media/chapter_10/section_6/image4.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_6/image4.png"  />
 
-3)  输入指令，按下回车键,则可定位到存放玩法程序的目录。
+(3) In the terminal, enter the command to navigate to the directory where the program is located, then press Enter:
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-4)  输入指令，然后按下回车键将玩法启动。
+(4) Enter the command and press Enter to start the program:
 
-```commandline
+```bash
 python3 apriltag_recognition.py
 ```
 
-5)  如需关闭此玩法，只需要在LX终端界面中按下"**Ctrl+C**"。如果关闭失败，可多次按下。
+(5) To close the program, simply press "Ctrl+C" in the LX terminal. If it does not close, press it multiple times.
 
-### 6.3 实现效果
+### 6.3 Program Outcome
 
 :::{Note}
-本玩法标签放置位置尽量在纯色背景或白色背景下进行，深色背景（例如黑色）会影响标签识别的效果。
+For optimal tag detection, place the tag against a solid-colored or white background. Dark backgrounds (e.g., black) may interfere with tag recognition.
 :::
 
-开启玩法后，可将自带的 AprilTag 标签放置在摄像头前。当机器人识别到后，蜂鸣器会发声提示。回传画面将显示捕捉到的标签画面并将标签圈出，同时显示标签的 tag_id 及 tag\_ family 信息。
+Once the game is activated, position the included AprilTag tag in front of the camera. When the robot detects the tag, the buzzer will sound as a prompt. The feedback image will display the captured tag, outline it, and show the tag's tag_id and tag_family information.
 
-### 6.4 程序参数说明
+### 6.4 Program Parameter Explanation
 
-该程序的源代码位于：**/home/pi/spiderpi/functions/apriltag_recognition.py**
+The source code for this program is located at：[/home/pi/spiderpi/functions/apriltag_recognition.py]()
 
-- **图像获取及处理**
+**(1) Image Acquisition and Processing**
 
-首先对图像进行处理，所谓对图像的处理即对数字的处理。我们先导入包：
+The first step is image processing, which involves working with digital image data. We begin by importing the necessary packages.
 
-<img src="../_static/media/chapter_10/section_6/image12.png"  />
+{lineno-start=4}
 
-其次，初始化并开启摄像头，进行图像获取，然后对图像进行复制、重映射、显示。
+```python
+import sys
+import time
+import cv2
+import numpy as np
+from common import yaml_handle
+from calibration.camera import Camera 
+import common.apriltag as apriltag
+from common.ros_robot_controller_sdk import Board
+from sensor.ultrasonic_sensor import Ultrasonic
+```
 
-<img src="../_static/media/chapter_10/section_6/image15.png"  />
+Next, we initialize and start the camera to acquire the image, then proceed to copy, remap, and display the image.
 
-接着，我们需要将RGB格式图像转换为灰度图像信息。代码如下：
+{lineno-start=95}
 
-<img src="../_static/media/chapter_10/section_6/image18.png"  />
+```python
+    while True:
+        img = camera.frame
+        if img is not None:
+            frame = img.copy()
+            Frame = run(frame)          
+            cv2.imshow('Frame', Frame)
+```
 
-- **标签检测**
+Afterward, we need to convert the image from RGB format to grayscale. The corresponding code is as follows:
 
-在图像处理完毕后，我们需要对标签进行检测处理。通过调用 tag 的库文件对获取的图像进行检测。代码实现如下所示：
+{lineno-start=54}
 
-<img src="../_static/media/chapter_10/section_6/image20.png"  />
+```python
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+```
 
-在检测后将会获取标签码四个角点的信息：
+**(2) Tag Detection**
 
-<img src="../_static/media/chapter_10/section_6/image23.png"  />
+Once the image has been processed, we need to detect the tag. This is done by using the `tag` library to detect the tag in the acquired image. The code implementation is as follows:
 
-接下来需要绘制 Tag 标签的轮廓。在 OpenCV 中我们通过 cv2.drawContours 函数来实现， 程序如下所示：
+{lineno-start=51}
 
-<img src="../_static/media/chapter_10/section_6/image26.png"  />
+```python
+# 检测apriltag(detect apriltag)
+detector = apriltag.Detector(searchpath=apriltag._get_demo_searchpath())
+```
 
-这个函数一共有五个参数，各个参数的含义如下所示：
+After detection, the program will obtain the four corner points of the tag.
 
-第一个参数"img"：代表一张图片；
+{lineno-start=59}
 
-第二个参数"\[np.array(corners, np.int)\]"：代表轮廓；
+```
+            corners = np.rint(detection.corners)  # 获取四个角点(obtain the four corner points)
+```
 
-第三个参数"-1"：代表轮廓的索引，-1 表示绘制所有轮廓；
+Next, we need to draw the contours of the tag. In OpenCV, we use the `cv2.drawContours` function to accomplish this. The program code is as follows:
 
-第四个参数"(0, 255, 255)"：代表轮廓的颜色；
+{lineno-start=62}
 
-第五个参数"2"：代表轮廓的厚度。
+```python
+            cv2.drawContours(img, [np.array(corners, np.intp)], -1, (0, 255, 255), 2)
+```
 
-- **获取标签信息**
+This function takes five parameters, each with the following meanings:
 
-程序通过直接调用 Apriltag 库来进行编码与解码，以获取标签的信息。根据编码方式的不同， 生成不同的内点坐标。
+`img`: The image to be processed.
 
-在确定的四边形中明确点阵坐标，为了进一步确定编码是否可靠，要同时与已知的编码库 进行匹配。
+`[np.array(corners, np.int)]`: The contour points.
 
-<img src="../_static/media/chapter_10/section_6/image29.png"  />
+`-1`: The contour index. -1 indicates that all contours should be drawn.
+
+`(0, 255, 255)`: The color of the contour.
+
+`2`: The thickness of the contour line.
+
+**(3) Retrieving Tag Information**
+
+The program uses the AprilTag library to perform encoding and decoding to retrieve the tag's information. Depending on the encoding method, different inner point coordinates are generated.
+
+Once the quadrilateral is identified, the grid coordinates are clarified. To verify the reliability of the encoding, the tag must be matched against a known encoding library.
+
+{lineno-start=62}
+
+```python
+            tag_family = str(detection.tag_family, encoding='utf-8')  # 获取tag_family(obtain tag_family)
+            tag_id = int(detection.tag_id)  # 获取tag_id(obtain tag_id)
+            
+            return tag_family, tag_id
+```
 
 
-## 7. 标签识别
+## 7. Tag Recognition
 
-### 7.1 玩法简要说明
+### 7.1 Program Logic
 
-AprilTag作为一种视觉定位标志符，其作用类似于二维码或者条形码，可以帮助快速检测标志与计算相对位置，它的主要应用范围有AR、机器人和相机校准等。
+AprilTag is a visual positioning marker, which is similar to QR code or bar code. It can quickly detect the marker and calculate the position. It's mainly applied to AR, robot and camera calibration, etc.
 
-下面我们看下本节课整体实现的流程：
+First, detect AprilTag through positioning, image segmentation, and contour searching. Obtain the angular point information after the contour is positioned. Connect the four corner points with a straight line to form a closed loop. 
 
-首先，需要对标签进行检测，此处涉及定位、图像分割、轮廓查找等操作。完成轮廓定位后，通过获取轮廓的角点信息，将直线拟合形成一个闭环。
-
-最后，对检测标签进行编码与解码处理，并根据标签ID，控制SpiderPi Pro机器人执行对应的反馈动作。
+Encode and decode the detected tags. Finally, control SpiderPi Pro to execute the corresponding action according to different Tag IDs.
 
 <p id="anchor_7_2"></p>
 
-### 7.2 玩法开启及关闭步骤
+### 7.2 Operation Steps
 
 :::{Note}
-指令输入需严格区分大小写及空格。
+The input command should be case sensitive and space sensitive.
 :::
 
-1)  启动SpiderPi Pro机器人，通过VNC远程连接树莓派桌面。
+(1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
-2)  单击桌面左上角的的图标<img src="../_static/media/chapter_10/section_7/image2.png" style="width:0.39583in;height:0.33333in" />，打开LX终端。
+(2) Click <img src="../_static/media/chapter_10/section_7/image2.png" style="width:0.39583in;height:0.33333in" />at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
 
-<img src="../_static/media/chapter_10/section_7/image3.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_7/image3.png"  />
 
-3)  输入进入玩法程序所在目录的指令，按下回车。
+(3) Enter the command "Enter" to navigate to the directory where the game program is located.
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-4)  输入启动玩法的指令，按下回车。
+(4) Enter the command, then press "Enter" to start the game.
 
-```commandline
+```bash
 python3 apriltag_detect.py
 ```
 
-5)  如需关闭此玩法，可在LX终端界面按下"**Ctrl+C**"。如果关闭失败，可多次按下。
+(5) If you want to exit the game programming, press "Ctrl+C" in the LX terminal interface. If the exit fails, please try it a few more times.
 
-### 7.3 功能实现
+### 7.3 Project Outcome
 
-1)  <img src="../_static/media/chapter_10/section_7/image1.png" style="width:0.31496in;height:0.31496in" />**尽量在纯色背景或白色背景下进行此玩法，深色背景会影响标签识别的效果。**
+:::{Note}
 
-2)  **请保持标签卡片面的完整性，污渍或褶皱会影响识别。**
+* Please run this game on a solid color or a white background. Dark background such as black will affect the tag recognition performance.
 
-当识别到对应标签，机器人会执行标签对应的反馈动作。此外，回传画面内会用黄色方框标识出标签，且打印标签的ID与类别。
+* Please keep the tag intact, because dirt and wrinkle will affect recognition.
 
-下表为标签ID及其对应的反馈动作：
+:::
 
-| **标签ID** | **执行动作** |
-|:----------:|:------------:|
-|     1      |     招手     |
-|     2      |   原地踏步   |
-|     3      |     扭腰     |
+When recognizing the corresponding tag, the robot will execute the corresponding action. Besides, the tag will be marked with yellow box and the Tag ID and category will be printed on the camera returned image.
 
-### 7.4 功能延伸
+The corresponding actions of different Tag ID are listed below.
+
+| **Tag ID** | **Action** |
+| ---------- | ---------- |
+| 1          | wave hands |
+| 2          | mark time  |
+| 3          | twist      |
+
+### 7.4 Program Analysis
+
+The source code of the program is located in: [/home/pi/spiderpi/functions/apriltag_detect.py]()
+
+**7.4.1 Import Function Library**
+
+{lineno-start=4}
+
+```python
+import sys
+import math
+import threading
+import time
+import cv2
+import numpy as np
+from common import yaml_handle
+from calibration.camera import Camera 
+from calibration.CalibrationConfig import *
+from common import kinematics
+import common.apriltag as apriltag
+```
+
+(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "library name+function name (parameter, parameter)". For example:
+
+{lineno-start=199}
+
+```python
+            time.sleep(0.01)
+```
+
+Call `sleep` function in `time` library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
+
+(2) Instantiate Function Library
+
+The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:
+
+{lineno-start=11}
+
+```python
+from calibration.camera import Camera 
+```
+
+After instantiating, you can directly input and call the function "Board.function name (parameter, parameter)".
+
+**7.4.2 Main Function Analysis**
+
+The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+
+{lineno-start=159}
+
+```python
+if __name__ == '__main__':
+    from common.ros_robot_controller_sdk import Board
+    from sensor.ultrasonic_sensor import Ultrasonic
+    from common.action_group_controller import ActionGroupController
+    import arm_ik.arm_move_ik as AMK
+
+
+    board = Board()
+    ik = kinematics.IK(board)  # 实例化逆运动学库(instantiate inverse kinematics library)
+    ultrasonic = Ultrasonic()
+    agc = ActionGroupController(board)
+    ak = AMK.ArmIK()
+```
+
+**7.4.3 Obtain Corner Point Information**
+
+Use `np.rint()` to obtain the four corner points of the tag. 
+
+{lineno-start=116}
+
+```python
+# 检测apriltag(detect apriltag)
+detector = apriltag.Detector(searchpath=apriltag._get_demo_searchpath())
+def apriltagDetect(img):   
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    detections = detector.detect(gray, return_image=False)
+
+    if len(detections) != 0:
+        for detection in detections:                       
+            corners = np.rint(detection.corners)  # 获取四个角点(obtain the four corner points)
+            cv2.drawContours(img, [np.array(corners, np.int64)], -1, (0, 255, 255), 2)
+
+            tag_family = str(detection.tag_family, encoding='utf-8')  # 获取tag_family(obtain tag_family)
+            tag_id = int(detection.tag_id)  # 获取tag_id(obtain tag_id)
+
+            object_center_x, object_center_y = int(detection.center[0]), int(detection.center[1])  # 中心点(center point)
+            
+            object_angle = int(math.degrees(math.atan2(corners[0][1] - corners[1][1], corners[0][0] - corners[1][0])))  # 计算旋转角(calculate rotation angle)
+            
+            return tag_family, tag_id
+```
+
+**7.4.4 Tag Detection**
+
+(1)  After the angular points of the tag are obtained, mark the Tag through calling `drawContours()` function in cv2 library.
+
+{lineno-start=125}
+
+```python
+            cv2.drawContours(img, [np.array(corners, np.int64)], -1, (0, 255, 255), 2)
+```
+
+The meaning of the parameters in bracket is as follow.
+
+The first parameter `img` is the input image
+
+The second parameter `[np.array(corners, np.int)]` is the contour itself and list in Python.
+
+The third parameter `-1` is the index of the contour. The value here represents all the contours in list will be drawn.
+
+The fourth parameter `(0, 255, 255)` is the color of the contour. The values respectively corresponds to B, G, R, and the color is yellow here.
+
+The fifth parameter `2` is the width of the contour.
+
+(2)  Obtain the type of the tag (tag_family) and ID (tag_id)
+
+{lineno-start=127}
+
+```python
+            tag_family = str(detection.tag_family, encoding='utf-8')  # 获取tag_family(obtain tag_family)
+            tag_id = int(detection.tag_id)  # 获取tag_id(obtain tag_id)
+```
+
+(3) Through calling `putText()` function in cv2 library, print the ID and category of the tag on the camera returned image.
+
+{lineno-start=150}
+
+```python
+    if tag_id is not None:
+        cv2.putText(img, "tag_id: " + str(tag_id), (10, img.shape[0] - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.65, [0, 255, 255], 2)
+        cv2.putText(img, "tag_family: " + tag_family, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, [0, 255, 255], 2)
+    else:
+        cv2.putText(img, "tag_id: None", (10, img.shape[0] - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.65, [0, 255, 255], 2)
+        cv2.putText(img, "tag_family: None", (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, [0, 255, 255], 2)
+```
+
+The meaning of the parameters in bracket is as follow.
+
+The first parameter `img` is the input image.
+
+The second parameter `"tag_id: " + str(tag_id)` is the displayed content.
+
+The third parameter `(10, img.shape[0] - 30)` is the displayed position.
+
+The fourth parameter `cv2.FONT_HERSHEY_SIMPLEX` is the font type.
+
+The fifth parameter `0.65` is the font size.
+
+The sixth parameter `[0, 255, 255]` is the color of the font, and the values respectively corresponds to B, G, R. The color here is yellow.
+
+The seventh parameter `2` is the font weight.
+
+**7.4.5 Action Controlling**
+
+After the tag ID is obtained, control SpiderPi Pro to execute the corresponding action group through calling `agc.run_action()` function. 
+
+{lineno-start=82}
+
+```python
+    while True:
+        if debug:
+            return
+        if __isRunning:
+            if tag_id is not None:
+                action_finish = False
+                time.sleep(0.5)
+                if tag_id == 1:               
+                    agc.run_action_group('wave',lock_servos=LOCK_SERVOS)#招手(wave)
+                    tag_id = None
+                    time.sleep(1)                  
+                    action_finish = True                
+                elif tag_id == 2:                    
+                    agc.run_action_group('stepping',lock_servos=LOCK_SERVOS)#原地踏步(stepping)
+                    tag_id = None
+                    time.sleep(1)
+                    action_finish = True          
+                elif tag_id == 3:                   
+                    agc.run_action_group('twist_l',lock_servos=LOCK_SERVOS)#扭腰(twist)
+                    tag_id = None
+                    time.sleep(1)
+                    action_finish = True
+                else:
+                    action_finish = True
+                    time.sleep(0.01)
+            else:
+               time.sleep(0.01)
+        else:
+            time.sleep(0.01)
+```
+### 7.5 Function Extension
 
 <span id="anchor_7_4_1" class="anchor"></span>
 
-- #### 7.4.1 修改反馈动作
+**7.5.1 Modify Action Corresponding to the Tag**
 
-当识别到标签，程序默认ID为1的标签对应反馈动作"**招手**"。此处以**将反馈动作修改为"踢腿"**为例，具体修改步骤如下：
+SpiderPi Pro is default to "wave hands" in the program when the ID 1 tag is detected, but you can modify the default program. For example, we can revise the feedback action as kicking. 
 
-1)  输入进入玩法程序所在目录的指令，按下回车。
+(1) Enter command "cd spiderpi/functions" and press "Enter" to navigate to the directory where the game program is located.
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-2)  输入打开程序文件的指令，按下回车。
+(2) Enter command "vim apriltag_detect.py" and press Enter to open the program file.
 
-```commandline
+```bash
 vim apriltag_detect.py
 ```
 
-3)  找到下图所示代码：
+(3) Locate the code shown below:
 
-<img src="../_static/media/chapter_10/section_7/image8.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_7/image8.png"  />
 
 :::{Note}
-在键盘输入代码位置序号后按下"Shift+G"键，可以直接跳转到对应位置。本节旨在介绍快速跳转方法，故代码位置序号仅供参考，请以实际为准。
+ press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-**点击"i"键进入编辑模式。**
+(4) Press "i" key to enter the editing mode.
 
-4)  将"**agc.run_action(**"**wave**")"内的"**wave**"修改为"**kick**"。如需更换为其他动作组，可前往目录"**/home/pi/spiderpi/aiction_groups**"查看动作组名称。
+Modify "wave" of `agc.run_action("wave")` as "kick". If you want to change it to other action group, you can enter the other action group name which can be checked in "/home/pi/spiderpi/aiction_groups".
 
-**kick**
+```python
+kick
+```
 
-<img src="../_static/media/chapter_10/section_7/image9.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_7/image9.png"  />
 
-5)  修改完成后，按下"**Esc**"键，输入指令并回车，进行保存与退出。
+(5) After modification, press "Esc" and input ":wq" and then press Enter to save and exit.
 
-```commandline
+```bash
 :wq
 ```
 
-- #### 7.4.2 修改/增加识别标签
+**7.5.2 Modify/ Add the Tag** 
 
-可在本节目录下的"ApirlTag标签集合"文件夹内找到标签汇总素材。（该目录需要先解压）
+You can find the Tag materials in this directory "AprilTag collection", but you need to extract this folder first.
 
-另外还需要注意以下几点：
+:::{Note}
 
-1.  无需自行在网上下载素材，使用我们提供的标签（共200张）即可。（标签素材可在本节目录下的"标签集合"中找到）
+* There is no need to download materials online. 200 tags are provided and you can find them in "ApirlTag Collection". 
+* You can print the tag in suitable size, not too large or too small, as long as the tag can be recognized by the robot. The tag will be circled in yellow when it is recognized.
+* The recognition background should be white. Dark background will influence the recognition effect.
 
-2.  自行打印标签的尺寸没有绝对大小要求，但需保证玩法开启后可以识别，因此不建议过大或过小。（识别到会画面会黄框圈出）
+:::
 
-3.  标签旁边区域最好为白色背景或全为白色背景，深色背景可能会影响识别效果。
+Take adding Tag ID4 for example. The corresponding action of this tag is "Stand at Attention in High Posture". Please follow the below steps to modify.
 
-此处以**增加标签ID4**为例，对应的反馈动作为"**高姿态立正**"，具体修改步骤如下：
+(1) According to "[7.5.1 Modify Action Corresponding to the Tag]()", enter the catalog of the game program and open the corresponding program file.
 
-1)  参照[7.4 功能延伸\  修改反馈动作](#anchor_7_4_1)，进入玩法程序所在目录，并打开对应的程序文件。
+(2) Locate the code in 98th line, input "5yy", and then copy the codes of 98-102 line. 
 
-2)  将鼠标光标移动到下图所示位置，并用键盘输入"**5yy**"，复制光标后的五句代码。
+<img class="common_img" src="../_static/media/chapter_10/section_7/image11.png"  />
 
-<img src="../_static/media/chapter_10/section_7/image11.png"  />
+(3) When the hint of "5 lines yanked" appears, it means that the codes are copied successfully. 
 
-3)  左下角出现"**5 lines yanked**"的提示，即表示复制成功。
+<img class="common_img" src="../_static/media/chapter_10/section_7/image12.png"  />
 
-<img src="../_static/media/chapter_10/section_7/image12.png"  />
+(4) Then move to the codes shown in the red frame and enter "p" to paste the codes copied before.
 
-4)  将鼠标光标移动到下图所示位置，并用键盘输入"**p**"，粘贴前面复制的代码。
+<img class="common_img" src="../_static/media/chapter_10/section_7/image13.png"  />
 
-<img src="../_static/media/chapter_10/section_7/image13.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_7/image14.png"  />
 
-<img src="../_static/media/chapter_10/section_7/image14.png"  />
+(5) Press "i" key to enter the editing mode, and modify "3" of "elif tag_id == 3:" as "4", and "twist_l" of "agc.run_action('twist_l')" as "stand_high". And modify the comment after the codes as "stand at attention in high posture". If you want to change it to other action groups, you can enter other action group name which can be checked in "/home/pi/spiderpi/action_groups".
 
-5)  点击"**i**"键进入编辑模式，将"**elif tag_id == 3:**"内的"**3**"修改为"**4**"，"**agc.run_action('twist_l')**"内的"**twist_l**"修改为"**stand_high**"，代码后方的注释修改为"**高姿态立正**"。如需更换为其他动作组，可前往目录"**/home/pi/spiderpi/action_groups**"查看动作组名称。
+<img class="common_img" src="../_static/media/chapter_10/section_7/image15.png"  />
 
-<img src="../_static/media/chapter_10/section_7/image15.png"  />
+(6) After modification, press "Esc" key, enter ":wq", and then press "Enter" to save and exit.
 
-6)  完成修改后，按下"**Esc**"键，输入"**:wq**"并回车，进行保存与退出。
-
-```commandline
+```bash
 :wq
 ```
 
-7)  在本节目录下的文件夹"**标签集合**"内找到ID4标签，可自行打印出来。
+(7) Find Tag ID4 in folder "AprilTag Collection" and print it directly.
 
-<img src="../_static/media/chapter_10/section_7/image17.png" class="common_img" style="width:400px"  />
+<img class="common_img" src="../_static/media/chapter_10/section_7/image17.png" class="common_img" style="width:400px"  />
 
-8)  参照[7.2 玩法开启及关闭步骤](#anchor_7_2)，启动玩法，验证效果。
+(8) According to "[7.2 Operation Steps]()" to start the game and check whether the modification works.
 
 <img class="common_img" style="width:400px" src="../_static/media/chapter_10/section_7/image18.png"  />
 
-### 7.5 程序简要分析
+## 8. Face Recognition
 
-该程序的源代码位于：**/home/pi/spiderpi/functions/apriltag_detect.py**
+### 8.1 Brief Description of the Activity
 
-<img src="../_static/media/chapter_10/section_7/image19.png"  />
+When no face is detected, the robotic arm rotates left and right to scan the area. Once a face is detected, the claw moves up and down as a greeting.  
 
-根据实现的效果，梳理程序的过程逻辑，如下图所示：
+Face recognition is one of the most widely used applications in artificial intelligence, particularly in image recognition. Among these applications, face recognition is the most popular, often used in scenarios like smart locks and facial unlocking on mobile phones.  
 
-<img class="common_img" src="../_static/media/chapter_10/section_7/image20.png"  />
+In this activity, we first train the face recognition model. The system then detects faces by scaling the image. After detection, the coordinates of the recognized face are converted back to the original scale, and the largest face is identified. The recognized face is then outlined with a frame.  
 
-- #### 7.5.1 导入功能库
+Next, the pan-tilt servos are set to rotate left and right to locate the face. Finally, the robot executes the feedback action based on the recognition results.
 
-<img src="../_static/media/chapter_10/section_7/image21.png"  />
-
-1)  导入opencv、时间、数学、线程、逆运动学相关的库。我们如果想要调用功能库里的函数，就可以使用"**功能库名+函数名（参数，参数...）**"如：
-
-<img src="../_static/media/chapter_10/section_7/image22.png"  />
-
-就是调用"**time**"库中的"**sleep**"函数。sleep()的作用是延时。
-
-在python中有一些已经内置的库，我们直接导入调用就可以，比如"**time**"、"**cv2**"、"**math**"等。我们也可以自己写一个库，比如上面的"**yaml_handle**"文件读取库等。
-
-2)  实例化函数库
-
-我们有些函数库的名称太长，并且不容易记忆，为了方便调用函数，我们经常会对函数库进行实例化，如：
-
-<img src="../_static/media/chapter_10/section_7/image23.png"  />
-
-进行实例化后，在使用Board库中的函数，就可以像这样"**Board.函数名(参数,参数...)**"直接调用了，非常方便。
-
-- #### 7.5.2 主函数分析
-
-python程序中"**\_\_name\_\_ == '\_\_main\_\_:'**"就是程序的主函数。首先调用函数init()进行初始化配置。本程序中初始化包括：舵机回到初始位置、读取颜色阈值文件。一般还有端口、外设、定时中断等配置。这些都要在初始化内容中完成。
-
-<img src="../_static/media/chapter_10/section_7/image24.png"  />
-
-- #### 7.5.3 获取角点信息
-
-通过np.rint()获取标签的四个角点。
-
-<img src="../_static/media/chapter_10/section_7/image25.png"  />
-
-- #### 7.5.4 检测标签
-
-1.  获取标签的角点信息后，通过调用cv2库中的drawContours()函数，标识出标签。
-
-<img src="../_static/media/chapter_10/section_7/image26.png"  />
-
-函数括号内的参数含义如下：
-
-第一个参数"**img**"是输入图像；
-
-第二个参数"**\[np.array(corners, np.int)\]**"是轮廓本身，在Python中为list；
-
-第三个参数"**-1**"是轮廓的索引，此处数值代表绘制轮廓list内的所有轮廓；
-
-第四个参数"**(0, 255, 255)**"是轮廓颜色，其顺序为B、G、R，此处为黄色；
-
-第五个参数"**2**"是轮廓宽度。
-
-2.  获取标签的类型（tag_family）与ID（tag_id）。
-
-<img src="../_static/media/chapter_10/section_7/image27.png"  />
-
-3.  通过调用cv2库中的putText()函数，将标签的ID与类型打印在回传画面内。
-
-<img src="../_static/media/chapter_10/section_7/image28.png"  />
-
-函数括号内的参数含义如下：
-
-第一个参数是"**img**"是输入图像；
-
-第二个参数是"**"tag_id: " + str(tag_id)**"是显示内容；
-
-第三个参数是"**(10, img.shape\[0\] - 30)**"是显示位置；
-
-第四个参数是"**cv2.FONT_HERSHEY_SIMPLEX**"是字体类型；
-
-第五个参数是"**0.65**"是字体大小；
-
-第六个参数是"**\[0, 255, 255\]**"是字体颜色，其顺序为B、G、R，此处为黄色；
-
-第七个参数是"**2**"是字体粗细。
-
-- #### 7.5.5 控制动作
-
-获取标签ID后，通过调用agc.run_action()函数，控制SpiderPi Pro机器人执行对应动作组。
-
-<img src="../_static/media/chapter_10/section_7/image29.png"  />
-
-## 8. 人脸检测
-
-### 8.1 玩法简要说明
-
-识别到人脸后，蜂鸣器发声滴滴报警，并在回传画面中圈出人脸。
-
-人工智能中最为一个广泛的应用当属图像识别，而图像识别中的人脸识别是最火热的应用，常常应用于门锁和手机人脸解锁等场景。
-
-本节我们训练好的人脸模型，首先进行缩放画面检测人脸。然后将识别到的人脸坐标转换为未缩放前的坐标，进而判断是否为最大的人脸，并将识别到的人脸框出，蜂鸣器发出滴滴声。
-
-### 8.2 玩法开启及关闭
+### 8.2 Start and Close the Game
 
 :::{Note}
-指令的输入需严格区分大小写及空格。
+The input of commands must strictly distinguish between uppercase and lowercase letters.
 :::
 
-1)  将机器人开机，然后通过VNC远程连接树莓派桌面。关于VNC的安装及连接，可参考"**第6章 远程桌面工具安装与连接\第1课 远程工具安装与连接**"。
+(1) Power on the device and, following the instructions in  "[Remote Desktop Installation and Connection\1.VNC Installation and Connection]()", use the VNC remote connection tool to connect.
 
-<img src="../_static/media/chapter_10/section_8/image2.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_8/image2.png"  />
 
-2)  点击系统桌面左上角的图标<img src="../_static/media/chapter_10/section_8/image3.png" style="width:0.375in;height:0.3125in" />，打开LX终端。
+(2) Click the icon <img src="../_static/media/chapter_10/section_8/image3.png" style="width:0.375in;height:0.3125in" /> in the top left corner of the system desktop or press the shortcut "Ctrl+Alt+T" to open the LX terminal.
 
-<img src="../_static/media/chapter_10/section_8/image4.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_8/image4.png"  />
 
-3)  输入指令，按下回车键则可定位到存放了玩法程序的目录。
+(3) In the terminal, enter the command to navigate to the directory where the program is located, then press Enter:
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-4)  输入指令，然后按下回车键将玩法启动。
+(4) Enter the command and press Enter to start the program:
 
-```commandline
+```bash
 python3 face_recongition.py
 ```
 
-5)  如需关闭此玩法，只需要在LX终端界面中按下"**Ctrl+C**"。如果关闭失败，可多次按下。
+(5) To close the program, simply press "Ctrl+C" in the LX terminal. If it does not close, press it multiple times.
 
-### 8.3 实现效果
-
-:::{Note}
-本玩法请尽量避免在强光照射下进行，如太阳光、近距离白炽灯照射等，强光会影响人脸识别的效果，因此建议本玩法在室内进行，并且人脸距离摄像头范围以50cm-1m内为佳。
-:::
-
-玩法开启后，当检测到人脸时，蜂鸣器发声滴滴报警，并在回传画面中圈出人脸
-
-### 8.4 程序简要分析
-
-该程序的源代码位于：**/home/pi/spiderpi/functions/face_recongition.py**
-
-<img src="../_static/media/chapter_10/section_8/image7.png"  />
-
-- #### 8.4.1 功能逻辑
-
-根据实现效果，梳理该玩法的实现逻辑如下图所示：
-
-<img src="../_static/media/chapter_10/section_8/image8.png"  alt="loading" />
-
-通过摄像头获取图像信息，再进行图像处理，即对图像进行颜色空间转化，方便进行人脸检测。
-
-接着对图像进行人脸检测，获取人脸检测结果并调用动作组进行反馈。
-
-- #### 8.4.2 程序逻辑及对应的代码分析
-
-1. **导入库文件**
-
-<img src="../_static/media/chapter_10/section_8/image9.png"  />
-
-2. **定义全局变量**
-
-<img src="../_static/media/chapter_10/section_8/image10.png"  />
-
-3. **初始化与实例化工作**
-
-<img src="../_static/media/chapter_10/section_8/image11.png"  />
-
-对camera库进行实例化操作，并调用camera_open()函数开启相机畸变矫正。
-
-<img src="../_static/media/chapter_10/section_8/image12.png"  />
-
-4. **图像处理**
-
-将图像存储在img中，若图像不为空，调用run()函数进行图像处理。
-
-<img src="../_static/media/chapter_10/section_8/image13.png"  />
-
-- 对获取到的人脸图像信息进行坐标转化。
-
-处理图像中的目标检测结果，并特别关注于面部检测（尽管从代码中无法直接确认，但根据上下文可以合理推断）。它首先检查每个检测到的目标的置信度（confidence），如果置信度高于某个阈值（conf_threshold），则进一步处理该目标的位置信息，并将其绘制在图像上。同时，它还计算了目标区域的面积，并跟踪最大面积的目标区域
-
-<img src="../_static/media/chapter_10/section_8/image14.png"  />
-
-- 通过调用cv2库中的rectangle()函数，用矩形方框标识出回传画面内的人脸。
-
-<img src="../_static/media/chapter_10/section_8/image15.png"  />
-
-函数括号内的参数含义如下：
-
-第一个参数"**img**"是输入图像；
-
-第二个参数"**bbox**"是矩形的像素坐标；；
-
-第三个参数"**(0, 255, 0)**"是矩形边线颜色，其顺序为B、G、R，此处为绿色；
-
-第四个参数"**2**"是矩形边线宽度。值为"**-1**"时，代表用参数四指定颜色填充矩形。
-
-5. **显示回传画面**
-
-调用cv2库中的resize()函数对图形进行缩放，将其在回传画面中实时显示。
-
-<img src="../_static/media/chapter_10/section_8/image16.png"  />
-
-在run()函数中，当检测到人脸时，蜂鸣器发出滴滴响声。
-
-<img src="../_static/media/chapter_10/section_8/image17.png"  />
-
-## 9. 人脸检测
-
-### 9.1 玩法简要说明
-
-在图像识别中，人脸识别技术十分热门，常被应用于门锁、手机人脸解锁等场景。
-
-首先，我们需要对图像进行缩放处理，完成人脸检测步骤；
-
-随后，将识别到的人脸坐标转换为未缩放前的坐标，并用方框标识出目标人脸；
-
-最后，控制SpiderPi Pro机器人执行反馈动作。当没有检测到人脸，控制机械臂左右转动，搜寻人脸。
-
-### 9.2 玩法开启及关闭步骤
+### 8.3 Program Outcome
 
 :::{Note}
-指令输入需严格区分大小写及空格。
+For optimal performance, please avoid using this activity under strong lighting conditions, such as direct sunlight or close proximity to incandescent lights, as intense light can affect face recognition accuracy. It is recommended to conduct this activity indoors, with the face positioned within a range of 50 cm to 1 meter from the camera.
 :::
 
-1)  启动SpiderPi Pro机器人，通过VNC远程连接树莓派桌面。
+Once the activity begins, the camera's pan-tilt will rotate left and right. If no face is detected, the robotic arm will scan by rotating left and right. Upon detecting a face, the claw will move up and down to greet the user.
 
-2)  单击左上角桌面的的图标<img src="../_static/media/chapter_10/section_9/image3.png" style="width:0.39583in;height:0.33333in" />，打开LX终端。
+### 8.4 Program Brief Analysis 
 
-<img src="../_static/media/chapter_10/section_9/image4.png"  />
+The source code of the program is saved in：[/home/pi/spiderpi/functions/face_recongition.py]()
 
-3)  输入进入玩法程序所在目录的指令，按下回车。
+**8.4.1 Function Logic**
 
-```commandline
+**(1) Importing Libraries**
+
+At this initialization step, necessary libraries are imported to facilitate future function calls within the program.
+
+{lineno-start=4}
+
+```python
+import sys
+import cv2
+import time
+import sys
+import threading
+import mediapipe as mp
+from common import yaml_handle
+from calibration.camera import Camera 
+from common.action_group_controller import ActionGroupController
+from common.ros_robot_controller_sdk import Board
+from calibration.camera import Camera 
+from common import kinematics
+```
+
+**(2) Setting Initial State**
+
+{lineno-start=19}
+
+```python
+debug = False
+iHWSONAR = None
+board = None
+if sys.version_info.major == 2:
+    print('Please run this program with python3!')
+    sys.exit(0)
+ 
+# 导入人脸识别模块(import facial recognition module)
+Face = mp.solutions.face_detection
+# 自定义人脸识别方法，最小的人脸检测置信度0.5(Customize face recognition method, and the minimum face detection confidence is 0.5)
+faceDetection = Face.FaceDetection(min_detection_confidence=0.8)
+
+lab_data = None
+servo_data = None
+```
+
+**(3) Color Space Conversion**
+
+The BGR image is converted to an RGB image.
+
+{lineno-start=79}
+
+```python
+ imgRGB = cv2.cvtColor(img_copy, cv2.COLOR_BGR2RGB) # 将BGR图像转为RGB图像(convert BGR image to RGB image)
+```
+
+**(4) Using Mediapipe Face Model for Recognition.**
+
+The system performs face detection and draws a rectangle around the detected face. Then, the position of the face is compared to the center of the image. If the face is centered, `start_greet` is set to `True` to trigger the action group.
+
+{lineno-start=81}
+
+```python
+if results.detections:  # 如果检测不到人脸那就返回None(If the face is not detected, return None)
+
+        for index, detection in enumerate(results.detections):  # 返回人脸索引index(第几张脸)，和关键点的坐标信息(Return the face index (which face) and the coordinate information of the keypoints)
+            scores = list(detection.score)
+            if scores and scores[0] > 0.75:
+                
+                bboxC = detection.location_data.relative_bounding_box  # 设置一个边界框，接收所有的框的xywh及关键点信息(Set a bounding box to receive xywh and keypoint information for all boxes)
+                
+                # 将边界框的坐标点,宽,高从比例坐标转换成像素坐标(Convert the coordinates' width and height of the bounding box from proportional coordinates to pixel coordinates)
+                bbox = (
+                    int(bboxC.xmin * img_w),
+                    int(bboxC.ymin * img_h),
+                    int(bboxC.width * img_w),
+                    int(bboxC.height * img_h)
+                )
+                cv2.rectangle(img, bbox, (0, 255, 0), 2)  # 在每一帧图像上绘制矩形框(draw a rectangle on each frame of the image)
+                
+                # 获取识别框的信息, xy为左上角坐标点(Get information about the recognition box, where xy is the coordinates of the upper left corner)
+                x, y, w, h = bbox
+                center_x = int(x + (w / 2))
+                center_y = int(y + (h / 2))
+                area = int(w * h)
+                if not start_greet: 
+                    board.set_buzzer(2400, 0.1, 0.2, 1)
+                    start_greet = True 
+                    
+            else :
+                start_greet = False
+                
+```
+
+**(5) Face Recognition**
+
+If a face is detected, the `Board.setPWMServoPulse` function is used to control the servo motor by setting the PWM (Pulse Width Modulation) to perform the waving action.  
+
+The first parameter `0.05` is the pulse interval or duration.  
+
+The second parameter `3` refers to the pin number connected to the servo.  
+
+The third parameter `500` represents the pulse width, which typically corresponds to the servo's position.
+
+{lineno-start=130}
+
+```python
+    while True:
+        img = camera.frame
+        if img is not None:
+            frame = img.copy()
+            Frame = run(frame)           
+            cv2.imshow('Frame', Frame)
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
+        else:
+            time.sleep(0.01)
+```
+
+**(6) Display the Transmitted Image**
+
+Call the resize() function in the cv2 library to scale the image and display it in real time on the transmitted Image.
+
+{lineno-start=133}
+
+```python
+        frame = img.copy()
+        Frame = run(frame)           
+        cv2.imshow('Frame', Frame)
+        key = cv2.waitKey(1)
+        if key == 27:
+            break
+```
+
+when a face is detected, the buzzer makes a sound.
+
+{lineno-start=104}
+
+```python
+                    board.set_buzzer(2400, 0.1, 0.2, 1)
+
+```
+
+## 9. Face Detection
+
+### 9.1 Program logic 
+
+In image recognition, face recognition technology is very popular and is often used in scenarios such as door locks and facial recognition for unlocking mobile phones.
+
+To realize face detection, the first step is to zoom in or out the image.
+
+Next, convert the coordinate of the recognized human face into the coordinate before scaling, and mark the target human face with the box. 
+
+Lastly, control SpiderPi Pro to execute the corresponding action. When human face is not recognized, control the robotic arm to rotate around to search human face. 
+
+### 9.2 Operation steps
+
+:::{Note}
+The input command should be case sensitive and space sensitive.
+:::
+
+(1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
+
+(2) Click <img src="../_static/media/chapter_10/section_9/image3.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
+
+<img class="common_img" src="../_static/media/chapter_10/section_9/image4.png"  />
+
+(3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
+
+```bash
 cd spiderpi/functions
 ```
 
-4)  输入启动玩法的指令，按下回车。
+(4) Enter the command, then press "Enter" to start the game.
 
-```commandline
+```bash
 python3 face_detect.py
 ```
 
-5)  如需关闭此玩法，可在LX终端界面按下"**Ctrl+C**"。如果关闭失败，可多次按下。
+(5) If you want to exit the game programming, press "Ctrl+C" in the LX terminal interface. If the exit fails, please try it a few more times.
 
-### 9.3 功能实现
+### 9.3 Project outcome
 
 :::{Note}
-由于强光会影响人脸识别的效果，请尽量避免在强光环境下执行本玩法（如太阳光、近距离白炽灯照射等），建议在室内进行，且人脸与摄像头的距离控制在1m内为佳。
+As the strong light will influence the effect of face detection, please do not play this game under strong light, such as sunlight, incandescent light. It is recommended to start this game in the indoor and the distance between human face and the camera is within 1m.
 :::
 
-玩法开启后，摄像头将仰起来一定角度后，进行左右转动，当识别到人脸，机械臂会停止转动，且机器人会执行"**招手**"动作。
+After the game starts, the camera will raise to the specific angle and then rotate around to search human face. When recognizing human face, the robotic arm will stop rotating and SpiderPi Pro will "wave".
 
-### 9.4 功能延伸-修改反馈动作
 
-可在目录"**/home/pi/SpiderPi/action_groups**"下找到内置动作组文件。
+### 9.4 Program Analysis
 
-当识别到人脸，程序默认的反馈动作为"**招手**"。此处以**将反馈动作修改为"扭身"** 为例，具体修改步骤如下：
+The source code of this program is located in: [/home/pi/spiderpi/functions/face_detect.py]()
 
-1)  输入进入玩法程序所在目录的指令，按下回车。
+**9.4.1 Import Function Library**
 
-```commandline
+{lineno-start=4}
+
+```python
+import sys
+import cv2
+import time
+import sys
+import threading
+import mediapipe as mp
+from common import yaml_handle
+from calibration.camera import Camera 
+from common.action_group_controller import ActionGroupController
+from common.ros_robot_controller_sdk import Board
+from calibration.camera import Camera 
+from common import kinematics
+```
+
+**9.4.2 Define Global Variable**
+
+{lineno-start=20}
+
+```python
+debug = False
+iHWSONAR = None
+board = None
+if sys.version_info.major == 2:
+    print('Please run this program with python3!')
+    sys.exit(0)
+ 
+# 导入人脸识别模块(import facial recognition module)
+Face = mp.solutions.face_detection
+# 自定义人脸识别方法，最小的人脸检测置信度0.5(Customize face recognition method, and the minimum face detection confidence is 0.5)
+faceDetection = Face.FaceDetection(min_detection_confidence=0.8)
+
+lab_data = None
+servo_data = None
+def load_config():
+    global lab_data, servo_data
+    
+    lab_data = yaml_handle.get_yaml_data(yaml_handle.lab_file_path)
+    servo_data = yaml_handle.get_yaml_data(yaml_handle.servo_file_path)
+
+load_config()
+```
+
+**9.4.3 Image Processing**
+
+**(1) Convert color space**
+
+Convert the BGR image to LAB image.
+
+{lineno-start=134}
+
+```python
+    imgRGB = cv2.cvtColor(img_copy, cv2.COLOR_BGR2RGB) # 将BGR图像转为RGB图像(convert BGR image to RGB image)
+```
+
+The `cvtColor()` function is used to convert an image from one color space to another. In the example code `gray = cv2.cvtColor(frame_resize, cv2.COLOR_BGR2GRAY)` , the meanings in the parenthesis are as follow:
+The first parameter `frame_resize` is the input image. 
+The second parameter `cv2.COLOR_BGR2GRAY` is the type of conversion, which in this case is a conversion from BGR to grayscale.
+
+**(2) Call face detector**
+
+After completing the image processing steps mentioned above, the image is passed to a face detector for further processing.
+
+{lineno-start=135}
+
+```python
+    results = faceDetection.process(imgRGB) # 将每一帧图像传给人脸识别模块(transmit the image of each frame to facial recognition module)
+    if results.detections:  # 如果检测不到人脸那就返回None(If the face is not detected, return None)
+
+        for index, detection in enumerate(results.detections):  # 返回人脸索引index(第几张脸)，和关键点的坐标信息(Return the face index (which face) and the coordinate information of the keypoints)
+            scores = list(detection.score)
+            if scores and scores[0] > 0.75:
+```
+
+**(3) Display transmitted image**
+
+Call `resize()` function in cv2 library to scale the shape, and display it in the live camera feed.
+
+{lineno-start=182}
+
+```python
+    while True:
+        img = camera.frame
+        if img is not None:
+            frame = img.copy()
+            Frame = run(frame)           
+            cv2.imshow('Frame', Frame)
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
+```
+
+**9.4.4 Action Controlling**
+
+When human face is recognized, call the `agc.run_action()`function to control SpiderPi Pro to execute the designated action group. 
+
+{lineno-start=102}
+
+```python
+                AGC.run_action('wave') # 识别到人脸时执行的动作(If the face is detected, execute the action)
+```
+
+When human face is not detected, call "board.bus_servo_set_position()" to control the robotic arm of SpiderPi Pro to rotate around.  
+
+{lineno-start=111}
+
+```python
+                board.pwm_servo_set_position(0.05, [[2, servo2_pulse]])
+                time.sleep(0.05)
+```
+
+**9.4.5 Main Function Analysis**
+
+(1) Call `init()` function to initialize SpiderPi Pro.
+
+{lineno-start=42}
+
+```python
+# 初始位置(initial position)
+def initMove():
+    ultrasonic.setRGBMode(0)
+    ultrasonic.setRGB(1, (0, 0, 0))
+    ultrasonic.setRGB(2, (0, 0, 0)) 
+
+    board.pwm_servo_set_position(0.5, [[1, 1800] , [2, servo_data['servo2']]])
+```
+
+(2) Call `reset()` function to reset variable parameters such as servo.
+
+{lineno-start=57}
+
+```python
+# 变量重置(reset variables)
+def reset():
+    global d_pulse
+    global start_greet
+    global x_pulse    
+    global action_finish
+
+ 
+    start_greet = False
+    action_finish = True
+    x_pulse = 500 
+    init_move()  
+```
+
+(3) Call `start()` function to start face tracking game.
+
+{lineno-start=77}
+
+```python
+def start():
+    global __isRunning
+    __isRunning = True
+    print("FaceDetect Start")
+```
+
+(4) Instantiate the camera library and call  `camera_open()` function to enable camera's distortion correction.
+
+{lineno-start=180}
+
+```python
+    camera = Camera()
+    camera.camera_open(correction=True)
+```
+
+**9.5.6 Subthread Analysis**
+
+Run a sub-thread that calls the `move()` function to control the movement of pan-tilt servo.
+
+{lineno-start=116}
+
+```python
+# 运行子线程(run sub-thread)
+th = threading.Thread(target=move)
+```
+
+In the  `move()` function, adjust the rotation of the pan-tilt servo by sliding the window.
+
+{lineno-start=92}
+
+```python
+def move():
+    global start_greet
+    global action_finish
+    global d_pulse, servo2_pulse    
+    
+    while True:
+        if __isRunning:
+            if start_greet:
+                start_greet = False
+                action_finish = False
+                AGC.run_action('wave') # 识别到人脸时执行的动作(If the face is detected, execute the action)
+
+                action_finish = True
+                time.sleep(0.5)
+            else:
+                if servo2_pulse > 2000 or servo2_pulse < 1000:
+                    d_pulse = -d_pulse
+            
+                servo2_pulse += d_pulse       
+                board.pwm_servo_set_position(0.05, [[2, servo2_pulse]])
+                time.sleep(0.05)
+        else:
+            time.sleep(0.01)
+```
+
+The meanings of the parameters in the parentheses of the code `board.bus_servo_set_position(0.05, [[21,x_pulse]])` are as follows:
+
+The first parameter `0.05` is the runtime of the servo in the unit of m.
+
+The second parameter `21` is the servo number, which is servo 21.
+
+The third parameter `x_pulse` is pulse width of the servo ranging from 1000 to 1900.
+
+### 9.5 Function extension
+
+:::{Note}
+
+The built-in action group file can be found in this catalog "/home/pi/SpiderPi/action_groups".
+
+:::
+
+When human face is recognized, SpiderPi Pro will "wave hands" by default. But we can modify the program to let SpiderPi Pro react differently, such as "twist body". Please follow the below steps to modify.
+
+(1) Enter the command and press "Enter" to come to the catalog where the game programs are stored.
+
+```bash
 cd spiderpi/functions
 ```
 
-2)  输入打开程序文件的指令"**vim face_detect.py**"，按下回车。
+(2) Enter command and press "Enter" to open the program file.
 
-```commandline
+```bash
 vim face_detect.py
 ```
 
-3)  找到下图所示代码：
+(3) Locate the code shown below:
 
-<img src="../_static/media/chapter_10/section_9/image9.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_9/image9.png"  />
 
 :::{Note}
-在键盘输入代码位置序号后按下"Shift+G"键，可以直接跳转到对应位置。本节旨在介绍快速跳转方法，故代码位置序号仅供参考，请以实际为准。
+press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-4)  点击"**i**"键进入编辑模式。
+(4) Press "i" key to enter the editing mode.
 
-5)  将"**agc.run_action(**"**wave**")"内的"**wave**"修改为"**twist**"。如需更换为其他动作组，可前往目录"**/home/pi/spiderpi/action_groups**"查看动作组名称。
+(5) Modify "wave" in `agc.run_action("wave")` as "twist". If you want to change it to other action groups, please move to the catalog "/home/pi/spiderpi/ action_groups" to check other action group names.
 
-<img src="../_static/media/chapter_10/section_9/image10.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_9/image10.png"  />
 
-修改完成后，按下"**Esc**"键，输入指令并回车，进行保存与退出。
+After modification, press "Esc" key and enter ":wq" and then press Enter to save and exit. 
 
-```commandline
+```bash
 :wq
 ```
 
-### 9.5 程序简要分析
+## 10. Auto Obstacle Avoidance
 
-该程序的源代码位于：**/home/pi/spiderpi/functions/face_detect.py**
+### 10.1 Program Logic
 
-<img src="../_static/media/chapter_10/section_9/image12.png"  />
+Ultrasonic sensor can measure the distance between SpiderPi Pro and the object ahead. After the data is obtained from the ultrasonic sensor, process and judge the data. When it's shorter than the set distance threshold, SpiderPi Pro will turn to avoid the front obstacle. Otherwise, the robot will move forward.
 
-根据实现的效果，梳理程序的过程逻辑，如下图所示：
-
-<img src="../_static/media/chapter_10/section_9/image13.png"  />
-
-- #### 9.5.1 导入库文件
-
-<img src="../_static/media/chapter_10/section_9/image14.png"  />
-
-- #### 9.5.2 定义全局变量
-
-<img src="../_static/media/chapter_10/section_9/image15.png"  />
-
-- #### 9.5.3 处理图像
-
-- **颜色空间转换**
-
-将BGR图像转换为LAB图像
-
-<img src="../_static/media/chapter_10/section_9/image16.png"  />
-
-cvtColor()函数用于转换颜色空间。以代码"**gray = cv2.cvtColor(frame_resize, cv2.COLOR_BGR2GRAY)**"为例，括号内的参数含义如下：
-
-第一个参数"**frame_resize**"是输入图像；
-
-第二个参数"**cv2.COLOR_BGR2GRAY**"是转换类型，此处是BGR和灰度图的转换。
-
-- **调用人脸检测器**
-
-完成上述的图像处理后，将图像放入人脸检测器进行处理。
-
-<img src="../_static/media/chapter_10/section_9/image17.png"  />
-
-- **显示回传画面**
-
-调用cv2库中的resize()函数对图形进行缩放，将其在回传画面中实时显示。
-
-<img src="../_static/media/chapter_10/section_9/image18.png"  />
-
-- #### 9.5.4 控制动作
-
-当识别到人脸，通过调用agc.run_action()函数，控制SpiderPi Pro机器人执行指定动作组。
-
-<img src="../_static/media/chapter_10/section_9/image19.png"  />
-
-当没有检测到人脸， 调用board.bus_servo_set_position（）函数控制SpiderPi Pro机器人的机械臂进行左右转动。
-
-<img src="../_static/media/chapter_10/section_9/image20.png"  />
-
-- #### 9.5.5 主函数分析
-
-1)  调用init()函数对SpiderPi进行初始化工作。
-
-<img src="../_static/media/chapter_10/section_9/image21.png"  />
-
-- 接着调用reset()函数对舵机等变量参数进行重置；
-
-<img src="../_static/media/chapter_10/section_9/image22.png"  />
-
-2)  调用start()函数开启人脸追踪的玩法。
-
-<img src="../_static/media/chapter_10/section_9/image23.png"  />
-
-3)  对camera库进行实例化操作，并调用camera_open()函数开启相机畸变矫正。
-
-<img src="../_static/media/chapter_10/section_9/image24.png"  />
-
-- #### 9.5.6 子线程分析
-
-运行子线程调用move()函数，来控制云台舵机。
-
-<img src="../_static/media/chapter_10/section_9/image25.png"  />
-
-在move()函数中，使用board.bus_servo_set_position()函数来调整云台舵机的转动。
-
-<img src="../_static/media/chapter_10/section_9/image26.png"  />
-
-舵机控制以代码"b**oard.bus_servo_set_position(0.05, \[\[21,x_pulse\]\])**"为例，括号内的参数含义如下：
-
-第一个参数："0.05"，是舵机的运行时间，单位为m；
-
-第二个参数"**21**"是舵机编号，为2号舵机；
-
-第三个参数：" **x_pulse**"是舵机的脉宽，范围在1000~1900之间。
-
-## 10. 自动避障
-
-### 10.1 玩法简要说明
-
-超声波传感器可以测量与前方物体之间的距离。从超声波传感器获取数据后，对数据进行处理与判断。当测量距离小 于设定阈值，机器人将进行转向，避开前方障碍物。否则，机器人将向前移动。
-
-### 10.2 玩法开启及关闭步骤
+### 10.2 Operation Steps
 
 :::{Note}
-指令输入需严格区分大小写及空格。
+The input command should be case sensitive and space sensitive.
 :::
 
-1)  启动SpiderPi Pro机器人，通过VNC远程连接树莓派桌面。
+(1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
-2)  单击桌面左上角的的图标<img src="../_static/media/chapter_10/section_10/image4.png" style="width:0.39583in;height:0.33333in" />，或按住快捷键"**Ctrl+Alt+T**"，打开LX终端。
+(2) Click <img src="../_static/media/chapter_10/section_10/image4.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
 
-<img src="../_static/media/chapter_10/section_10/image5.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_10/image5.png"  />
 
-3)  输入进入玩法程序所在目录的指令，按下回车。
+(3) Enter the command  `cd spiderpi/functions` and press "Enter" to navigate to the directory where the game program is located.
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-4)  输入启动玩法的指令，按下回车。
+(4) Enter the command", then press "Enter" to start the game.
 
-```commandline
+```bash
 python3 avoidance.py
 ```
 
-5)  如需关闭此玩法，可在LX终端界面按下"**Ctrl+C**"。如果关闭失败，可多次按下。
+(5) If you want to exit the game program, press "Ctrl+C" in the LX terminal interface. If the exit fails, please try a few more times.
 
-### 10.3 功能实现
+### 10.3 Project Outcome
 
 :::{Note}
-程序默认的测距阈值为40cm。如需将默认阈值修改为其他数值，可参考[10.4 功能延伸\ 修改默认测距阈值](#anchor_10_4_1)。
+The default distance threshold is 40cm. If you want to modify it as other value, you can refer to "10.4.1 Modify Default Distance Threshold".
 :::
 
-启动玩法后，回传画面内会显示测量距离。当与障碍物的间距小于25cm时，机器人会先后退再左转；当间距大于25cm，小于40cm时，机器人会直接左转；当间距大于40cm时，机器人会向前移动。
+After the game starts, the measured distance will be displayed on the camera returned image. When the distance between SpiderPi Pro and the obstacle is shorter than 25cm, the robot will step back and then turn left. When longer than 25cm and shorter than 40cm, the robot will turn left. When the distance is longer than 40cm, the robot will move forward. 
 
-### 10.4 功能延伸
+### 10.4 Program Analysis
+
+The source code of this program is located in ：[/home/pi/spiderpi/functions/avoidance.py]()
+
+**10.4.1 Import Function Library**
+
+{lineno-start=4}
+
+```python
+import os
+import sys
+import cv2
+import time
+import threading
+import numpy as np
+import pandas as pd
+from common import yaml_handle
+from common import kinematics
+from calibration.camera import Camera 
+from calibration.CalibrationConfig import *
+from sensor.ultrasonic_sensor import Ultrasonic
+import arm_ik.arm_move_ik as AMK
+```
+
+**10.4.2 Define Global Variable**
+
+{lineno-start=19}
+
+```python
+if sys.version_info.major == 2:
+    print('Please run this program with python3!')
+    sys.exit(0)
+
+
+def load_config():
+    global lab_data, servo_data
+    
+    lab_data = yaml_handle.get_yaml_data(yaml_handle.lab_file_path)
+
+load_config()
+
+Threshold = 40.0 # 默认阈值40cm(default threshold is 40cm)
+TextColor = (0, 255, 255)
+TextSize = 12
+
+__isRunning = False
+distance = 0
+```
+
+**10.4.3 Main Function Analysis**
+
+(1) Initialize and Instantiate
+
+{lineno-start=117}
+
+```python
+if __name__ == '__main__':
+    from common.ros_robot_controller_sdk import Board
+
+
+    board = Board()
+    ik = kinematics.IK(board)
+    ultrasonic = Ultrasonic()
+    ak = AMK.ArmIK()
+```
+
+① Call `init()` function to initialize SpiderPi Pro.
+
+{lineno-start=135}
+
+```python
+    init()
+    start()
+    camera = Camera()
+    camera.camera_open()
+```
+
+② Call `reset()` function to reset servo variable.
+
+{lineno-start=38}
+
+```python
+def reset():
+    ak.setPitchRangeMoving((0, 15, 30), 0, -90, 100, 1)
+```
+
+③ Instantiate the camera library and call "camera_open()" function to enable camera's distortion correction.
+
+{lineno-start=137}
+
+```python
+    camera = Camera()
+    camera.camera_open()
+```
+
+**10.4.4 Distance Ranging** 
+
+**(1) Distance threshold setting**
+
+Set a "Threshold" to determine whether to perform obstacle avoidance. Its unit is cm.
+
+{lineno-start=31}
+
+```python
+Threshold = 40.0 # 默认阈值40cm(default threshold is 40cm)
+```
+
+**(2) Acquire and process the measured distance**
+
+Obtain the distance measured by the ultrasonic sensor through calling `getDistance()` function.
+
+{lineno-start=102}
+
+```python
+        # 数据处理，过滤异常值(process data and filter abnormal values)
+        distance_ = ultrasonic.getDistance() / 10.0
+        distance_data.append(distance_)
+        data = pd.DataFrame(distance_data)
+        data_ = data.copy()
+        u = data_.mean()  # 计算均值(calculate mean)
+        std = data_.std()  # 计算标准差(calculate standard deviation)
+
+        data_c = data[np.abs(data - u) <= std]
+        distance = data_c.mean()[0]
+```
+
+Process the obtained data for more accurate distance.
+
+{lineno-start=103}
+
+```python
+        distance_ = ultrasonic.getDistance() / 10.0
+        distance_data.append(distance_)
+        data = pd.DataFrame(distance_data)
+        data_ = data.copy()
+        u = data_.mean()  # 计算均值(calculate mean)
+        std = data_.std()  # 计算标准差(calculate standard deviation)
+
+        data_c = data[np.abs(data - u) <= std]
+        distance = data_c.mean()[0]
+        if len(distance_data) == 5:
+            distance_data.remove(distance_data[0])
+```
+
+**(3) Feedback information**
+
+Through calling `putText()` function in cv2 library, the measured distance will be printed on the camera returned image.
+
+{lineno-start=115}
+
+```python
+        cv2.putText(img, "Dist:%.1fcm" % distance, (30, 480 - 30), cv2.FONT_HERSHEY_SIMPLEX, 1.2, TextColor, 2)
+```
+
+The meaning of the parameter in bracket is as follow.
+
+The first parameter `img` is the input image.
+
+The second parameter `"Dist:%.1fcm" % distance` is the displayed content
+
+The third parameter `(30, 480 - 30)` is the displayed position.
+
+The fourth parameter `cv2.FONT_HERSHEY_SIMPLEX` is the font type.
+
+The fifth parameter `1.2` is the font size
+
+The sixth parameter `TextColor` is the font color.
+
+The seventh parameter `2` is the font weight.
+
+**10.4.5 Action Controlling**
+
+Compare the measured distance with the set threshold. SpiderPi Pro will execute the corresponding action according to the result. 
+
+{lineno-start=78}
+
+```python
+            if 0 < distance < Threshold:
+                while distance < 25: # 小于25cm时后退(back up when the distance is less than 25cm)
+                    ik.back(ik.initial_pos, 2, 80, 50, 1)
+                for i in range(6): # 左转6次，每次15度，一共90度(Turn left 6 times with 15 degrees each time, a total of 90 degrees)
+                    if __isRunning:
+                        ik.turn_left(ik.initial_pos, 2, 50, 50, 1)
+            else: 
+                ik.go_forward(ik.initial_pos, 2, 80, 50, 1)
+        else:
+            time.sleep(0.01)
+```
+
+The corresponding actions of different distance range are listed below. 
+
+| **Distance**           | **Action**                        |
+| ---------------------- | --------------------------------- |
+| 0cm < distance < 25cm  | move backwards and then turn left |
+| 25cm < distance < 40cm | turn left                         |
+| 40cm < distance        | move forward                      |
+
+The movement of SpiderPi Pro can be controlled through calling function in kinematics.IK library. Please check the table below to decide which to use.
+
+| **Function**                                | **Usage**                       |
+| ------------------------------------------- | ------------------------------- |
+| ik.back(ik.initial_pos, 2, 80, 50, 1)       | move backwards 80mm             |
+| ik.turn_left(ik.initial_pos, 2, 15, 50, 1)  | turn left 15 degree on the spot |
+| ik.go_forward(ik.initial_pos, 2, 80, 50, 1) | move forward 80mm               |
+
+The meaning of the parameter in bracket is as follow.
+
+The first parameter is posture
+
+The second parameter is mode. `2` is Spider mode.
+
+The third parameter is stride. When the robot turns, the unit is mm, and when it turns, the unit is degree.
+
+The fourth parameter is speed in mm/s.
+
+The fifth parameter is the number of execution.  `0`  represents that the action will be executed at loop.
+
+### 10.5 Function Extension 
 
 <span id="anchor_10_4_1" class="anchor"></span>
 
-- #### 10.4.1 修改默认测距阈值
+**10.5.1 Modify Default Distance Threshold**
 
-程序默认的测距阈值为40cm（取值范围是30-60），此处以**将阈值修改为50cm**为例，具体修改步骤如下：
+The default distance threshold is 40cm, and it can set to 30-60. For example, modify it as 50cm. 
 
-1)  输入进入玩法程序所在目录的指令，按下回车。
+(1) Enter the command "cd spiderpi/functions" and press "Enter" to come to the directory of the game program. 
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
-2)  输入打开程序文件的指令，按下回车。
+(2) Input the command "vim avoidance.py" and press "Enter" to open the program file
 
-```commandline
+```bash
 vim avoidance.py
 ```
 
-3)  找到下图所示代码：
+(3) Locate the code shown below:
 
-<img src="../_static/media/chapter_10/section_10/image14.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_10/image14.png"  />
 
 :::{Note}
-在键盘输入代码位置序号后按下"Shift+G"键，可以直接跳转到对应位置。本节旨在介绍快速跳转方法，故代码位置序号仅供参考，请以实际为准。
+press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-4)  点击"**i**"键进入编辑模式，将"**Threshold = 40.0**"内的"**40.0**"修改为"**50.0**"。
+(4) Press "i" key to enter the editing mode. And modify "40.0" of "Threshold = 40.0" as "50.0".
 
-<img src="../_static/media/chapter_10/section_10/image16.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_10/image16.png"  />
 
-5)  修改完成后，按下"**Esc**"键，输入"**:wq**"并回车，进行保存与退出。
+(5) After modification, press "Esc" and enter ":wq" and then press "Enter" to save and exit.
 
-```commandline
+```bash
 :wq
 ```
 
-### 10.5 程序参数说明
+## 11. Shape Recognition under Single Color
 
-该程序的源代码位于：**/home/pi/spiderpi/functions/avoidance.py**
+### 11.1 Program Logic 
 
-<img src="../_static/media/chapter_10/section_10/image20.png"  />
+Firstly, program SpiderPi Pro to recognize colors through Lab color space. Convert the RGB color space to Lab, and then perform image binarization, expansion, corrosion and other operations in sequence to obtain an outline only containing the target color. Then, circle the color outline to realize object color recognition.
 
-根据实现的效果，梳理程序的过程逻辑，如下图所示：
+The next step is to judge the shape of the outline and program SpiderPi Pro to give corresponding response.
 
-<img src="../_static/media/chapter_10/section_10/image21.png"  />
-
-- #### 10.5.1 导入库文件
-
-<img src="../_static/media/chapter_10/section_10/image22.png"  />
-
-- #### 10.5.2 定义全局变量
-
-<img src="../_static/media/chapter_10/section_10/image24.png"  />
-
-- #### 10.5.3 主函数分析
-
-**初始化与实例化工作**
-
-<img src="../_static/media/chapter_10/section_10/image26.png"  />
-
-1)  调用init()函数对SpiderPi进行初始化工作。
-
-<img src="../_static/media/chapter_10/section_10/image28.png"  />
-
-- 接着调用reset()函数对舵机变量参数进行重置；
-
-  <img src="../_static/media/chapter_10/section_10/image30.png"  />
-
-2)  对camera库进行实例化操作，并调用camera_open()函数开启相机畸变矫正。
-
-    <img src="../_static/media/chapter_10/section_10/image32.png"  />
-
-- #### 10.5.4 测量距离
-
-- **设置测距阈值**
-
-设置一个阈值"**Threshold**"，用于判断是否进行避障，单位为cm。
-
-<img src="../_static/media/chapter_10/section_10/image34.png"  />
-
-- **获取并处理测量数据**
-
-通过调用getDistance()函数，获取超声波传感器测得的距离数据。
-
-<img src="../_static/media/chapter_10/section_10/image36.png"  />
-
-对获取的数据进行处理，得到更为准确的距离数值。
-
-<img src="../_static/media/chapter_10/section_10/image39.png"  />
-
-- **反馈信息**
-
-通过调用cv2库中的putText()函数，将测得距离打印在回传画面内。
-
-<img src="../_static/media/chapter_10/section_10/image41.png"  />
-
-函数括号内的参数含义如下：
-
-第一个参数是"**img**"是输入图像；
-
-第二个参数是"**"Dist:%.1fcm" % distance**"是显示内容；
-
-第三个参数是"**(30, 480 - 30)**"是显示位置；
-
-第四个参数是"**cv2.FONT_HERSHEY_SIMPLEX**"是字体类型；
-
-第五个参数是"**1.2**"是字体大小；
-
-第六个参数是"**TextColor**"是字体颜色；
-
-第七个参数是"**2**"是字体粗细。
-
-- #### 10.5.5 控制动作
-
-将测得距离与设定阈值进行比较，SpiderPi Pro机器人会根据判断结果执行对应动作。
-
-<img src="../_static/media/chapter_10/section_10/image42.png"  />
-
-下表为测得距离与其对应的反馈动作：
-
-|   **距离范围（distance）**   |     **反馈动作**     |
-|:----------------------:|:--------------------:|
-| 0cm < distance < 25cm  | 机器人先后退，再左转 |
-| 25cm < distance < 40cm |    机器人直接左转    |
-|    40cm < distance     |      机器人前进      |
-
-通过调用kinematics.IK库中的函数，可以控制SpiderPi Pro机器人移动。下表为用于控制SpiderPi Pro机器人移动的函数：
-
-|                  **函数**                   |   **作用**   |
-|:-------------------------------------------:|:------------:|
-|    ik.back(ik.initial_pos, 2, 80, 50, 1)    |   后退80mm   |
-| ik.turn_left(ik.initial_pos, 2, 15, 50, 1)  | 原地左转15度 |
-| ik.go_forward(ik.initial_pos, 2, 80, 50, 1) |   前进80mm   |
-
-其中，函数括号内的参数含义如下：
-
-第一个参数是姿态；
-
-第二个参数是模式，"**2**"为六足模式；
-
-第三个参数是步幅，单位为mm（转弯时是角度，单位为度）；
-
-第四个参数是速度，单位为mm/s；
-
-第五个参数是执行次数，值为"**0**"时表示无限循环。
-
-## 11. 单种颜色形状识别
-
-### 11.1 玩法简要说明
-
-首先，需要对颜色进行识别，此处使用Lab颜色空间进行处理，将图像颜色空间由RGB转换为Lab。
-
-随后，对图像进行二值化、腐蚀、膨胀等操作，获得只包含目标颜色的轮廓，并在回传画面内用圆圈标识出目标轮廓。
-
-最后，对轮廓进行形状判别，并控制SpiderPi Pro机器人作出对应的反馈。
-
-### 11.2 玩法开启及关闭步骤
+### 11.2 Operation Steps 
 
 :::{Note}
-指令输入需严格区分大小写及空格。
+When entering commands, pay strict attention to case sensitivity and spaces.
 :::
 
-1)  启动SpiderPi Pro机器人，通过VNC远程连接树莓派桌面。
+(1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
-2)  点击系统桌面左上角的图标<img src="../_static/media/chapter_10/section_11/image4.png" style="width:0.32292in;height:0.30208in" />，打开Terminator终端。
+(2) Click  <img src="../_static/media/chapter_10/section_11/image4.png" style="width:0.32292in;height:0.30208in" /> at upper left corner of desktop to open the Terminator.
 
-3) <img src="../_static/media/chapter_10/section_11/image6.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_11/image6.png" />
 
-4)  输入进入玩法程序所在目录的指令，按下回车。
+(3) Enter the command to navigate to the directory where the game program is located and press Enter.
 
-```commandline
+```bash
 cd spiderpi/advanced
 ```
 
-5)  输入启动玩法的指令，按下回车。
+(4) Enter the command, and then press "Enter" to start the game.
 
-```commandline
+```bash
 python3 shape_recognition_plain.py
 ```
 
-6)  如需关闭此玩法，可在LX终端界面按下"**Ctrl+C**"，如关闭失败，可多次按下。
+(5) f want to quit this game, just press "Ctrl+C". If the game cannot be quit, please try again.
 
-### 11.3 功能实现
+### 11.3 Project Outcome
 
-玩法开启后，将需要识别的蓝色物体依次放置于摄像头的视野范围内。当识别出物体形状，终端处会打印形状名称，蜂鸣器会发声。当识别到三角形，蜂鸣器会响1次；当识别到矩形，蜂鸣器会响2次；当识别到圆形，蜂鸣器会响3次。
+After the game starts, place the blue object in front of SpiderPi Pro's camera. When the shape of the object is recognized, the shape name will be printed on the terminal, and the buzzer will beep. When triangle is recognized, the buzzer will beep once. When rectangle is recognized, the buzzer will beep twice. When circle is recognized, the buzzer will beep three times.
 
-### 11.4 功能延伸
+### 11.4 Program Parameter Description
 
-- #### 11.4.1 更改默认识别颜色
+The source code of this program is located at: [/home/pi/spiderpi/advanced/shape_recognition_plain.py]()
 
-玩法默认的可识别颜色为蓝色，此处以**将默认识别颜色更换为红色**为例，具体的修改步骤如下所示：
+**11.4.1 Importing Function Libraries**
 
-1)  输入进入玩法程序所在目录的指令，按下回车。
+{lineno-start=4}
 
-```commandline
+```python
+import sys
+import cv2
+import math
+import time
+import signal
+import threading
+import numpy as np
+from common import yaml_handle
+from calibration.camera import Camera
+from calibration.CalibrationConfig import *
+from common import kinematics
+from common.ros_robot_controller_sdk import Board
+from common.action_group_controller import ActionGroupController
+import arm_ik.arm_move_ik as AMK
+from sensor.ultrasonic_sensor import Ultrasonic
+import sensor.dot_matrix_sensor as DMS
+```
+
+(1)  Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "library name+function name (parameter, parameter)". For example:
+
+{lineno-start=78}
+
+```python
+            time.sleep(3)
+```
+
+Call `sleep` function in "time" library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, "time", "cv2" and "math". You can also write a new library like "yaml_handle".
+
+**(2) Instantiating Function Libraries**
+
+The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:
+
+{lineno-start=14}
+
+```python
+from common import kinematics
+from common.ros_robot_controller_sdk import Board
+from common.action_group_controller import ActionGroupController
+```
+
+After instantiating, you can directly input and call the function `Board.function name (parameter, parameter)`.
+
+**11.4.2 Main Function Analysis**
+
+The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function "init()" is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+
+{lineno-start=148}
+
+```python
+if __name__ == '__main__':
+    #加载参数(load parameter)
+    param_data = np.load(calibration_param_path + '.npz')
+
+    #获取参数(obtain parameter)
+    mtx = param_data['mtx_array']
+    dist = param_data['dist_array']
+    newcameramtx, _ = cv2.getOptimalNewCameraMatrix(mtx, dist, (640, 480), 0, (640, 480))
+    mapx, mapy = cv2.initUndistortRectifyMap(mtx, dist, None, newcameramtx, (640, 480), 5)
+
+    load_config()
+    init_move()
+    
+    camera = Camera()
+    camera.camera_open()
+```
+
+**11.4.3 Parameters of Color Detection**
+
+Shape recognition is realized through detecting the color of the object. The detected color is blue.
+
+{lineno-start=123} 
+
+```python
+    color = 'blue'
+```
+
+The main detection parameters involved in the process of detecting the color of the object are as follows:
+
+(1) Before converting the image into LAB space, denoise the image and use GaussianBlur() function for Gaussian filtering. 
+
+{lineno-start=118}
+
+```python
+    frame_gb = cv2.GaussianBlur(img, (3, 3), 3)
+```
+
+The first parameter `img` is the input image.
+
+The second parameter `(3, 3)` is the size of Gaussian kernel. Larger kernel will lead to greater filtering, which results in fuzzier output image and more complex computation. 
+
+The third parameter `3` is the standard deviation of Gaussian function along the X direction. It is used to control the change around the average in Gaussian filtering. When the data increases, the allowable variation range around the average value expands; if it decreases, the allowable variation range around the average value narrow down.
+
+(2) Use inRange function to perform binaryzation on the input image, as the picture shown. 
+
+{lineno-start=124}
+
+```python
+    frame_mask = cv2.inRange(frame_lab,
+                             (lab_data[color]['min'][0],
+                              lab_data[color]['min'][1],
+                              lab_data[color]['min'][2]),
+                             (lab_data[color]['max'][0],
+                              lab_data[color]['max'][1],
+                              lab_data[color]['max'][2]))
+```
+
+(3) To avoid interference and make the image smoother, use cv2.morphologyEx function to process the image. 
+
+{lineno-start=131}
+
+```python
+    opened = cv2.morphologyEx(frame_mask, cv2.MORPH_OPEN, np.ones((6, 6), np.uint8))
+    closed = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, np.ones((6, 6), np.uint8))
+```
+
+Take `opened = cv2.morphologyEx(frame_mask, cv2.MORPH_OPEN, 
+np.ones((6,6),np.uint8))` for example.
+
+The first parameter `frame_mask` represents the input image. 
+
+The second parameter represents the way to change. `cv2.MORPH_OPEN` indicates open operation. Perform corrosion first, and then dilation to eliminate the black spots. And `cv2.MORPH_CLOSE` refers to close operation. In close operation, dilation is performed first, and then corrosion to remove bright spots. 
+
+The third parameter `np.ones((6,6),np.uint8)` represents the size of the box.
+
+(4) Find out the maximum contour of the object. 
+
+{lineno-start=54}
+
+```python
+# 找出面积最大的轮廓(find the contour with the maximum area)
+def get_area_maxContour(contours):
+    contour_area_temp = 0
+    contour_area_max = 0
+    area_max_contour = None
+    for c in contours:
+        contour_area_temp = math.fabs(cv2.contourArea(c))
+        if contour_area_temp > contour_area_max:
+            contour_area_max = contour_area_temp
+            if contour_area_temp > 50:
+                area_max_contour = c
+    return area_max_contour, contour_area_max
+```
+
+To filter out disturbance, set the command, like `if contour_area_temp > 50`, which means that only when the area is more than 50, the maximum contour is effective.
+
+**11.4.4 Color Recognition Parameters**
+
+When the robot recognizes a blue object, the cv2.drawContours() function is used to draw the contour of the object.
+
+{lineno-start=136}
+
+```python
+        cv2.drawContours(img, areaMaxContour, -1, (0, 0, 255), 2)
+```
+
+The first parameter `img` is the input image;
+
+The second parameter `areaMaxContour` is the contour itself, which is a list in Python;
+
+The third parameter `-1` is the index of the contour. Here, the value represents drawing all the contours in the contour list;
+
+The fourth parameter `(0, 0, 255)` is the color of the contour. The order is R, G, B, and here it is blue;
+
+The fifth parameter `2` is the width of the contour.
+
+**11.4.5 Shape Judgment Parameters**
+
+(1) After the object contour is framed, acquire polygon approximate object shape through cv2.approxPolyDP, as shown in the picture.
+
+{lineno-start=138}
+
+```python
+        approx = cv2.approxPolyDP(areaMaxContour, epsilon, True)
+```
+
+The first parameter `areaMaxContour` represents the set of points of the contour.
+The second parameter `epsilon` represents the distance between the filtered line segment set and the newly generated line segment set is d. If d is smaller than epsilon, filter out. Otherwise, keep it.
+The third parameter `True` represents the closed contour newly generated. `False` represents open contour. 
+
+The below picture will help you better understand.
+
+<img class="common_img" style="width:50%" src="../_static/media/chapter_10/section_11/image50.png" alt="loading" />
+
+Process AC segment first. When d, distance between B and AC, is more than epsilon, then keep AB. Then, process BC segment.
+
+:::{Note}
+ you can set the value of epsilon. Epsilon of this game program is set to 0.035 times the contour perimeter. The smaller the value, the better the recognition effect.
+:::
+
+(2) Obtain the quantity of the sides of polygon approximate object shape, and display it on the terminal. 
+
+{lineno-start=140}
+
+```python
+        if len(shape_list) == 24:
+            shape_length = int(round(np.mean(shape_list)))
+            shape_list = []
+            #print(shape_length)
+    else:
+        shape_length = 0
+    return img
+```
+
+(3) Through obtaining the number of the sides, judge the shape of the object and display it on the terminal. At the same time, control the buzzer to sound different times continuously according to the shape. 
+
+{lineno-start=71}
+
+```python
+# 主要控制函数(main control function)
+def move():
+    #global shape_length, board
+    while move_st:
+        if shape_length == 3:
+            print('三角形')
+            board.set_buzzer(2400, 0.1, 0.4, 1)  # 以2400Hz的频率，0.1秒开始响，0.4秒停止响，重复1次(The buzzer sounds at a frequency of 2400Hz for 0.1 seconds, followed by a pause of 0.4 seconds, and it repeats this pattern once)
+            time.sleep(3)
+            
+        elif shape_length == 4:
+            print('矩形')
+            board.set_buzzer(2400, 0.1, 0.4, 2)  # 以2400Hz的频率，0.1秒开始响，0.4秒停止响，重复2次(The buzzer sounds at a frequency of 2400Hz for 0.1 seconds, followed by a pause of 0.4 seconds, and it repeats this pattern twice)
+            time.sleep(3)
+            
+        elif shape_length >= 6:
+            print('圆')
+            board.set_buzzer(2400, 0.1, 0.4, 3)  # 以2400Hz的频率，0.1秒开始响，0.4秒停止响，重复3次(The buzzer sounds at a frequency of 2400Hz for 0.1 seconds, followed by a pause of 0.4 seconds, and it repeats this pattern three times)
+            time.sleep(3)
+            
+        else:
+            time.sleep(1)
+```
+### 11.5 Function Extension
+
+**11.5.1 Changing the Default Recognition Color**
+
+The default recognizable color of this game is blue. Here, taking **changing the default recognition color to red** as an example, the specific modification steps are as follows:
+
+(1) Enter command to the catalog where the game programs are stored.
+
+```bash
 cd spiderpi/advanced
 ```
 
-2)  输入打开程序文件的指令，按下回车。
+(2) Enter command to open the program file.
 
-```commandline
+```bash
 sudo vim shape_recognition_plain.py
 ```
 
-3)  找到下图所示代码：
+(3) Locate the code shown below:
 
-<img src="../_static/media/chapter_10/section_11/image14.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_11/image14.png" />
 
 :::{Note}
-在键盘输入代码位置序号后按下"Shift+G"键，可以直接跳转到对应位置。（本节旨在介绍快速跳转方法，故代码位置序号仅供参考，请以实际为准。）
+press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation. 
 :::
 
-4)  按下"**i**"键进入编辑模式。将"**color = 'blue'**"中的"**blue**"改为"**red**"即可。
+(4) Press "i" key to enter the editing mode, then modify "blue" of "color = 'blue'" as "red".
 
-<img src="../_static/media/chapter_10/section_11/image16.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_11/image16.png" />
 
-5)  修改完成后，按下"**Esc**"键，输入指令并按下回车，进行保存与退出。
+(5) After modification, press "Esc" and input ":wq" to save the file and exit.
 
-```commandline
+```bash
 :wq
 ```
 
-6)  修改完成后，再执行"2.玩法开启及关闭步骤"，即可实现修改效果。
+(6) Execute the steps in "11.2 Operation Steps" to check the modification effect.
 
-- #### 11.4.2 更改反馈声音
+**11.5.2 Changing the Feedback Sound**
 
-玩法默认识别到三角形时，蜂鸣器响1次；识别到矩形时，蜂鸣器响2次；识别到圆形时，蜂鸣器响3次。此处以**将圆形对应的蜂鸣器发声次数更改为2次**为例，具体的修改步骤如下所示：
+When triangle is recognized, the buzzer will beep once. When rectangle is recognized, the buzzer will beep twice. When circle is recognized, the buzzer will beep third times. And we make the buzzer beep twice when the circle is recognized for example. 
 
-1)  输入进入玩法程序所在目录的指令，按下回车。
+(1) Enter the command and press "Enter" to enter the catalog where the game programs are stored.
 
-```commandline
+```bash
 cd spiderpi/advanced
 ```
 
-2)  输入打开程序文件的指令，按下回车。
+(2) Enter the command and press "Enter" to open the program file.
 
-```commandline
+```bash
 sudo vim shape_recognition_plain.py
 ```
 
-3)  找到下图所示代码：
+(3) Scroll down to find these codes. 
 
-<img src="../_static/media/chapter_10/section_11/image21.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_11/image21.png" />
 
-4)  按下"**i**"键进入编辑模式，将"**board.set_buzzer(2400,** **0.1, 0.4,** **3)**"中的"**3**"改为"**2**"即可。
+(4) Press "i" key to enter the editing mode and modify the "3" in `board.set_buzzer(2400, 0.1, 0.4, 3)` to "2".
 
-<img src="../_static/media/chapter_10/section_11/image23.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_11/image23.png" />
 
-5)  修改完成后，按下"**Esc**"键，输入"**:wq**"并回车，进行保存与退出。
+(5) After modification, press the "**Esc**" key, enter "**:wq**" and press Enter to save and exit.
 
-```commandline
+```bash
 :wq
 ```
 
-7)  修改完成后，再执行"2.玩法开启及关闭步骤"，即可实现修改效果。
+(6) Execute the steps in "[11.2 Operation Steps]()" to check the modification effect.
 
-### 11.5 程序参数说明
+## 12. Shape Recognition
 
-该程序源码位于：**/home/pi/spiderpi/advanced/shape_recognition_plain.py**
+### 12.1 Program logic
 
-根据实现的效果，梳理程序的过程逻辑，如下图所示：
+Firstly, process the real-time camera image through OpenCV, and then perform binaryzation, corrosion, dilation, etc., to obtain the contour only containing the target color, and mark it.
 
-<img http://www.hiwonder.net/ src="../_static/media/chapter_10/section_11/image27.png"  />
+After obtaining the target contour, deduce the corresponding shape according to the contour approximation result. And the recognition result will be displayed on the dot matrix screen, so as to realize shape recognition.
 
-- #### 11.5.1 导入功能库
-
-<img src="../_static/media/chapter_10/section_11/image28.png"  />
-
-1)  导入opencv、时间、数学、线程、逆运动学相关的库。我们如果想要调用功能库里的函数，就可以使用"**功能库名+函数名（参数，参数...）**"如：
-
-<img src="../_static/media/chapter_10/section_11/image30.png"  />
-
-就是调用"**time**"库中的"**sleep**"函数。sleep()的作用是延时。
-
-在python中有一些已经内置的库，我们直接导入调用就可以，比如"**time**"、"**cv2**"、"**math**"等。我们也可以自己写一个库，比如上面的"**yaml_handle**"文件读取库等。
-
-2)  实例化函数库
-
-我们有些函数库的名称太长，并且不容易记忆，为了方便调用函数，我们经常会对函数库进行实例化，如：
-
-<img src="../_static/media/chapter_10/section_11/image32.png"  />
-
-进行实例化后，在使用Board库中的函数，就可以像这样"**Board.函数名(参数,参数...)**"直接调用了，非常方便。
-
-- #### 11.5.2 主函数分析
-
-python程序中"**\_\_name\_\_ == '\_\_main\_\_:'**"就是程序的主函数。首先调用函数init()进行初始化配置。本程序中初始化包括：舵机回到初始位置、读取颜色阈值文件。一般还有端口、外设、定时中断等配置。这些都要在初始化内容中完成。
-
-<img src="../_static/media/chapter_10/section_11/image34.png"  />
-
-- #### 11.5.3 颜色检测参数
-
-在这个玩法里，我们通过检测物体颜色来进行形状识别，检测颜色为蓝色，如下图:
-
-<img src="../_static/media/chapter_10/section_11/image36.png"  />
-
-检测物体颜色过程中主要涉及的检测参数如下：
-
-1)  在将图像转换到LAB空间前，需要对图像进行减噪处理，使用GaussianBlur()函数进行高斯滤波，如下图所示：
-
-<img src="../_static/media/chapter_10/section_11/image38.png"  />
-
-第一个参数"**img**"是输入图像；
-
-第二个参数"**(3, 3)**"是高斯内核大小。较大的内核通常会导致更大程度的过滤，令输出图像更为模糊，且还会增加计算的复杂性；
-
-第三个参数"**3**"是高斯函数沿X方向的标准差。在高斯滤波器中用于控制其平均值附近的变化。该数据增大，平均值周围允许的变化范围随之增大；若减小，则平均值周围允许的变化范围减小。
-
-2)  通过使用inRange函数对输入图像进行二值化处理，如下图所示：
-
-<img src="../_static/media/chapter_10/section_11/image40.png"  />
-
-3)  为了降低干扰，让图像更加平滑，通过使用cv2.morphologyEx函数对图片进行处理，如下图所示：
-
-<img src="../_static/media/chapter_10/section_11/image42.png"  />
-
-以"**opened = cv2.morphologyEx(frame_mask, cv2.MORPH_OPEN, np.ones((6,6),np.uint8))**"为例：
-
-第一个参数"**frame_mask**"表示输入图像；
-
-第二个参数表示进行变化的方式，"**cv2.MORPH_OPEN**"代表开运算，先进行腐蚀，再进行膨胀操作，能够排除小黑点；如果是"**cv2.MORPH_CLOSE**"代表闭运算，先进行膨胀操作，再进行腐蚀操作，能够排除小亮点；
-
-第三个参数"**np.ones((6,6),np.uint8)**"表示方框的大小。
-
-4)  找出物体的最大轮廓，如下图所示：
-
-<img src="../_static/media/chapter_10/section_11/image44.png"  />
-
-为了避免干扰，通过"**if contour_area_temp \> 50**"指令设置，只有面积大于50时，最大面积的轮廓才有效。
-
-- #### 11.5.4 颜色识别参数
-
-当机器人识别到蓝色物品，通过cv2.drawContours()函数来绘制物品的轮廓。
-
-<img src="../_static/media/chapter_10/section_11/image46.png"  />
-
-第一个参数"**img**"是输入图像；
-
-第二个参数"**areaMaxContour**"是轮廓本身，在Python中为list；
-
-第三个参数"**-1**"是轮廓的索引，此处数值代表绘制轮廓list内的所有轮廓；
-
-第四个参数"**(0, 0, 255)**"是轮廓颜色，其顺序为R、G、B，此处为蓝色；
-
-第五个参数"**2**"是轮廓宽度。
-
-- #### 11.5.5 判断形状参数
-
-1)  框出物体轮廓后，通过cv2.approxPolyDP获取多边形近似物体形状，如下图所示：
-
-<img src="../_static/media/chapter_10/section_11/image48.png"  />
-
-第一个参数"**areaMaxContour**"表示轮廓的点集；
-
-第二个参数"**epsilon**"代表滤掉的线段集离新产生的线段集的距离为d，若d小于epsilon，则滤掉，否则保留；
-
-第三个参数"**True**"表示闭合新产生的轮廓，如果是"**False**"表示不闭合轮廓。
-
-为方便理解，以下图为例：
-
-<img class="common_img" style="width:50%" src="../_static/media/chapter_10/section_11/image50.png"  alt="loading" />
-
-首先处理AC，发现B点到AB的距离d大于epsilon，则保留AB，接着处理BC线段。
+### 12.2 Operation steps
 
 :::{Note}
-epsilon数值可自行设置，代码中设置为0.035倍的轮廓周长。设置时该数值越小，识别越好。
+The input command should be case sensitive and space sensitive. 
 :::
 
-2)  通过计算，获取多边形近似物体形状的边的数目，并在终端打印，如下图所示：
+(1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
-<img src="../_static/media/chapter_10/section_11/image51.png"  />
+(2) Click  <img src="../_static/media/chapter_10/section_12/image3.png" style="width:0.32292in;height:0.30208in" />at upper left corner of desktop to open the Terminator.
 
-3)  通过获取的边的数目，判断物体形状，并在终端打印，同时控制蜂鸣器连续响起不 同次数，如下图所示：
+<img class="common_img" src="../_static/media/chapter_10/section_12/image4.png" />
 
-<img src="../_static/media/chapter_10/section_11/image53.png"  />
+(3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
-## 12. 形状识别
-
-### 12.1 玩法简要说明
-
-首先，通过OpenCV处理摄像头的实时图像，对其进行二值化、腐蚀、膨胀等操作，获得只包含目标颜色的轮廓，并将其标识出来。
-
-获取目标轮廓后，根据轮廓近似结果推导出图像对应形状，并将识别结果显示于点阵屏幕，从而达到形状识别的效果。
-
-### 12.2 玩法开启及关闭步骤
-
-:::{Note}
-指令输入需严格区分大小写及空格。
-:::
-
-1)  启动SpiderPi Pro机器人，通过VNC远程连接树莓派桌面。
-
-2)  点击系统桌面左上角的图标<img src="../_static/media/chapter_10/section_12/image3.png" style="width:0.32292in;height:0.30208in" />，打开Terminator终端。
-
-<img src="../_static/media/chapter_10/section_12/image4.png"  />
-
-
-2)  输入进入玩法程序所在目录的指令，按下回车。
-
-```commandline
+```bash
 cd spiderpi/advanced
 ```
 
-3)  输入启动玩法的指令，按下回车。
+(4) Enter command, and then press "Enter" to start the game.
 
-```commandline
+```bash
 python3 shape_recognition.py
 ```
 
-4)  如需关闭此玩法，可在LX终端界面按下"**Ctrl+C**"。如果关闭失败，可多次按下。
+(5) If want to close this game, press "Ctrl+C" on LX terminal. If the game cannot be quit, please try again.
 
-### 12.3 功能实现
+### 12.3 Project outcome
 
 :::{Note}
-程序默认识别颜色是红色、绿色和蓝色，可识别形状是三角形、矩形和圆形。
+The default recognition color is red, green and blue. The recognizable shapes are triangle, rectangle and circle. 
 :::
 
-当识别到对应形状，机器人上的点阵屏幕会显示对应形状图案。此外，终端处会打印形状边数与形状名称。
+When the shape is recognized, the corresponding shape pattern will be displayed on the dot matrix screen. In addition, the quantity of sides of the shape and the shape name are printed at the terminal.
 
-### 12.4 程序参数说明
+### 12.4 Program Parameter Description
 
-该程序的源代码位于 **/home/pi/spiderpi/advanced/shape_recognition.py**
+The source code of this program is located at [/home/pi/spiderpi/advanced/shape_recognition.py]()
 
-根据实现的效果，梳理程序的过程逻辑，如下图所示：
+**12.4.1 Import Function Library**
 
-<img class="common_img" src="../_static/media/chapter_10/section_12/image7.png"  />
+{lineno-start=4}
 
-- #### 12.4.1 导入库文件
+```python
+import sys
+import cv2
+import math
+import time
+import signal
+import threading
+import numpy as np
+from calibration.camera import Camera
+from calibration.CalibrationConfig import *
+from common import yaml_handle
+from common import kinematics
+from common.ros_robot_controller_sdk import Board
+from common.action_group_controller import ActionGroupController
+import arm_ik.arm_move_ik as AMK
+from sensor.ultrasonic_sensor import Ultrasonic
+import sensor.dot_matrix_sensor as DMS
+```
 
-<img src="../_static/media/chapter_10/section_12/image8.png"  />
+(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "library name+function name (parameter, parameter)". For example:
 
-1)  导入opencv、时间、数学、线程、逆运动学相关的库。我们如果想要调用功能库里的函数，就可以使用"**功能库名+函数名（参数，参数...）**"如：
+{lineno-start=198}
 
-<img src="../_static/media/chapter_10/section_12/image9.png"  />
+```python
+            time.sleep(0.01)
+```
 
-就是调用"**time**"库中的"**sleep**"函数。sleep()的作用是延时。
+Call `sleep` function in "time" library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
 
-在python中有一些已经内置的库，我们直接导入调用就可以，比如"**time**"、"**cv2**"、"**math**"等。我们也可以自己写一个库，比如上面的"**yaml_handle**"文件读取库等。
+(2) Instantiating Function Libraries
 
-2)  实例化函数库
+The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:
 
-我们有些函数库的名称太长，并且不容易记忆，为了方便调用函数，我们经常会对函数库进行实例化，如：
+{lineno-start=15}
 
-<img src="../_static/media/chapter_10/section_12/image10.png"  />
+```python
+from common.ros_robot_controller_sdk import Board
+from common.action_group_controller import ActionGroupController
+import arm_ik.arm_move_ik as AMK
+```
 
-进行实例化后，在使用Board库中的函数，就可以像这样"**Board.函数名(参数,参数...)**"直接调用了，非常方便。
+After instantiating, you can directly input and call the function `Board.function name (parameter, parameter)`.
 
-- #### 12.4.2 主函数分析
+**12.4.2 Analysis of the Main Function**
 
-python程序中"**\_\_name\_\_ == '\_\_main\_\_:'**"就是程序的主函数。首先调用函数init()进行初始化配置。本程序中初始化包括：舵机回到初始位置、读取颜色阈值文件。一般还有端口、外设、定时中断等配置。这些都要在初始化内容中完成。
+In a Python program,  `__name__ == '__main__:'` is the main function of the program. First, the function init() is called for initialization configuration. In this program, the initialization includes: returning the servo to the initial position and reading the color threshold file. Generally, there are also configurations such as ports, peripherals, and timer interrupts. All of these need to be completed in the initialization content.
 
-<img src="../_static/media/chapter_10/section_12/image11.png"  />
+{lineno-start=172}
 
-- #### 12.4.3 定义全局变量
+```python
+if __name__ == '__main__':
+    #加载参数(load parameter)
+    param_data = np.load(calibration_param_path + '.npz')
 
-<img src="../_static/media/chapter_10/section_12/image12.png"  />
+    #获取参数(obtain parameter)
+    mtx = param_data['mtx_array']
+    dist = param_data['dist_array']
+    newcameramtx, _ = cv2.getOptimalNewCameraMatrix(mtx, dist, (640, 480), 0, (640, 480))
+    mapx, mapy = cv2.initUndistortRectifyMap(mtx, dist, None, newcameramtx, (640, 480), 5)
+```
 
-**处理图像**
+**12.4.3 Defining Global Variables**
 
-- **高斯滤波**
+{lineno-start=42}
 
-在将图像的颜色空间由RGB转换为Lab前，需要先对其进行降噪处理，此处用到cv2库中的GaussianBlur()函数，该函数用于对图像进行高斯滤波处理。
+```python
+# 读取颜色阈值函数(read color threshold and parameters of coordinate transformation)
+def load_config():
+    global lab_data
+    
+    lab_data = yaml_handle.get_yaml_data(yaml_handle.lab_file_path)
+    
+# 初始位置(initial position)
+def init_move():
+    ultrasonic.setRGBMode(0)
+    ultrasonic.setRGB(0, (0, 0, 0))
+    ultrasonic.setRGB(1, (0, 0, 0))
+    ik.stand(ik.initial_pos)
+    ak.setPitchRangeMoving((0, 12, 18), -60, -90, 100, 2)
+```
 
-<img src="../_static/media/chapter_10/section_12/image13.png"  />
+**(1) Gaussian Filtering**
 
-括号内的参数含义如下：
+Before converting the image from RGB into LAB space, denoise the image and use GaussianBlur() function in cv2 library for Gaussian filtering.
 
-第一个参数"**img**"是输入图像；
+{lineno-start=132}
 
-第二个参数"**(3, 3)**"是高斯内核大小；
+```python
+    frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间(convert the image to LAB space)
+```
 
-第三个参数"**3**"是在高斯滤波中其平均值附近允许的方差大。该值越大，平均值周围允许的方差越大；数值越小，平均值周围允许的方差越小。
+The meaning of the parameters in bracket is as follow 
 
-- **二值化处理**
+The first parameter `img` is the input image.
 
-采用cv2库中的inRange()函数对图像进行二值化处理。
+The second parameter `(3, 3)` is the size of Gaussian kernel.
 
-<img src="../_static/media/chapter_10/section_12/image14.png"  />
+The third parameter `3` is the allowable variance around the average in Gaussian filtering. The larger the value, the larger the allowable variance around the average value; The smaller the value, the smaller the allowable variance around the average value.
 
-括号内的第一个参数是输入图像；第二个、第三个参数分别是阈值的下限和上限。当像素点RGB的颜色数值处于上、下限之间时，该像素点被赋值为1，否则为0。
+**(2) Binarization Processing**
 
-- **腐蚀与膨胀处理**
+Adopt `inRange()` function in cv2 library to perform binaryzation on the image. 
 
-腐蚀处理的作用是去除图像边缘的毛刺。而膨胀处理的作用是扩大图像边缘，填充目标物体边缘或内部的非目标像素点。
+{lineno-start=139}
 
-为了降低干扰，使图像更加平滑，需要使用OpenCV库中的morphologyEx()函数，将二值化处理后得到的灰度图像，依次进行开运算和闭运算处理。
+```python
+            frame_mask = cv2.inRange(frame_lab,
+                             (lab_data[i]['min'][0],
+                              lab_data[i]['min'][1],
+                              lab_data[i]['min'][2]),
+                             (lab_data[i]['max'][0],
+                              lab_data[i]['max'][1],
+                              lab_data[i]['max'][2]))  #对原图像和掩模进行位运算(perform bitwise operation to original image and mask)
+```
 
-<img src="../_static/media/chapter_10/section_12/image15.png"  />
+The first parameter in the bracket is the input image. The second and the third parameters respectively are the lower limit and upper limit of the threshold. When the RGB value of the pixel is between the upper limit and lower limit, the pixel is assigned a value of 1, otherwise, 0.
 
-开运算是先腐蚀后膨胀，它能够消除亮度较高的细小区域，在纤细点处分离物体。对于较大物体，可以在不明显改变其面积的情况下平滑其边界。
+**(3) Corrosion and dilation**
 
-闭运算是先膨胀后腐蚀，它的作用在于弥合较窄的间断和细长的沟壑、消除小的孔洞、弥补轮廓线中的断裂，此外它对轮廓也有一定的平滑作用。
+The function of erosion is to remove burrs from the edges of the image. The function of dilation is to expand the edge of the image and fill in the non-target pixels at the edge or inside of the target object.  
 
-morphologyEx()函数括号内的参数含义如下：
+To reduce distraction and make the image smoother, use `morphologyEx()` function in OpenCV library to perform open operation and close operation in sequence on the gray-scale image obtained after binaryzation.
 
-第一个参数是输入图像；
+{lineno-start=146}
 
-第二个参数是使用的形态学方法，"**cv2.MORPH_OPEN**"为进行开操作，"**cv2.MORPH_CLOSE**"为进行闭操作；
+```python
+            opened = cv2.morphologyEx(frame_mask, cv2.MORPH_OPEN, np.ones((6,6),np.uint8))  #开运算(opening operation)
+            closed = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, np.ones((6,6),np.uint8)) #闭运算(Closing operation)
+```
 
-第三个参数是形态学运算的内核，"**np.ones((6,6),np.uint8)**"为3×3的方形结构元素。
+The open operation is to erode first and then dilate, which can eliminate small areas with high brightness and separate objects at thin points. The boundary of the larger object can be smoothed without changing its area.
 
-- **获取最大面积轮廓**
+The close operation is to dilate first, then corrode. Its function is to bridge narrow discontinuities and slender ravines, eliminate small holes, make up for breaks in contour lines, and it also has a certain smoothing effect on contours. 
 
-完成上述的图像处理后，需要获取识别目标的轮廓，此处涉及cv2库中的findContours()函数。
+The meaning of the parameters in the parentheses of the `morphologyEx()` function is as follow. 
 
-<img src="../_static/media/chapter_10/section_12/image16.png"  />
+The first parameter is the input image
 
-括号内的第一个参数是输入图像；第二个参数是轮廓的检索模式；第三个参数是轮廓的近似方法。
+The second parameter is the morphological method used. `cv2.MORPH_OPEN` is for open operation, and `cv2.MORPH_CLOSE` is for close operation.
 
-在获得的轮廓中寻找面积最大的轮廓，而为了避免干扰，需要设定一个最小值，仅当面积大于该值时，目标轮廓才有效。
+The third parameter is the kernel of the morphological operation. `np.ones((6,6),np.uint8)` is a 3×3 square structural element. 
 
-<img src="../_static/media/chapter_10/section_12/image17.png"  />
+**(4) Acquire the maximum contour**
 
-获得最大面积轮廓后，用cv2库中的drawContours()函数对轮廓进行标识。
+After processing the image, acquire the contour of the target to be recognized, which involves `findContours()` function in cv2 library. 
 
-<img src="../_static/media/chapter_10/section_12/image18.png"  />
+{lineno-start=148}
 
-- **形状识别**
+```python
+            contours = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
+```
 
-用cv2库中的arcLength()函数计算轮廓周长，并用approxPolyDP()函数进行轮廓近似。
+The first parameter in parentheses is the input image; the second parameter is the retrieval mode of the contour; the third parameter is the approximation method of the contour. 
 
-<img src="../_static/media/chapter_10/section_12/image19.png"  />
+Find the contour of the maximum area among the obtained contours. To avoid interference, please set a minimum value. Only when the area is larger than this value, the target contour is valid. 
 
-根据轮廓近似结果得到识别图像的边数，进而判断图像对应形状。
+{lineno-start=68}
 
-<img src="../_static/media/chapter_10/section_12/image20.png"  />
+```python
+            if contour_area_temp > 50:  # 只有在面积大于50时，最大面积的轮廓才是有效的，以过滤干扰(Only when the area is greater than the set value, the contour with the maximum area is considered valid to filter out interference)
+                area_max_contour = c
+```
 
-- #### 12.4.4 点阵显示
+After obtaining the contour with largest area, use `drawContours()` function in cv2 library to mark the contour. 
 
-根据形状识别结果，在点阵屏幕上显示对应图案。
+{lineno-start=68}
 
-<img src="../_static/media/chapter_10/section_12/image21.png"  />
+```python
+        cv2.drawContours(img, areaMaxContour_max, -1, (0, 0, 255), 2)
+```
 
-将点阵屏幕分为16列LED，每列用1个十六进制数值进行控制。以"**0x88**"为例，将其转换为二进制，即"**10001000**"，则这个数值对应的LED自上往下的亮灭状态为"**亮灭灭灭亮灭灭灭**"
+**(5) Shape Recognition**
 
-<img class="common_img" style="width:60%" src="../_static/media/chapter_10/section_12/image22.png"  alt="loading" />
+Calculate the perimeter of the contour with `arcLength()` function in cv2 library and use the `approxPolyDP()` function for contour approximation
 
-通过调用**HiwonderSDK.tm1640**库中的**update_display()** 函数，将**tm.display_buf**缓存区的字模刷新显示到点阵上，即可控制点阵屏幕显示所需的图案。
+{lineno-start=157}
+
+```python
+        # 识别形状(shape recognition)
+        # 周长  0.035 根据识别情况修改，识别越好，越小(Perimeter 0.035. Adjust according to the detection performance, the better the detection, the smaller the value)
+        epsilon = 0.035 * cv2.arcLength(areaMaxContour_max, True)
+        # 轮廓相似(contours are similar)
+        approx = cv2.approxPolyDP(areaMaxContour_max, epsilon, True)
+```
+
+Based on the contour approximation result, acquire the number of the side of the recognized image to judge the corresponding shape of the image. 
+
+{lineno-start=162}
+
+```python
+        shape_list.append(len(approx))
+        if len(shape_list) == 24:
+            shape_length = int(round(np.mean(shape_list)))                            
+            shape_list = []
+    else:
+        shape_length = 0
+```
+
+**12.4.4 Dot Matrix Display**
+
+According to the recognition result, the corresponding pattern will be displayed on the dot matrix screen.
+
+{lineno-start=75}
+
+```python
+        if shape_length == 3:
+            print('三角形')
+            ## 显示'三角形'(display 'triangle')
+            tm.display_buf = (0x80, 0xc0, 0xa0, 0x90, 0x88, 0x84, 0x82, 0x81,
+                              0x81, 0x82, 0x84,0x88, 0x90, 0xa0, 0xc0, 0x80)
+            tm.update_display()
+            
+        elif shape_length == 4:
+            print('矩形')
+            ## 显示'矩形'(display 'rectangle')
+            tm.display_buf = (0x00, 0x00, 0x00, 0x00, 0xff, 0x81, 0x81, 0x81,
+                              0x81, 0x81, 0x81,0xff, 0x00, 0x00, 0x00, 0x00)
+            tm.update_display()
+            
+        elif shape_length >= 6:           
+            print('圆')
+            ## 显示'圆形'(display 'circle')
+            tm.display_buf = (0x00, 0x00, 0x00, 0x00, 0x1c, 0x22, 0x41, 0x41,
+                              0x41, 0x22, 0x1c,0x00, 0x00, 0x00, 0x00, 0x00)
+            tm.update_display()
+            
+        else:
+            ## 清屏(clear the screen)
+            tm.display_buf = [0] * 16
+            tm.update_display()
+            print('None')
+```
+
+There are 16 columns of LEDs on the dot matrix screen and each column is controlled with a hexadecimal value, that is **"10001000"**. The status of LEDs corresponding to this value, from top to bottom, is "on off off off on off off off".
+
+<img class="common_img" style="width:60%" src="../_static/media/chapter_10/section_12/image22.png" alt="loading" />
+
+Through calling `update_display()` function in HiwonderSDK.tm1640 library, refresh the font in the tm.display_buf buffer area and display it on the dot matrix screen, and then you can control the dot matrix screen to display the desired pattern.

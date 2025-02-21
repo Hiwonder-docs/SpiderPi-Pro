@@ -1,209 +1,208 @@
-# 群发控制课程
+# 9. Mass Control
 
-## 1. 手柄控制
+## 1. Handle Control
 
-### 1.1 准备工作
+### 1.1 Getting ready
 
-**步骤1：** 将手柄接收器插入树莓派扩展板的任意一个USB接口。
+Step 1: insert the handle receiver into any USB interface on Raspberry Pi expansion board.
 
 :::{Note}
-手柄接收器必须在设备开机前插入，如已插入则忽略本步骤。
+Note: please insert the handle receiver before the device boots up.
 :::
 
-**步骤2：** 自备两节7号干电池，取出手柄后壳，将电池插入电池槽内，注意！正负极切勿插反。
+Step 2: please bring your own two triple A dry batteries.
 
 <img src="../_static/media/chapter_11/section_1/image2.png"  alt="loading" />
 
-### 1.2 设备连接
+### 1.2 Device connection
 
-**步骤1：** 打开SipiderPi Pro开关。
+Step 1: turn on the switch of SpiderPi Pro.
 
-**步骤2：** 打开手柄开关，此时手柄上两个LED灯（红色、绿色）将同时闪烁。
+Step 2: turn on the switch on the handle. At this time, two LED lights will flash simultaneously.
 
-**步骤3：** 等待几秒，机器人将和手柄自动配对，配对成功后，绿色灯将常亮。
+Step 3: please wait for a while. Then the robot will pair with the handle automatically. After successful pairing, the green light will keep lighting up.
 
-打开手柄开关后30秒内未连接机器人，或连接后5分钟内对手柄无任何操作，手柄将进入睡眠模式。若需唤醒手柄，按下“**START**”键即可。
+If the handle doesn't connect to the robot within 30s or there is no operation on the handle within 5 minutes after turning on, it will enter sleep mode. And you can press "**START**" to activate the handle.
 
-### 1.3 模式介绍
+### 1.3 Mode introduction
 
-手柄自身分为两种模式：**机体移动模式**（开机默认模式）和**机械臂控制模式**。
+There are two modes, including **body control mode** and **robotic arm control mode**.
 
-两种模式切换方法：同时按下“**START+SELECT**”键，手柄发出“滴”的一声，为机体移动模式，若响两声即为机械臂控制模式。
+Way to switch the mode: press "START" and "SELECT" key at the same time. When the handle "beeps" once, the mode is switched to body control mode. If the handle "beeps" twice, the mode is switched to robotic arm control mode.
 
-### 1.3 按键说明
+### 1.4 Key function
 
-**机体移动模式下手柄按键和机器人动作的对应关系如下表所示（以机器人为第一视角）：**
+The function of each key under body control mode is listed below.
 
-|       按键       |             功能             |
-|:----------------:|:----------------------------:|
-|      START       | 机体恢复初始化姿态(机体立正) |
-|        L2        |          向左转30°           |
-|        R2        |          向右转30°           |
-| **↑/**左滑杆向上 |         向前直走50mm         |
-| **↓/**左滑杆向下 |         向后直走50mm         |
-| **←/**左滑杆向左 |         向左移动50mm         |
-| **→/**左滑杆向右 |         向后移动50mm         |
-|      **△**       |             战斗             |
-|      **×**       |             扭身             |
-|      **◻**       |             挥手             |
-|      **○**       |             踢腿             |
-|      **R1**      |            dance             |
+|                Key                |                  Function                  |
+| :-------------------------------: | :-----------------------------------------: |
+|               START               | the body will return to the initial posture |
+|                L2                |             turn left 30 degree             |
+|                R2                |            turn right 30 degree            |
+|  &uarr; /move up left slider  |          go straight forward 50mm          |
+| &darr;/move down left slider |          go straight backward 50mm          |
+| &larr; /move left left slider |               move left 50mm               |
+| &rarr; /move right left slider |             move backward 50mm             |
+|              **△**              |                   attack                   |
+|              **×**              |                    twist                    |
+|              **◻**              |                    wave                    |
+|              〇              |                    kick                    |
+|              **R1**              |                    dance                    |
 
-**机械臂控制模式下的手柄按键和机器人动作的对应关系如下表所示（以机器人为第一视角）：**
+The function of each key under robotic arm control mode is listed below.
 
-|       按键       |        功能        |
-|:----------------:|:------------------:|
-|      START       | 机械臂恢复初始姿态 |
-|        L2        |    25号舵机闭合    |
-|        R2        |    25号舵机张开    |
-|    左滑杆向上    |    22号舵机向前    |
-|    左滑杆向下    |    22号舵机向后    |
-| **←/**左滑杆向左 |    21号舵机向左    |
-|    左滑杆向右    |    22号舵机向右    |
-|      **◻**       |    23号舵机向前    |
-|      **△**       |    23号舵机向后    |
-|      **×**       |    24号舵机向前    |
-|      **○**       |    24号舵机向后    |
+|          Key          |                Function                |
+| :--------------------: | :------------------------------------: |
+|         START         | robotic arm returns to initial posture |
+|           L2           |           No.25 servo opens           |
+|           R2           |           No.25 servo close           |
+|  move up left slider  |       No.21 servo moves forward       |
+| move down left slider |       No.21 servo moves backward       |
+| move left left slider |       No.22 servo moves forward       |
+| move right left slider |       No.22 servo moves backward       |
+|         **◻**         |       No.23 servo moves backward       |
+|         **△**         |       No.23 servo moves forward       |
+|         **×**         |       No.24 servo moves backward       |
+|         〇         |       No.24 servo moves forward       |
 
-下图为机械臂舵机ID示意图：
+The ID of servos on the robot arm is as below:
 
-<img src="../_static/media/chapter_11/section_1/image4.png"  />
+<img class="common_img" src="../_static/media/chapter_11/section_1/image4.png"  />
 
-## 2. 群发控制
+## 2. Group Control
 
-### 2.1 准备工作
+### 2.1 Getting ready
 
-1)  至少准备2台及以上的SpiderPi Pro机器人（本节课以2台机器人为例进行示范）。
+(1) 2 or above SpiderPi Pros are needed in group control.
 
-2)  开发环境搭建。参考“**[远程工具安装与连接](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html)**”文档内容，下载并安装远程连接工具VNC。
+(2) Set up development environment.  Please refer to the tutorial in "[Set Development Environment->1.VNC Installation and Connection]()" to download and install VNC.
 
-### 2.2 实现原理
+### 2.2 Program logic
 
-通过将主机与从机配置在同一个网络内，主机通过群发程序向从机发送动作指令，达到控制从机的效果。
+First, configure the master and the salve to one network. Then the master sends the action command to the slave through group sending program so as to achieve group controlling.
 
-### 2.3 实验步骤
+### 2.3 Operation steps
 
-- #### 2.3.1 配置主机
+**2.3.1 configure the master**
 
-1)  首先，选取一台机器人作为主机，开启后远程连接桌面，我们这里以热点为“**HW-DDD123FE**”的机器人为例。
+(1) Firstly, pick one robot as the master. After turning on the master robot, remotely connect to the desktop. Take "HW-DDD123FE" robot for example.
 
 <img class="common_img" src="../_static/media/chapter_11/section_2/image1.png"  />
 
 :::{Note}
-请记住主机热点名称，后续步骤将用到此名称。
+please take down the hotspot name which will be used in the later step.
 :::
 
-2)  打开命令行终端，输入指令，按下回车，进入到Wi-Fi文件配置目录。
+(2) Open command line terminal. Then enter the command and press `Enter` to enter the catalog of WiFi configuration file.
 
-```commandline
+```bash
 cd hiwonder-toolbox/
 ```
 
-3)  使用vi编辑器打开Wi-Fi配置文件，输入指令，按下回车。
+(3) Enter command and press `Enter` to open Wi-Fi configuration file with vi editor.
 
-```commandline
+```bash
 vim wifi_conf.py
 ```
 
+(4) Press  `i`  key to enter the editing mode.
 
-4)  按一下键盘上的“**i**”，进入编辑模式。
+<img class="common_img"  src="../_static/media/chapter_11/section_2/image4.png"  />
 
-<img src="../_static/media/chapter_11/section_2/image4.png"  />
+(5) Modify the WiFi password of the master as "**hiwonder**" and then uncomment this code shown in the below figure：
 
-5)  修改主机热点密码，将Wi-Fi密码修改成“hiwonder”，再进行反注释。操作如下图所示：
-
-<img src="../_static/media/chapter_11/section_2/image5.png"  />
+<img class="common_img" src="../_static/media/chapter_11/section_2/image5.png"  />
 
 :::{Note}
-密码的位数不可少于8位。
+the password should be 8 digits or above.
 :::
 
-6)  修改完成之后，按下“**Esc**”键，退出编辑模式。再输入“**:wq**”保存并退出。
+(6) After modification, press `Esc` key to exit the editing mode. And input `:wq` to save and exit.
 
-```commandline
+```bash
 :wq
 ```
 
-7)  输入命令“**sudo reboot**”将设备重启。（此步不可跳过！）
+(7) Input command to reboot the device. Please do not skip this step.
 
-```commandline
+```bash
 sudo reboot
 ```
 
-- #### 2.3.2 配置从机
+**2.3.2 Configure the slave**
 
 :::{Note}
-这里以单台从机操作为例进行说明，多台从机可参考同样的方法进行配置。
+we use a single slave to demonstrate. If you need to configure multiple slaves, you can also follow the below steps to operate.
 :::
 
-1)  打开命令行终端，输入指令，按下回车，进入WI-Fi配置文件所在目录。
+(1) Open command line terminal. Then enter command and press `Enter` to enter the catalog of WiFi configuration file.
 
-```commandline
+```bash
 cd hiwonder-toolbox/
 ```
 
-2)  使用vi编辑器打开Wi-Fi配置文件，输入指令，按下回车。
+(2) Open the WiFi configuration file with vi editor. Enter command and press `Enter`.
 
-```commandline
+```bash
 vim wifi_conf.py
 ```
 
-3)  按一下键盘上的“**i**”，进入编辑模式。
+(3) Press `i` key to enter editing mode.
 
-<img src="../_static/media/chapter_11/section_2/image4.png"  />
+<img class="common_img" src="../_static/media/chapter_11/section_2/image4.png"  />
 
-4)  按照主机的热点名称与密码进行一致设置（本节课以默认ID：**HW-DDD123FE**为例），再将代码进行反注释。操作如下图所示：
+(4) Modify the WiFi password of the slave as "**hiwonder**" same as the master,and the ID as HW-DDD123FE. And then uncomment this code shown in the below figure：
 
-<img src="../_static/media/chapter_11/section_2/image8.png"  />
+<img class="common_img" src="../_static/media/chapter_11/section_2/image8.png"  />
 
-5)  修改完成之后， 按下“**Esc**”键，退出编辑模式。再输入“**:wq**”保存并退出。
+(5) After modification, press "Esc" key to exit the editing mode. And input ":wq" to save and exit. 
 
-```commandline
+```bash
 :wq
 ```
 
-6)  输入命令“**sudo reboot**”将设备重启。（**此步不可跳过！**）
+(6) Enter command to reboot the device. Please do not skip this step.
 
-```commandline
+```bash
 sudo reboot
 ```
 
-- #### 2.3.3 群发控制
+**2.3.3 group control**
 
 :::{Note}
-群发控制时，从机需等待主机开机成功后再开启。
+During group control, please turn on the master first, then the slave.
 :::
 
-1)  将主、从机器人放置在空旷平坦的地面，并且各个机器人保持一定距离,将PS2手柄接收器插入主机的USB接口。
+(1) Place the master and slave robot on the open ground. And ensure there is certain interval between each robot. Insert the PS2 handle receiver into the USB interface on the master.
 
-2)  连接主机，打开命令行终端，输入指令，按下回车，进入群控文件所在目录。
+(2) Connect to the master, open the command line terminal, enter the command, and press `Enter` to navigate to the directory where the group control file is located.
 
-```commandline
+```bash
 cd spiderpi/functions/
 ```
 
-3)  输入开启群控服务端的指令，按下回车。
+(3) Enter the command and press `Enter` to start the group control server.
 
-```commandline
+```bash
 python3 multi_control_server.py
 ```
 
-4)  参考“**[上手试玩\1. 手机APP的安装和连接](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/2_play_first_hand.html#app)**”获取从机的IP地址进行连接。
+(4) Refer to the instruction of LAN mode connection in "[Quick User Experience\1.APP Installation and Connection]()" to obtain the IP address of the slave for connection.
 
-5)  连接从机之后打开命令行终端，输入指令，按下回车，进入群控文件所在目录。
+(5) After the slave is connected, open the command line terminal, enter the command, and press `Enter` to access the directory where the group control file is located.
 
-```commandline
+```bash
 cd spiderpi/functions/
 ```
 
-6)  输入开启群控客户端的指令，按下回车。
+(6) Enter the command and press `Enter` to start the group control client.
 
-```commandline
+```bash
 python3 multi_control_client.py
 ```
 
-7)  打开手柄进行连接，即可进行控制。
+(7) Open the handle for connection, then you can control SpiderPi Pro with it.
 
-### 2.4 实现效果
+### 2.4 Project Outcome
 
-程序启动后，从机机器人将与主机机器人同时执行同样的动作组。
+After the program runs, the mater and slave robots will execute the same action group.

@@ -1,739 +1,1137 @@
-# 机械臂正逆运动学课程
+# 6. Forward & Inverse Kinematic
 
-## 1. 机械臂坐标系的建立
+## 1. Establish Robotic Arm Coordinate System
 
-### 1.1 坐标系介绍
+### 1.1 Coordinate System
 
-描述空间位置、速度和加速度，大部分都是用笛卡尔坐标系，也就是大家熟知由三个互相垂直的坐标轴所组成的坐标系。当我们说绕某一个轴旋转多少角度时，正方向的确定使用右手定则，如下图：
+Most of the descriptions of spatial position, speed and acceleration are in Cartesian coordinate system, which is well known as a coordinate system composed of three mutually perpendicular coordinate axes. When we say how many angles to rotate around a certain axis, the right-hand rule is used to determine the positive direction, as shown below:
 
-<img class="common_img" src="../_static/media/chapter_8/section_1/image2.png"  alt="坐标系1" />
+<img class="common_img" src="../_static/media/chapter_8/section_1/image2.png"  alt="" />
 
-### 1.2 位置、平移交换
+### 1.2 Position, Translation Swap
 
-位置是使用一个三维向量来表示，平移变换是坐标系空间位置的变换，可以用坐标系原点 O 的位置向量表示，如下图所示。多次平移变换也很简单，向量之间直接相加就可以求空间中一个点的位置在经过平移变换后的坐标系{B} 中的坐标。
+The position is represented by a three-dimensional vector, and the translation transformation is the transformation of the coordinate system space position, which can be represented by the position vector of the coordinate system origin O, as shown in the figure below. Multiple translation transformations are also very simple. You can find the coordinates of a point in space in the coordinate system {B} after translation transformation by adding directly between vectors.
 
-<img src="../_static/media/chapter_8/section_1/image3.png" style="width:50%;" class="common_img"   alt="位置图" />
+<img src="../_static/media/chapter_8/section_1/image3.png" style="width:50%;" class="common_img"   alt="" />
 
-### 1.3 角度/方向、旋转变换
+### 1.3 Angle/Direction, Rotation Transformation
 
-相比于位置，方位的表示方法相对会麻烦一些。在讨论方位之前，有必要先说明一点：一个物体的三维位置和朝向，通常都会在物体上"**附上**"一个跟着它动跟着它转的坐标系，然后通过描述这个坐标系与参考坐标系的关系来描述这个物体。
+Compared with the position, the representation method of the bearing is relatively troublesome. Before discussing the bearing , it is necessary to explain one point: the three-dimensional position and orientation of an object are usually "attached" to the object with a coordinate system that moves and rotates with it, and then by describing the coordinate system and the reference coordinate system Relationship to describe this object.
 
-描述一个物体在坐标系中的位置和朝向，可以等效理解为描述坐标系之间的关系。我们这里讲角度/方向表示法，只要讲两个坐标系之间的关系就可以了。 要知道一个坐标系相对于另一个坐标系如何旋转、旋转了多少，应该怎么做呢？我们先从二维的情况看起：
+Describing the position and orientation of an object in the coordinate system can be equivalently understood as describing the relationship between the coordinate systems. We talk about angle/direction notation here, as long as we talk about the relationship between two coordinate systems. To know how and how much a coordinate system is rotated relative to another coordinate system, what should be done? Let's start with the two-dimensional situation:
 
-<img src="../_static/media/chapter_8/section_1/image4.png" class="common_img"  alt="二维的情况" />
+<img src="../_static/media/chapter_8/section_1/image4.png" class="common_img"  alt="" />
 
-通过将坐标轴单位向量用参考坐标系表示，看图可以直接写出下列公式：
+By coordinate axis unit vector with the reference coordinate system expressing, though reference the picture we can directly written the following formula:
 
-<img src="../_static/media/chapter_8/section_1/image5.png" class="common_img" alt="二维公式" />
+<img src="../_static/media/chapter_8/section_1/image5.png" class="common_img" alt="" />
 
-我们再定义一个2x2的矩阵：
+We define a 2x2 matrix:
 
-<img class="common_img" src="../_static/media/chapter_8/section_1/image6.png"  alt="矩阵公式" />
+<img class="common_img" src="../_static/media/chapter_8/section_1/image6.png"  alt="" />
 
-显然，这个矩阵的每一列为坐标系B的坐标轴单位向量在坐标系中的表示，有了这个矩阵我们就能画出坐标系B的x轴y轴，确定B的唯一朝向。
+Obviously, each column of this matrix is the representation of the coordinate axis unit vector of coordinate system B in the coordinate system. With this matrix, we can draw the x-axis and y-axis of coordinate system B and determine the unique orientation of B.
 
-### 1.4 旋转矩阵
+### 1.4 Rotation Matrix
 
-空间三维朝向相对来讲更加复杂，因为平面上坐标的朝向只能有一个自由度，即绕垂直平面的轴旋转。而空间中物体的朝向会有三个自由度。不过如果我们从上图的第一种方法出发，就可以轻松写出一个3×3的R矩阵，我们称它为旋转矩阵：
+The three-dimensional orientation of space is relatively more complicated, because the orientation of the coordinates on the plane can only have one degree of freedom, that is, to rotate around the axis of the vertical plane. The orientation of objects in space will have three degrees of freedom. However, if we start from the first method in the figure above, we can easily write a 3×3 R matrix, which we call the rotation matrix:
 
-<img class="common_img" src="../_static/media/chapter_8/section_1/image7.png"  alt="旋转矩阵公式" />
+<img class="common_img" src="../_static/media/chapter_8/section_1/image7.png"  alt="" />
 
-这个式子表明从坐标系{B}到坐标系{A}的旋转矩阵中，每一列都是坐标系{B}的坐标轴单位向量在坐标系{A}中的表示。
+This formula shows that in the rotation matrix from the coordinate system {B} to the coordinate system {A}, each column is the representation of the coordinate axis unit vector of the coordinate system {B} in the coordinate system {A}.
 
-## 2. 正运动学简要分析
+## 2. Brief Analysis of Forward Kinematics
 
-### 2.1 DH参数介绍
+### 2.1 DH Parameter Introduction
 
-DH参数就是一个用四个参数表达两对关节连杆之间位置角度关系的机械臂数学模型和坐标系确定系统。通过下文我们会看到，它通过限制原点位置和 X 轴的方向，人为减少了两个自由度，因此它只需要用四个参数即可定义为一个具有六自由度的坐标系。
+The DH parameter is a mechanical arm mathematical model and coordinate system determination system that uses four parameters to express the position and angle relationship between two pairs of joint links. As we will see below, it artificially reduces two degrees of freedom by limiting the position of the origin and the direction of the X axis, so it only needs four parameters to define a coordinate system with six degrees of freedom.
 
-DH选的四个参数都有非常明确的物理含义，如下：
+The four parameters selected by DH have very clear physical meanings, as follows:
 
-1.  link length（连杆长度）：两个关节的轴（旋转关节的旋转轴，平移关节的平移轴）之间的公共法线长度
+(1) link length : The length of the common normal between the axes of the two joints (Rotation axis of rotation joint, translation axis of translation joint)
 
-2.  link twist（连杆扭转）：一个关节的轴相对于另一个关节的轴绕它们的公共法线旋转的角度
+(2) link twist: The angle at which the axis of one joint rotates around their common normal relative to the axis of the other joint
 
-3.  link offset（连杆偏移）：一个关节与下一个关节的公共法线和它与上一个关节的公共法线沿这个关节轴的距离
+(3) link offset: The common normal of one joint and the next joint and the distance between the common normal of one joint and the previous joint along this joint axis
 
-4.  joint angle（关节转角）：一个关节与下一个关节的公共法线和它与上一个关节的公共法线绕这个关节轴的转角
+(4) joint angle: The common normal of one joint and the next joint and the angle of rotation around the joint axis with the common normal of the previous joint
 
-以上定义看了很绕口，但是结合坐标系看就会清楚许多。
+The above definition is very complicated, but it will be much clearer when combined with the coordinate system.
 
-首先你应该注意到最重要的两条"线"：一个关节的轴（axis），和一个关节的轴与相邻关节的轴之间的公共法线（common normal）。
+First of all you should pay attention to the two most important "lines": the joint axis, and the common normal between the axis joint and the adjacent joint.
 
-在 DH 参数体系里，我们把 axis 定为 z 轴；common normal 定为 x 轴，且 x 轴的方向为：从本关节指向下一个关节。
+In the DH parameter system, we set axis as the z axis; common normal as the x axis, and the direction of the x axis is: from this joint to the next joint.
 
-当然，仅仅这两个规则还不足以完全确定每个关节的坐标系。下面我们就来详细讲确定坐标系的步骤。
+Of course, these two rules alone are not enough to completely determine the coordinate system of each joint. Let's talk about the steps to determine the coordinate system in detail below.
 
-在机械臂的仿真等应用中，我们也常常会采取其他方法来确立坐标系，但是掌握这里讲的方法，对你理解机械臂的数学表达和理解我们后续的分析是很有必要的。
+In applications such as the simulation of the robotic arm, we often adopt other methods to establish the coordinate system, but mastering the methods mentioned here is necessary for you to understand the mathematical expression of the robotic arm and understand our subsequent analysis.
 
-下图是两个典型的机器人关节。虽然这种关节和连杆不一定与任何实际机器人的关节和连杆相似，但是他们非常常见，且能很容易地表示实际机器人地任何关节。
+The figure below shows two typical robot joints. Although such joints and links are not necessarily similar to the joints and links of any actual robot, they are very common and can easily represent any joint of the actual robot.
 
-<img class="common_img" style="width:50%;"  src="../_static/media/chapter_8/section_2/image2.png"   alt="DH模型" />
+<img class="common_img" style="width:50%;"  src="../_static/media/chapter_8/section_2/image2.png"   alt="" />
 
-### 2.2 坐标系确定
+### 2.2 Determine the Coordinate System
 
-确定坐标系，一般有以下几个步骤：
+To determine the coordinate system, there are generally the following steps:
 
-为了用DH表示法对机器人进行建模，第一件事是为每个关节指定一个本地地参考坐标系，因此对于每个关节都必须指定一个Z轴和X轴。
+In order to model the robot with DH notation, the first thing is to specify a local ground reference coordinate system for each joint, so a Z axis and an X axis must be specified for each joint.
 
-指定Z轴，如果关节是旋转地，Z轴位于按右手规则旋转的方向。绕Z轴的旋转角是关节的变量；如果关节是滑动关节，则Z轴为沿直线运动的方向。沿Z轴的连杆长度d是关节变量。
+Specify the Z axis. If the joint is rotating, the Z axis is in the direction of rotation according to the right-hand rule. The rotation angle around the Z axis is a variable of the joint; if the joint is a sliding joint, the Z axis is the direction of movement along a straight line. The link length d along the Z axis is the joint variable.
 
-指定X轴，当两关节不平行或相交时，Z轴通常是斜线，但总有一条距离最短的公垂线，它正交于任意两条斜线。在公垂线方向上定义本地参考坐标系的X轴。如果a n表示Zn1之间的公垂线，则Xn的方向将沿an 。
+Specify the X axis.When the two joints are not parallel or intersect, the Z axis is usually a diagonal line, but there is always a common vertical line with the shortest distance, which is orthogonal to any two diagonal lines. Define the X axis of the local reference coordinate system in the direction of the common perpendicular. If an represents the common perpendicular between Zn1, the direction of Xn will be along an.
 
-当然也有特殊情况。当两关节的Z轴平行，就会有无数条公垂线。此时可挑选与前一关节的公垂线共线的一条，可简化模型；两关节相交，他们之间没有公垂线，这时可将垂直于两条轴线构成的平面的直线定义为 X 轴，可简化模型。
+Of course there are special circumstances. When the Z axes of the two joints are parallel, there will be countless common perpendiculars. At this time, you can select the one that is collinear with the common perpendicular of the previous joint, which can simplify the model; if two joints intersect, there is no common perpendicular between them. In this case, the line perpendicular to the plane formed by the two axes can be defined as X Shaft can simplify the model.
 
-给每个关节都附上对应坐标系之后，如下图所示：
+After attaching the corresponding coordinate system to each joint, as shown in the following figure:
 
-<img class="common_img" style="width:70%;" src="../_static/media/chapter_8/section_2/image3.png"  alt="DH模型3" />
+<img class="common_img" style="width:70%;" src="../_static/media/chapter_8/section_2/image3.png"  alt="" />
 
-确定好坐标系后，我们可以用更简洁的方法来表示上面很绕口的四个参数：
+After determining the coordinate system, we can express the above four parameters in a more concise way:
 
-link length（连杆长度）*α*<sub>i-1</sub> ：沿 X<sub>i-1</sub> 的 Z<sub>i-1</sub> 到 Z<sub>i</sub> 的距离
+link length a<sub>i- 1</sub>: the distance from Z<sub>i- 1</sub>  to Z<sub>i</sub>  along X<sub>i- 1</sub>
 
-link twist（连杆扭转）*α*<sub>i-1</sub> ：Z<sub>i</sub> 相对于Z<sub>i-1</sub>绕 X<sub>i-1</sub>旋转的角度
+link twist  a<sub>i- 1</sub> : Z<sub>i</sub>  the angle of  Z<sub>i</sub>  relative to  Z<sub>i-1</sub> to rotate around  X<sub>i-1</sub> 
 
-link offset（连杆偏移） *d*i ：沿 *Zi*的 *Xi*−1到 *Xi*的距离
+link offset d<sub>i</sub> : the distance from X<sub>i-1</sub>  to  X<sub>i-1</sub>  along  Z<sub>i</sub> 
 
-joint angle（关节转角）θ<sub>i</sub> ： X<sub>i</sub> 相对于 X<sub>i-1</sub> 绕 Z<sub>i</sub>
+joint angle  θ<sub>i</sub>  : X<sub>i</sub> relative to X<sub>i-1</sub>around Z<sub>i</sub>
 
-接下来我们就可以写出机械臂的 DH 参数表了：
+Next we can write the DH parameter table of the robotic arm:
 
-<img src="../_static/media/chapter_8/section_2/image4.png"  alt="DH参数表" />
+<img class="common_img" src="../_static/media/chapter_8/section_2/image4.png"  alt="DH参数表" />
 
-根据公式：
+According to the formula:
 
-<img src="../_static/media/chapter_8/section_2/image5.png"  alt="公式1" />
+<img class="common_img" src="../_static/media/chapter_8/section_2/image5.png"  alt="公式1" />
 
-我们能一次计算每个关节，最后得到机械臂的正运动学公式：
+We can calculate each joint at once, and finally get the positive kinematics formula of the robotic arm:
 
-<img src="../_static/media/chapter_8/section_2/image6.png"  alt="公式2" />
+<img class="common_img" src="../_static/media/chapter_8/section_2/image6.png"  alt="公式2" />
 
-得到各关节的旋转矩阵后即可根据下面公式得到末端的坐标：
+After obtaining the rotation matrix of each joint, the coordinates of the end can be obtained according to the following formula:
 
-<img src="../_static/media/chapter_8/section_2/image7.png"  alt="公式4" />
+<img class="common_img" src="../_static/media/chapter_8/section_2/image7.png"  alt="公式4" />
 
-## 3. 逆运动学简要分析
+## 3. Brief Analysis of Inverse Kinematics
 
-### 3.1 逆运动学简介
+### 3.1 Inverse Kinematics Introduction
 
-逆运动学是决定要达成所需要的姿势所要设置的关节可活动对象的参数的过程。
+Inverse kinematics is the process of determining the parameters of the joint movable object to be set to achieve the required posture.
 
-机械臂的逆运动学问题是其轨迹规划与控制的重要基础，逆运动学求解是否快速准确将直接影响到机械臂轨迹规划与控制的精度，因此针对六自由度机械臂，设计一种快速准确的逆运动学求解方法是十分重要的。
+The inverse kinematics of the robotic arm is an important foundation for its trajectory planning and control. Whether the inverse kinematics solution is fast and accurate will directly affect the accuracy of the robotic arm's trajectory planning and control. Therefore, for the six-degree-of-freedom robotic arm, a fast and accurate The inverse kinematics solution method of is very important.
 
-### 3.2 逆运动学简析
+### 3.2 Brief Analysis of Inverse Kinematics
 
-对于机械臂而言，就是给出夹持器的位置和朝向后求出每个关节的旋转角度。机械臂的三维运动是比较复杂的，这里为了简化模型，我们去掉下方云台的旋转关节，这样就可以在二维的平面上进行运动学分析了。
+For the robot arm, the position and orientation of the gripper are given to obtain the rotation angle of each joint. The three-dimensional motion of the robotic arm is more complicated. In order to simplify the model, we remove the rotation joint of the station so that the kinematics analysis can be performed on a two-dimensional plane.
 
-进行逆运动学分析一般要进行大量的矩阵运算，过程复杂计算量大所以实现起来较难。为了更好的适应我们的需要，我们使用几何法对机械臂进行分析。
+Inverse kinematics analysis generally requires a large number of matrix operations, and the process is complex and computationally expensive, so it is difficult to implement. In order to better meet our needs, we use geometric methods to analyze the robotic arm.
 
-<img class="common_img" style="width:70%;" src="../_static/media/chapter_8/section_3/image2.png"  alt="逆运动学分析" />
+<img class="common_img" style="width:70%;" src="../_static/media/chapter_8/section_3/image2.png"  alt="" />
 
-我们将机械臂的模型简化，去掉底座云台，和执行器部分得到机械臂的主体。从上图可以看到机械臂的端点P的坐标（x,y），最终由三个部分组成（x1+x2+x3，y1+y2+y3）。
+We simplify the model of the robotic arm, remove the base pan/tilt, and the actuator part to get the main body of the robotic arm. From the figure above, you can see the coordinates (x, y) of the end point P of the robotic arm, which ultimately consists of three parts (x1+x2+x3, y1+y2+y3).
 
-其中上图的θ1，θ2 ，θ3就是我们要求解的舵机的角度，α是爪子与水平面的夹角。从图上来看显然爪子的俯视角度α=θ1+θ2+θ3，据此我们可以列出下式：
+Among them θ1, θ2,θ3 in the above figure are the angles of the servo that we need to solve, and α is the angle between the paw and the horizontal plane. From the figure, it is obvious that the top angle of the claw α=θ1+θ2+θ3, based on which we can formulate the following formula:
 
-<img class="common_img" src="../_static/media/chapter_8/section_3/image3.png"  alt="最新公式" />
+<img class="common_img" src="../_static/media/chapter_8/section_3/image3.png"  alt="" />
 
-其中x，y由使用者给出，l1、l2、l3为机械臂的机械结构固有属性。
+Among them, x and y are given by the user, and l1, l2, and l3 are the inherent properties of the mechanical structure of the robotic arm.
 
-为了方便计算，我们将已知部分处理一下，作整体考虑：
+In order to facilitate the calculation, we will deal with the known part and consider the whole:
 
-<img class="common_img" src="../_static/media/chapter_8/section_3/image4.png"  alt="整体考虑" />
+<img class="common_img" src="../_static/media/chapter_8/section_3/image4.png"  alt="" />
 
-将m、n代入已有方程，再化简可得：
+Substituting m and n into the existing equation, and then simplifying can get:
 
-<img class="common_img" src="../_static/media/chapter_8/section_3/image5.png"  alt="化简公式" />
+<img class="common_img" src="../_static/media/chapter_8/section_3/image5.png"  alt="" />
 
-通过计算可得：
+Through calculation:
 
-<img class="common_img" src="../_static/media/chapter_8/section_3/image6.png"  alt="计算可得" />
+<img class="common_img" src="../_static/media/chapter_8/section_3/image6.png"  alt="" />
 
-我们看到上式为一元二次方程的求根公式，其中：
+We see that the above formula is the root-finding formula of a quadratic equation in one variable:
 
-<img class="common_img" src="../_static/media/chapter_8/section_3/image7.png"  alt="求根公式后" />
+<img class="common_img" src="../_static/media/chapter_8/section_3/image7.png"  alt="" />
 
-据此我们可以求出θ1的角度，同理我们也可以求出θ2。由此我们便可求出三个舵机的角度，然后根据角度控制舵机即可实现坐标位置的控制。
+Based on this, we can find the angle of θ1, and similarly we can also find θ2. From this we can obtain the angles of the three steering gears, and then control the steering gears according to the angles to realize the control of the coordinate position.
 
-### 3.3 逆运动学程序位置
+### 3.3 Inverse Kinematics Program Position
 
-逆运动学程序已经封装好了，相关介绍可以参考路径"**/home/pi/spiderpi/spiderpi_sdk/arm_ik_sdk/arm_ik**"中内容。
+The inverse kinematics program has been packaged, and the path can be found in "**/home/pi/spiderpi/spiderpi_sdk/arm_ik_sdk/arm_ik**".
 
-<img src="../_static/media/chapter_8/section_3/image8.png"  />
+<img class="common_img" src="../_static/media/chapter_8/section_3/image8.png"  />
 
-## 4. 机械臂色块追踪
+## 4. Color Tracking
 
-### 4.1 实验原理
+### 4.1 Program Logic
 
-机械臂色追踪实验主要涉及两大部分：**识别、追踪**。
+Color tracking is mainly divided into two parts, including recognition and tracking.
 
-首先，需要进行颜色识别。颜色识别通过Lab颜色空间来实现。先将RGB颜色空间转换为Lab，然后进行二值化处理，再经过膨胀腐蚀等操作，可获得只包含目标颜色的轮廓，然后将该颜色轮廓用圆圈框起，便实现了物体颜色的识别。
+Firstly, program SpiderPi Pro to perform color recognition.
 
-识别完成后，机械臂会随着红色色块的移动而移动。
+Color recognition is realized through Lab color space. Initially, convert the RGB color space to Lab, and then perform image binarization, expansion, corrosion and other operations in sequence to obtain an outline only containing the target color. Then, circle the color contour to realize color recognition.
 
-### 4.2 玩法开启及关闭步骤
+After recognition, the robotic arm will move with the red block.
+
+### 4.2 Operation Steps
 
 :::{Note}
-指令输入需严格区分大小写及空格。
+The input command should be case sensitive and space sensitive.
 :::
 
-1)  将机器人开机，然后通过VNC远程连接树莓派桌面。
+(1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-2)  点击系统桌面左上角的图标<img src="../_static/media/chapter_8/section_4/image3.png" style="width:0.32292in;height:0.30208in" />，打开Terminator终端。
+(2) Click <img src="../_static/media/chapter_8/section_4/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-3)  输入指令，按下回车键则可定位到存放玩法程序的目录。
+(3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
-```commandline
+```bash
 cd spiderpi/kinematic_routines
 ```
 
-4)  输入指令，然后按下回车键将玩法启动。
+(4) Input the command and then press "Enter" to start the game.
 
-```commandline
+```bash
 python3 block_tracking.py
 ```
 
-5)  如需关闭此玩法，只需在终端界面按下"**Ctrl+C**"。如果关闭失败，可多次按下。
+(5) If want to close this game, press "Ctrl+C" on LX terminal. If the game cannot be quit, please try again.
 
-### 4.3 功能实现
+### 4.3 Projtect Outcome
 
-由于颜色识别的需求，建议在光线明亮下的室内进行操作。
+Please start this game in well-lit indoor.
 
-玩法开启后，将红色色块放置在机械臂的视野范围内。摄像头识别到色块后，回传画面内会将目标框出，缓慢移动色块，机械臂将随着色块的移动而移动。
+After the game starts, place the red block within the filed of view of the robotic arm. When the colored block is recognized by the camera, the target will be framed on the camera returned image. When you move the block slowly, the robotic arm will move with the colored block.
 
-### 4.4 程序说明
+### 4.4 Program Analysis
 
-该程序的源代码位于：**/home/pi/spiderpi/kinematic_routines/block_tracking.py**
+The source codes of this program are stored in: **[/home/pi/spiderpi/kinematic_routines/block_tracking.py]()**
 
-根据实现的效果，梳理程序的过程逻辑，如下图所示：
+**4.4.1 Import Function Library**
 
-<img class="common_img" src="../_static/media/chapter_8/section_4/image7.png"  />
+{lineno-start=4}
 
-- #### 4.4.1 导入库文件
+```python
+import sys
+import cv2
+import math
+import time
+import threading
+import numpy as np
+from common import misc
+from common.pid import PID
+from common import yaml_handle
+from common import kinematics
+from common.ros_robot_controller_sdk import Board
+from calibration.camera import Camera
+import arm_ik.arm_move_ik as AMK
+from sensor.ultrasonic_sensor import Ultrasonic
+```
 
-<img src="../_static/media/chapter_8/section_4/image8.png"  />
+(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "library name+function name (parameter, parameter)". For example:
 
-1)  导入opencv、时间、数学、线程相关的库。我们如果想要调用功能库里的函数，就可以使用"**功能库名+函数名（参数，参数...）**"如：
+{lineno-start=122}
 
-<img src="../_static/media/chapter_8/section_4/image9.png"  />
+```python
+            time.sleep(0.01)
+```
 
-就是调用"**time**"库中的"**sleep**"函数，sleep()的作用是延时。
+Call `sleep` function in `time` library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, "cv2" and "math". You can also write a new library like "yaml_handle".
 
-在python中有一些已经内置的库，我们直接导入调用就可以，比如"**time**"、"**cv2**"、"**math**"等。我们也可以自己写一个库，比如上面的"**yaml_handle**"文件读取库。
+(2) Instantiate Function Library
 
-2)  实例化函数库。
+The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:
 
-我们有些函数库的名称太长，并且不容易记忆，为了方便调用函数，我们经常会对函数库进行实例化，如：
+{lineno-start=14}
 
-<img src="../_static/media/chapter_8/section_4/image10.png"  />
+```python
+from common.ros_robot_controller_sdk import Board
+```
 
-进行实例化后，在使用Board库中的函数，就可以像这样"**Board.函数名(参数,参数...)**"直接调用了，非常方便。
+After instantiating, you can directly input and call the function "Board.function name (parameter, parameter)".
 
-- #### 4.4.2 定义全局变量
+**4.4.2 Define Global Variable**
 
-<img src="../_static/media/chapter_8/section_4/image11.png"  />
+{lineno-start=20}
 
-- #### 4.4.3 主函数分析
+```python
+board = Board()
+ik = kinematics.IK(board)
+ultrasonic = Ultrasonic()
+ak = AMK.ArmIK()
 
-python程序中"**\_\_name\_\_ == ’\_\_main\_\_:’**"就是程序的主函数。首先调用函数init()进行初始化配置。本程序中初始化包括：舵机回到初始位置、读取颜色阈值文件。一般还有端口、外设、定时中断等配置，这些都要在初始化内容中完成。
+# 机械臂色块追踪(robotic arm tracks the block)
+
+if sys.version_info.major == 2:
+    print('Please run this program with python3!')
+    sys.exit(0)
+
+range_rgb = {
+    'red': (0, 0, 255),
+    'blue': (255, 0, 0),
+    'green': (0, 255, 0),
+    'black': (0, 0, 0),
+    'white': (255, 255, 255)}
+
+# 变量定义(define variables)
+size = (640, 480)
+x,y,z = (0, 15, 5)
+world_x, world_y = -1, -1
+lab_data = None
+K,R,T = None,None,None
+```
+
+**4.4.3 Main Function Analysis**
+
+The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+
+{lineno-start=173}
+
+```python
+if __name__ == '__main__':
+
+    init_move()
+    load_config()
+    camera = Camera()
+    camera.camera_open()
+    while True:
+        img = camera.frame
+        if img is not None:
+            frame = img.copy()
+            Frame = run(frame)
+            cv2.imshow('Frame', Frame)
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
+        else:
+            time.sleep(0.01)
+    camera.camera_close()
+    cv2.destroyAllWindows()
+```
+
+**4.4.4 Read the Captured Image**
 
-<img src="../_static/media/chapter_8/section_4/image12.png"  />
+{lineno-start=179}
+
+```python
+    while True:
+        img = camera.frame
+```
+
+When the the game is started, store the image in "img".
+
+**(1) Enter Image Processing**
+
+When the captured image is read, call `run` function to process the image.
+
+{lineno-start=182}
+
+```python
+            frame = img.copy()
+            Frame = run(frame)
+```
 
-- #### 4.4.4 读取摄像头图像
+The function `img.copy()` is used to copy the content of "img" to "frame".
 
-<img src="../_static/media/chapter_8/section_4/image13.png"  />
+Use the `run()` function to process the image.
 
-当玩法启动时，将图像存储在"**img**"中。
+{lineno-start=132}
 
-1. **进入图像处理**
+```python
+def color_detect(img, color='red'): 
+    global world_x, world_y
+    
+    img_copy = img.copy()
+    img_h, img_w = img.shape[:2]
+    frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
+    frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3)      
+    frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间(convert the image to LAB space)
+    frame_mask = cv2.inRange(frame_lab,
+                             (lab_data[color]['min'][0],
+                              lab_data[color]['min'][1],
+                              lab_data[color]['min'][2]),
+                             (lab_data[color]['max'][0],
+                              lab_data[color]['max'][1],
+                              lab_data[color]['max'][2]))  #对原图像和掩模进行位运算(perform bitwise operation to original image and mask)
+    eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
+    dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
+    contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
+    areaMaxContour, area_max = get_area_maxContour(contours)  #找出最大轮廓(find the largest contour)
+    
+    if area_max > 500:  # 有找到最大面积(the maximum area has been found)
+        ((centerX, centerY), radius) = cv2.minEnclosingCircle(areaMaxContour)  # 获取最小外接圆(obtain the minimum circumscribed circle)
+        centerX = int(misc.map(centerX, 0, size[0], 0, img_w))
+        centerY = int(misc.map(centerY, 0, size[1], 0, img_h))
+        radius = int(misc.map(radius, 0, size[0], 0, img_w))
+        
+        cv2.circle(img, (centerX, centerY), radius, range_rgb[color], 2)#画圆(draw the circle)
+        cv2.putText(img, "Color: " + color, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, range_rgb[color], 2)
+        
+        world_x, world_y = centerX, centerY
+    else:
+        world_x, world_y = -1, -1
+            
+    return img
+```
 
-读取到图像时，调用run()函数进行图像处理。
+**① Gaussian filtering**
 
-<img src="../_static/media/chapter_8/section_4/image14.png"  />
+Noise is always mixed into images, affecting their quality and making features unclear. Different filtering methods should be chosen according to the type of noise, including Gaussian filtering, median filtering, and mean filtering. Gaussian filtering is a linear smoothing filter that is suitable for eliminating Gaussian noise and is widely used in image processing for noise reduction.
 
-函数img.copy()的作用是将"**img**"的内容复制给"**frame**"。
+{lineno-start=138}
 
-函数run()进行图像处理。
+```python
+    frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3)      
+```
 
-<img src="../_static/media/chapter_8/section_4/image15.png"  />
+The first parameter `img` is the input image.
+
+The second parameter `(3, 3)` is the size of Gaussian kernel.
+
+The third parameter `3` is Gaussian kernel's standard deviation in X-axis direction.
+
+**② Convert the image to LAB space**
+
+The `cv2.cvtColor()` is the function for converting the color space.
+
+{lineno-start=139}
+
+```python
+	frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间(convert the image to LAB space)
+```
+
+The first parameter `blobs` is the input image.
+
+The second parameter `cv2.COLOR_BGR2LAB` is the conversion format. `cv2.COLOR\_BGR2LAB` converts the BGR format to the LAB format.
+
+**③ Binarization processing**
+
+When there are only 0 and 1, the image becomes simpler and the data volume decreases, making it easier to process. Adopt "inRange()" function in cv2 library to perform binarization on the image.
+
+{lineno-start=140}
+
+```python
+    frame_mask = cv2.inRange(frame_lab,
+                             (lab_data[color]['min'][0],
+                              lab_data[color]['min'][1],
+                              lab_data[color]['min'][2]),
+                             (lab_data[color]['max'][0],
+                              lab_data[color]['max'][1],
+                              lab_data[color]['max'][2]))  #对原图像和掩模进行位运算(perform bitwise operation to original image and mask)
+```
 
-- **高斯滤波**
+The first parameter in the bracket is the input image.
 
-图像中总是会混入噪声，影响图像的质量，让特征不明显。根据不同的噪声种类选择对应的滤波方法，常见的有：高斯滤波、中值滤波、均值滤波等。
+The second and the third parameters respectively are the lower limit and upper limit of the threshold.
 
-高斯滤波是一种线性平滑滤波，适用于消除高斯噪声，广泛应用于图像处理的减噪过程。
+**④ Corrosion and dilation**
 
-<img src="../_static/media/chapter_8/section_4/image16.png"  />
+The `erode()` function is used for corrosion.
 
-第一个参数"**img**"是输入图像。
+Take `eroded = cv2.erode(frame_mask,cv2.getStructuringElement (cv2.MORPH_RECT, (3, 3)))` for example. The meanings of the parameters in bracket are as follow.
 
-第二个参数"**(3, 3)**"是高斯内核大小。
+{lineno-start=147}
 
-第三个参数"**3**"是X方向上的高斯核标准偏差。
+```python
+    eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
+    dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
+```
 
-- 将图像转换到LAB空间，其中函数cv2.cvtColor()是颜色空间转换函数。
+The first parameter `frame_mask` is the input image.
 
-<img src="../_static/media/chapter_8/section_4/image16.png"  />
+The second parameter `cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))` is the structural element and kernel deciding the nature of the operation. And the first parameter in the parenthesis is the kernel shape and the second parameter is the kernel dimension.
 
-第一个参数"**blobs**"是输入图像。
+The `dilate()` function is used for image dilation.
 
-第二个参数"**cv2.COLOR_BGR2LAB**"是转换格式。"**cv2.COLOR_BGR2LAB**"是将BGR格式转换到LAB格式。如果要转换到RGB就可以使用"**cv2.COLOR_BGR2RGB**"。
+The meanings of its parameters in parenthesis are the same as that of the `erode()` function.
 
-- 将图像转换成二值图像，只有0和1，图像变得简单并且数据量减小，更容易处理。
+**(2) Display transmitted image**
 
-采用cv2库中的inRange()函数对图像进行二值化处理。
+{lineno-start=184}
 
-<img src="../_static/media/chapter_8/section_4/image17.png"  />
+```python
+            cv2.imshow('Frame', Frame)
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
+```
 
-第一个参数"**frame_lab**"是输入图像；
+The function `cv2.imshow()` is used to display an image in a window. `'frame'` is the window name, and`'Frame'` is the content to be displayed. The function `cv2.waitKey()` must be used afterwards, otherwise the image cannot be displayed. The function `cv2.waitKey()` is used to wait for keyboard input, with a delay time of `1` millisecond specified as the parameter `1`.
 
-第二个参数"**(lab_data\[i\]\['min'\]\[0\],lab_data\[i\]\['min'\]\[1\],lab_data\[i\]\['min'\]\[2\])**"是颜色阈值下限；
+**(3) Control robotic arm to track blocks with PID algorithm**
 
-第三个参数"**(lab_data\[i\]\['max'\]\[0\],lab_data\[i\]\['max'\]\[1\],lab_data\[i\]\['max'\]\[2\])**"是颜色阈值上限；
+{lineno-start=90}
 
-- erode()函数用于对图像进行腐蚀操作。
+```python
+def move():
+    global x,y,z
+    global world_x, world_y
+    
+    while True:
+        if world_x > 0 or world_y > 0:
+            # X轴PID处理(X-axis PID processing)
+            if abs(world_x-centre_x) >= 10:
+                x_pid.SetPoint = centre_x  #设定(set)
+            else:
+                x_pid.SetPoint = world_x
+            x_pid.update(world_x)  #当前(current)
+            dx = int(x_pid.output)/10 # 输出(output)
+            x -= dx
+            
+            # Y轴PID处理(Y-axis PID processing)
+            if abs(world_y-centre_y) >= 10:
+                y_pid.SetPoint = centre_y  #设定(set)
+            else:
+                y_pid.SetPoint = world_y
+            y_pid.update(world_y)  #当前(current)
+            dy = int(y_pid.output)/10 # 输出(output)
+            y += dy
+            if x > 10 : x = 10
+            if x < -10 : x = -10
+            if y > 24 : y = 24
+            if y < 6 : y = 6
+            ak.setPitchRangeMoving((x, y, 5), -90, -90, 100, 0.08) # 移动到目标位置(move to the target position)
+            time.sleep(0.05)
+            world_x, world_y = -1, -1
+            
+        else:
+            time.sleep(0.01)
+```
 
-以代码"**eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))**"为例，括号内的参数含义如下：
+### 4.5 Inverse Kinematics Implementation Analysis
 
-<img src="../_static/media/chapter_8/section_4/image18.png"  />
+Before solving the inverse kinematics, relevant libraries need to be imported:
 
-第一个参数"**frame_mask**"是输入图像；
+{lineno-start=16}
 
-第二个参数"**cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))**"是决定操作性质的结构元素或内核。其中，括号内的第一个参数是内核形状，第二个参数是内核尺寸。
+```python
+import arm_ik.arm_move_ik as AMK
+```
 
-dilate()函数用于对图像进行膨胀操作。此函数括号内参数的含义与erode()函数的相同。
+Then call `setPitchRangeMoving()` function to control the robotic arm to move to the target position.
 
-2. **显示回传画面**
+Based on the given coordinate `coordinate_data`, pitch angle "alpha", and pitch angle ranges "alpha 1" and "alpha 2", this function will automatically search for the solution closest to the given pitch angle. When there is no solution, "False" will be return. Otherwise, the servo angle and pitch angle will be returned.
 
-<img src="../_static/media/chapter_8/section_4/image19.png"  />
+{lineno-start=83}
 
-函数cv2.imshow()的作用是在窗口显示图像，"**’frame’**"是窗口名称、"**Frame**"是显示内容。后面一定要有cv2.waitKey()，否则无法显示。
+```python
+    ak.setPitchRangeMoving((x,y,z), -90, -90, 100, 2)
+```
 
-函数cv2.waitKey()的作用是等待按键输入，参数"**1**"是延迟时间。
+Take the source code above for example, and the meaning of the parameter is as follow.
 
-3. **通过PID算法移动机械臂进行色块追踪**
+The first parameter `(x,y,z)` is the given coordinate;
 
-<img src="../_static/media/chapter_8/section_4/image20.png"  />
+The second parameter `-90` is the pitch angle;
 
-### 4.5 逆运动学实现分析
+The third parameter `-90` and the fourth parameter `100` is the pitch angle range.
 
-在进行逆运动学求解之前，需要先将相关的库导入：
+The fifth parameter `2` is the servo rotation duration in s.
 
-<img src="../_static/media/chapter_8/section_4/image21.png"  />
+**4.5.1 Inverse Kinematics Code Analysis**
 
-通过调用setPitchRangeMoving()函数，可以控制机械臂移动到目标位置。
+The detailed analysis of the function is given below, and the related source code is saved in:**[/home/pi/spiderpi/spiderpi_sdk/arm_ik_sdk/arm_ik//arm_move_ik.py]()**
 
-该函数会根据给定坐标coordinate_data、俯仰角alpha，以及俯仰角范围的范围alpha1和alpha2，自动寻找最接近给定俯仰角的解。当函数无解时则返回False，否则返回舵机角度和俯仰角。
+Detailed information of the `setPitchRangeMoving()` is as below:
 
-<img src="../_static/media/chapter_8/section_4/image22.png"  />
+{lineno-start=107}
 
-以上图代码为例，括号内的参数含义如下：
+```python
+        x, y, z = coordinate_data
+        result1 = self.setPitchRange((x, y, z), alpha, alpha1)
+        result2 = self.setPitchRange((x, y, z), alpha, alpha2)
+        if result1 != False:
+            data = result1
+            if result2 != False:
+                if abs(result2[1] - alpha) < abs(result1[1] - alpha):
+                    data = result2
+        else:
+            if result2 != False:
+                data = result2
+            else:
+                return False
+        servos, alpha = data[0], data[1]
 
-第一个参数"**(x,y,z)**"是给定坐标；
+        movetime = self.servosMove((servos["servo24"], servos["servo23"], servos["servo22"], servos["servo21"]), movetime)
 
-第二个参数"**-90**"是俯仰角；
+        return servos, alpha, movetime
+```
 
-第三个参数"**-90**"和第四个参数"**100**"是俯仰角的取值范围；
+**(1) Pass coordinate parameter**
 
-第五个参数"**2**"是舵机转动时间，单位为s（秒）。
+Pass the coordinate parameters to `self.setPitchRange` function for coordinate and angle conversion.
 
-- #### 4.5.1 逆运动学源码分析
+{lineno-start=108}
 
-下面会对该函数进行具体分析，相关程序的源代码位于：**/home/pi/spiderpi/spiderpi_sdk/arm_ik_sdk/arm_ik//arm_move_ik.py**
+```python
+        result1 = self.setPitchRange((x, y, z), alpha, alpha1)
+        result2 = self.setPitchRange((x, y, z), alpha, alpha2)
+```
 
-下图是setPitchRangeMoving()函数的具体内容：
+The first parameter in the bracket is the given coordinate in cm, that is the coordinate of gripper end. It is passed as tuple.
 
-<img src="../_static/media/chapter_8/section_4/image23.png"  />
+The second and the third parameters are the pitch angle ranges.
 
-- **传递坐标参数**
+**(2) Perform inverse kinematic calculation**
 
-将坐标位置参数传递给self.setPitchRange()函数，进行坐标和角度的转换。
-
-<img src="../_static/media/chapter_8/section_4/image24.png"  />
-
-括号内的第一个参数是给定坐标，即夹持器末端坐标，单位为厘米，以元组形式传入。第二个与第三个参数是俯仰角范围。
-
-- **逆运动学计算**
-
-逆运动学的计算过程需要使用大量的矩阵运算，由于篇幅过长，这里不做详细讲解。但是为了让大家更好地理解逆运动学原理，此处使用几何法对机械臂进行分析。
+Large amount of matrix operations are required in the calculation of inverse kinematic. For your better understanding, we will use geometry to analyze the robotic arm.
 
 <img class="common_img" style="width:70%" src="../_static/media/chapter_8/section_4/image25.png"  alt="逆运动学分析" />
 
-将机械臂的模型简化，去掉底座云台和执行器部分，得到机械臂的主体。由上图可得，机械臂的端点P的坐标（x,y），也可看作是（x1+x2+x3，y1+y2+y3）。
+To simplify the model of the robotic arm, we remove the pan--tilt and actuator parts and only remain the body part. From the above picture, you will find that the coordinates of the endpoint P of the robotic arm (x,y) can also be regarded as (x1+x2+x3, y1+y2+y3).
 
-图中的θ<sub>1</sub>、θ<sub>2</sub>、θ<sub>3</sub>即为需要求解的舵机角度，α是爪子与水平面的夹角。由上图可知，爪子的俯视角度α=θ<sub>1</sub>+θ<sub>2</sub>+θ<sub>3</sub>，据此可以列出下式：
+θ<sub>1</sub>, θ<sub>2</sub> and θ<sub>3</sub> are the servo angle to be solved. α is the angle between the gripper and the horizontal plane. From the above picture, the pitch angle of gripper α=θ1+θ2+θ3. Based on that, these formulas can be formed.
 
-<img src="../_static/media/chapter_8/section_4/image2.png"  />
+<img class="common_img" src="../_static/media/chapter_8/section_4/image2.png"  />
 
+Among them, x and y are given by the user, and l<sub>1</sub>,l<sub>2</sub> and l<sub>3</sub> are the inherent properties of the mechanical structure of the robotic arm.
 
-其中，x、y由使用者给定，l<sub>1</sub>、l<sub>2</sub>、l<sub>3</sub>为机械臂的机械结构固有属性。
+To facilitate calculation, process the known parts and consider them as a whole.
 
-为了方便计算，将已知部分处理一下，作整体考虑：
+<img class="common_img" src="../_static/media/chapter_8/section_4/image1.png"  />
 
-<img src="../_static/media/chapter_8/section_4/image1.png"  />
+Substitute m and n into the existing equation, and then simplify to get:
 
-将m、n代入已有方程，再化简可得：
+<img class="common_img" src="../_static/media/chapter_8/section_4/image27.png"  />
 
+The above formula is for finding the root of a quadratic equation in one variable. And according to below formulas, a, b and c can be obtained.
 
-<img src="../_static/media/chapter_8/section_4/image27.png"  />
+<img class="common_img" src="../_static/media/chapter_8/section_4/image28.png"  />
 
-上式为一元二次方程的求根公式，其中：
+Hence, we can get  θ<sub>1</sub>, θ<sub>2</sub> and  θ<sub>3</sub>  angle, and get the angle of three servos.
 
-<img src="../_static/media/chapter_8/section_4/image28.png"  />
+**(3) Drive servo to rotate**
 
-据此可以求出θ<sub>1</sub>的角度，同理可得θ<sub>2</sub>和θ<sub>3</sub>，由此便解得三个舵机的角度。
+Call `servosMove()` function to drive the servo to the designated position.
 
-- **驱动舵机转动**
+{lineno-start=122}
 
-通过调用servosMove()函数，驱动舵机转动到指定位置。
+```python
+        movetime = self.servosMove((servos["servo24"], servos["servo23"], servos["servo22"], servos["servo21"]), movetime)
+```
 
-<img src="../_static/media/chapter_8/section_4/image26.png"  />
+## 5. Robotic Arm Height Adjustment
 
-## 5. 机械臂高度调节
+### 5.1 Program Logic
 
-### 5.1 实验原理
+The robotic arm involves 5 servos whose ID are 21, 22, 23, 24 and 25 from the bottom to top. And the servo of ID25 is used to control the gripper.
 
-机械臂由下往上包含ID为21、22、23、24和25共5个舵机，其中ID为25的舵机是用于控制机械爪的状态。
+According to inverse kinematic, we can set a coordinate and convert it into the servo value of 21, 22, 23 and 24 servos.
 
-根据逆运动学原理，可以通过设置一个坐标值，将它转换为ID为21、22、23和24舵机的数值，达到控制机械臂状态效果。
+As the same, adjust the height of the robotic arm through adjusting the value of Z axis.
 
-同样，可以通过调节坐标Z轴的数值，达到调节机械臂高度的效果。
-
-### 5.2 实验步骤
+### 5.2 Operation Steps
 
 :::{Note}
-指令输入需严格区分大小写及空格。
+The input command should be case sensitive and space sensitive.
 :::
 
-1)  将机器人开机，然后通过VNC远程连接树莓派桌面。
+(1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-2)  点击系统桌面左上角的图标<img src="../_static/media/chapter_8/section_5/image3.png" style="width:0.32292in;height:0.30208in" />，打开Terminator终端。
+(2) Click <img src="../_static/media/chapter_8/section_5/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
+(3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
-3)  输入指令，按下回车键则可定位到存放玩法程序的目录。
-
-```commandline
+```bash
 cd spiderpi/kinematic_routines
 ```
 
-4)  输入指令，然后按下回车键将玩法启动。
-```commandline
+(4) Input the command and then press "Enter" to start the game.
+
+```bash
 python3 arm_fluctuation.py
 ```
 
-5)  如需关闭此玩法，只需在终端界面按下"**Ctrl+C**"。如果关闭失败，可多次按下。
+(5) If want to close this game, press "Ctrl+C" on LX terminal. If the game cannot be quit, please try again.
 
-### 5.3 功能实现
+### 5.3 Project Outcome
 
-玩法开启后，机器人上机械臂循环3次不断变换高度。
+After the game starts, the robotic arm will adjust its height continuously in three recycles.
 
-### 5.4 逆运动学实现分析
+### 5.4 Analysis of Inverse Kinematics
 
-该程序的源代码位于：**/home/pi/spiderpi/kinematic_routines/arm_fluctuation.py**
+The source codes of this program lie in：[/home/pi/spiderpi/kinematic_routines/arm_fluctuation.py]()
 
-在进行逆运动学求解之前，需要先将相关的库导入：
+Before solving the inverse kinematics, relevant libraries need to be imported:
 
-<img src="../_static/media/chapter_8/section_5/image7.png"  />
+{lineno-start=7}
 
-通过调用setPitchRangeMoving()函数，可以控制机械臂移动到目标位置。
+```python
+import arm_ik.arm_move_ik as AMK
+```
 
-该函数会根据给定坐标coordinate_data、俯仰角alpha，以及俯仰角范围的范围alpha1和alpha2，自动寻找最接近给定俯仰角的解。当函数无解时则返回False，否则返回舵机角度和俯仰角。
+Based on the given coordinate `coordinate_data`, pitch angle `alpha`, and pitch angle ranges `alpha 1` and  `alpha 2`, this function will automatically search for the solution closest to the given pitch angle. When there is no solution, "False" will be return. Otherwise, the servo angle and pitch angle will be returned.
 
-<img src="../_static/media/chapter_8/section_5/image8.png"  />
+{lineno-start=19}
 
-以上图代码为例，括号内的参数含义如下：
+```python
+    ak.setPitchRangeMoving((0, 15, 30), 0, -90, 100, 2)
+    ik.stand(ik.initial_pos)
+    time.sleep(2)
+```
 
-第一个参数"**(x,y,z)**"是给定坐标；
+Take the source code above for example, and the meaning of the parameter is as follow.
 
-第二个参数"**-90**"是俯仰角；
+The first parameter `(x,y,z)` is the given coordinate;
 
-第三个参数"**-90**"和第四个参数"**100**"是俯仰角的取值范围；
+The second parameter `-90` is the pitch angle;
 
-第五个参数"**2**"是舵机转动时间，单位为s（秒）。
+The third parameter `-90` and the fourth parameter "100" is the pitch angle range.
 
-下面会对该函数进行具体分析，相关程序的源代码位于：**/home/pi/spiderpi/spiderpi_sdk/arm_ik_sdk/arm_ik//arm_move_ik.py**
+The fifth parameter `2` is the servo rotation duration in the unit of s.
 
-下图是setPitchRangeMoving()函数的具体内容：
+The detailed analysis of the function is given below, and the related source code is saved in:
 
-<img src="../_static/media/chapter_8/section_5/image9.png"  />
+[/home/pi/spiderpi/spiderpi_sdk/arm_ik_sdk/arm_ik//arm_move_ik.py]().
 
-- **传递坐标参数**
+Detailed information of the `setPitchRangeMoving()` is as below:
 
-将坐标位置参数传递给self.setPitchRange()函数，进行坐标和角度的转换。
+{lineno-start=107}
 
-<img src="../_static/media/chapter_8/section_5/image10.png"  />
+```python
+        x, y, z = coordinate_data
+        result1 = self.setPitchRange((x, y, z), alpha, alpha1)
+        result2 = self.setPitchRange((x, y, z), alpha, alpha2)
+        if result1 != False:
+            data = result1
+            if result2 != False:
+                if abs(result2[1] - alpha) < abs(result1[1] - alpha):
+                    data = result2
+        else:
+            if result2 != False:
+                data = result2
+            else:
+                return False
+        servos, alpha = data[0], data[1]
 
-括号内的第一个参数是给定坐标，即夹持器末端坐标，单位为厘米，以元组形式传入。第二个与第三个参数是俯仰角范围。
+        movetime = self.servosMove((servos["servo24"], servos["servo23"], servos["servo22"], servos["servo21"]), movetime)
 
-- **逆运动学计算**
+        return servos, alpha, movetime
+```
 
-逆运动学的计算过程需要使用大量的矩阵运算，由于篇幅过长，这里不做详细讲解。但是为了让大家更好地理解逆运动学原理，此处使用几何法对机械臂进行分析。
+**① Pass coordinate parameter**
+
+Pass the coordinate parameters to `self.setPitchRange`  function for coordinate and angle conversion.
+
+{lineno-start=108}
+
+```python
+        result1 = self.setPitchRange((x, y, z), alpha, alpha1)
+        result2 = self.setPitchRange((x, y, z), alpha, alpha2)
+```
+
+The first parameter in the bracket is the given coordinate in cm, that is the coordinate of gripper end. It is passed as tuple.
+
+The second and the third parameter is the pitch angle range.
+
+**② Perform inverse kinematic calculation**
+
+Large amount of matrix operations are required in the calculation of inverse kinematic. For your better understanding, we will use geometry to analyze the robotic arm.
 
 <img class="common_img" style="width:70%" src="../_static/media/chapter_8/section_5/image11.png"  alt="逆运动学分析" />
 
-将机械臂的模型简化，去掉底座云台和执行器部分，得到机械臂的主体。由上图可得，机械臂的端点P的坐标（x,y），也可看作是（x1+x2+x3，y1+y2+y3）。
+To simplify the model of the robotic arm, we remove the pan--tilt and actuator parts and only remain the body part. From the above picture, you will find that the coordinates of the endpoint P of the robotic arm (x,y) can also be regarded as (x1+x2+x3, y1+y2+y3).
 
-图中的θ<sub>1</sub>、θ<sub>2</sub>、θ<sub>3</sub>即为需要求解的舵机角度，α是爪子与水平面的夹角。由上图可知，爪子的俯视角度α=θ<sub>1</sub>+θ<sub>2</sub>+θ<sub>3</sub>，据此可以列出下式：
+θ<sub>1</sub>, θ<sub>2</sub> and θ<sub>3</sub>  are the servo angle to be solved. α is the angle between the gripper and the horizontal plane. From the above picture, the pitch angle of gripper α=θ1+θ2+θ3. Based on that, these formulas can be formed.
 
-<img src="../_static/media/chapter_8/section_5/image1.png" />
+<img class="common_img" src="../_static/media/chapter_8/section_5/image1.png" />
 
-其中，x、y由使用者给定，l<sub>1</sub>、l<sub>2</sub>、l<sub>3</sub>为机械臂的机械结构固有属性。
+Among them, x and y are given by the user, and l<sub>1</sub>, l<sub>2</sub> and l<sub>3</sub> are the inherent properties of the mechanical structure of the robotic arm.
 
-为了方便计算，将已知部分处理一下，作整体考虑：
+To facilitate calculation, process the known parts and consider them as a whole.
 
-<img src="../_static/media/chapter_8/section_5/image2.png" />
+<img class="common_img" src="../_static/media/chapter_8/section_5/image2.png" />
 
-上式为一元二次方程的求根公式，其中：
+The above formula is for finding the root of a quadratic equation in one variable. And according to below formulas, a, b and c can be obtained.
 
-<img src="../_static/media/chapter_8/section_5/image13.png" />
+<img class="common_img" src="../_static/media/chapter_8/section_5/image13.png" />
 
-据此可以求出θ<sub>1</sub>的角度，同理可得θ<sub>2</sub>和θ<sub>3</sub>，由此便解得三个舵机的角度。
+Hence, we can get θ<sub>1</sub>, θ<sub>2</sub> and θ<sub>3</sub> angle, and get the angle of three servos.
 
-- **驱动舵机转动**
+**③ Drive servo to rotate**
 
-通过调用servosMove()函数，驱动舵机转动到指定位置。
+Call `servosMove()` function to drive the servo to the designated position.
 
-<img src="../_static/media/chapter_8/section_5/image12.png"  />
+{lineno-start=122}
 
-## 6. 底盘高度调节
+```python
+        movetime = self.servosMove((servos["servo24"], servos["servo23"], servos["servo22"], servos["servo21"]), movetime)
+```
 
-### 6.1 玩法简要说明
+## 6. Chassis Height Adjustment
 
-机器人的底盘主要由6条腿控制，控制时可分为前进、后退、左转、右转和站立等模式。在对应模式中，设置对应参数，就可控制底盘进行不同运动。
+### 6.1 Program Logic
 
-当设置成站立模式后，不断调节站立的高度，即可调节底盘高度。
+SpiderPi Pro's chassis is controlled by its 6 legs. It can be controlled to go forward, go backward, turn left, turn right, and stand.
 
-机器人的机械臂由下往上包含ID为21、22、23、24和25共5个舵机，其中ID为25的舵机是用于控制机械爪的状态。
+When it is in "Stand" mode, we can adjust the standing height to adjust the height of the chassis.
 
-根据逆运动学原理，可以通过设置一个坐标值，将它转换为ID为21、22、23和24舵机的数值，达到控制机械臂状态的效果。
+The robotic arm involves 5 servos whose ID are 21, 22, 23, 24 and 25 from the bottom to top. And the servo of ID25 is used to control the gripper.
 
-### 6.2 玩法开启及关闭步骤
+According to inverse kinematic, we can set a coordinate and convert it into the servo value of 21, 22, 23 and 24 servos.
+
+### 6.2 Operation Steps
 
 :::{Note}
-指令的输入需严格区分大小写，另外可按键盘"**Tab**"键进行关键词补齐。
+The input command should be case sensitive and space sensitive.
 :::
 
-1)  将机器人开机，然后通过VNC远程连接树莓派桌面。
+(1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-2)  点击系统桌面左上角的图标<img src="../_static/media/chapter_8/section_6/image3.png" style="width:0.32292in;height:0.30208in" />，打开Terminator终端。
+(2) Click <img src="../_static/media/chapter_8/section_6/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-3)  输入指令，按下回车键则可定位到存放玩法程序的目录。
+(3) Enter the command  and press "Enter" to navigate to the directory where the game program is located.
 
-```commandline
+```bash
 cd spiderpi/kinematic_routines
 ```
 
-4)  输入指令，然后按下回车键将玩法启动。
+(4) Input the command and then press Enter to start the game.
 
-```commandline
-    python3 pedestal__fluctuation.py
+```bash
+python3 pedestal__fluctuation.py
 ```
 
-5)  如需关闭此玩法，只需在终端界面按下"**Ctrl+C**"。如果关闭失败，可多次按下。
+(5) If want to close this game, press "Ctrl+C" on LX terminal. If the game cannot be quit, please try again.
 
-### 6.3 功能实现
+### 6.3 Project Outcome
 
-玩法开启后，机器人的机械臂保持固定姿态不变；机器人的底盘不断进行高度变化，然后保持站立不动。
+After the game starts, the posture of its robotic arm will not change. The height of the robot chassis will change continuously. After height adjustment, the robot will stand still.
 
-### 6.4 运动学实现分析
+### 6.4 Analysis of Inverse Kinematics
 
-该程序的源代码位于：**/home/pi/spiderpi/kinematic_routines/pedestal_fluctuation.py**
+The source codes of this program lie in:[/home/pi/spiderpi/kinematic_routines/pedestal_fluctuation.py]()
 
-- #### 6.4.1 底盘运动学实现分析
+**6.4.1 Analysis of chassis kinematics**
 
-机器人的底盘不断进行高度变化，代码如下图：
+The height of the robot chassis will change continuously. The corresponding source code is as follow.
 
-<img src="../_static/media/chapter_8/section_6/image7.png"  />
+{lineno-start=36}
 
-代码中"**3**"代表高度变化的次数；"**Stand**"代表站立，以"**Stand(150,2,2000)**"为例；
+```python
+    Stand(50,2,1000)
+    for i in range(3):
+        Stand(150,2,2000)
+        
+        Stand(50,2,2000)
+```
 
-第一个参数"**150**"代表高度，单位为mm；
+`3` represents the number of the height change. Take `Stand(150, 2, 2000)` for example.
 
-第二个参数"**2**"代表模式为六足模式；
+The first parameter `150` represents the height in mm.
 
-第三个参数"**2000**"代表控制站立的所需时间，单位为ms。
+The second parameter `2` represents Hexapod robot mode.
 
-4.2机械臂逆运动学实现分析
+The third parameter `2000` represents the time in ms spent on standing.
 
-在进行逆运动学求解之前，需要先将相关的库导入：
+**6.4.2 Analysis of inverse kinematics**
 
-<img src="../_static/media/chapter_8/section_6/image8.png"  />
+Before solving the inverse kinematics, relevant libraries need to be imported:
 
-通过调用setPitchRangeMoving()函数，可以控制机械臂移动到目标位置。
+{lineno-start=8}
 
-该函数会根据给定坐标coordinate_data、俯仰角alpha，以及俯仰角范围的范围alpha1和alpha2，自动寻找最接近给定俯仰角的解。当函数无解时则返回False，否则返回舵机角度和俯仰角。
+```python
+import arm_ik.arm_move_ik as AMK
+```
 
-<img src="../_static/media/chapter_8/section_6/image9.png"  />
+Then call `setPitchRangeMoving()` function to control the robotic arm to move to the target position.
 
-以上图代码为例，括号内的参数含义如下：
+Based on the given coordinate, coordinate_data, pitch angle, alpha, and pitch angle range, this function will search for the solution closest to the given pitch angle. When there is no solution, "False" will be return. Otherwise, the servo angle and pitch angle will be returned.
 
-第一个参数"**(x,y,z)**"是给定坐标；
+{lineno-start=32}
 
-第二个参数"**0**"是俯仰角；
+```python
+    ak.setPitchRangeMoving((0, 15, 30), 0, -90, 100, 2)
+```
 
-第三个参数"**-90**"和第四个参数"**100**"是俯仰角的取值范围；
 
-第五个参数"**2**"是舵机转动时间，单位为s（秒）。
+Take the source code above for example, and the meaning of the parameter is as follow.
 
-下面会对该函数进行具体分析，相关程序的源代码位于：**/home/pi/spiderpi/spiderpi_sdk/arm_ik_sdk/arm_ik//arm_move_ik.py**
+The first parameter `(x,y,z)` is the given coordinate;
 
-下图是setPitchRangeMoving()函数的具体内容：
+The second parameter `0` is the pitch angle;
 
-<img src="../_static/media/chapter_8/section_6/image10.png"  />
+The third parameter `-90` and the fourth parameter "100" is the pitch angle range.
 
-- **传递坐标参数**
+The fifth parameter `2` is the servo rotation duration in the unit of s.
 
-  将坐标位置参数传递给self.setPitchRange()函数，进行坐标和角度的转换。
+The detailed analysis of the function is given below, and the related source code is saved in:
 
-<img src="../_static/media/chapter_8/section_6/image11.png"  />
+**[/home/pi/spiderpi/spiderpi_sdk/arm_ik_sdk/arm_ik/arm_move_ik.py]()**
 
-括号内的第一个参数是给定坐标，即夹持器末端坐标，单位为厘米，以元组形式传入。第二个与第三个参数是俯仰角范围。
+Detailed information of the `setPitchRangeMoving()` is as below:
 
-- **逆运动学计算**
+{lineno-start=107}
 
-逆运动学的计算过程需要使用大量的矩阵运算，由于篇幅过长，这里不做详细讲解。但是为了让大家更好地理解逆运动学原理，此处使用几何法对机械臂进行分析。
+```python
+        x, y, z = coordinate_data
+        result1 = self.setPitchRange((x, y, z), alpha, alpha1)
+        result2 = self.setPitchRange((x, y, z), alpha, alpha2)
+        if result1 != False:
+            data = result1
+            if result2 != False:
+                if abs(result2[1] - alpha) < abs(result1[1] - alpha):
+                    data = result2
+        else:
+            if result2 != False:
+                data = result2
+            else:
+                return False
+        servos, alpha = data[0], data[1]
 
-<img class="common_img" style="width:70%" src="../_static/media/chapter_8/section_6/image12.png"  alt="逆运动学分析" />
+        movetime = self.servosMove((servos["servo24"], servos["servo23"], servos["servo22"], servos["servo21"]), movetime)
 
-将机械臂的模型简化，去掉底座云台和执行器部分，得到机械臂的主体。由上图可得，机械臂的端点P的坐标（x,y），也可看作是（x1+x2+x3，y1+y2+y3）。
+        return servos, alpha, movetime
+```
 
-图中的θ1、θ2、θ3即为需要求解的舵机角度，α是爪子与水平面的夹角。由上图可知，爪子的俯视角度α=θ1+θ2+θ3，据此可以列出下式：
+**(1) Pass coordinate parameter**
 
-<img src="../_static/media/chapter_8/section_6/image1.png"/>
+Pass the coordinate parameters to `self.setPitchRange` function for coordinate and angle conversion.
 
-其中，x、y由使用者给定，l1、l2、l3为机械臂的机械结构固有属性。
+{lineno-start=108}
 
-为了方便计算，将已知部分处理一下，作整体考虑：
+```python
+        result1 = self.setPitchRange((x, y, z), alpha, alpha1)
+        result2 = self.setPitchRange((x, y, z), alpha, alpha2)
+```
 
-<img src="../_static/media/chapter_8/section_6/image2.png"/>
+The first parameter in the bracket is the given coordinate in cm, that is the coordinate of gripper end. It is passed as tuple.
 
-据此可以求出θ1的角度，同理可得θ2和θ3，由此便解得三个舵机的角度。
+The second and the third parameter is the pitch angle range.
 
-- **驱动舵机转动**
+**(2) Perform inverse kinematic calculation**
 
-通过调用**servosMove()** 函数，驱动舵机转动到指定位置。
+Large amount of matrix operations are required in the calculation of inverse kinematic. For your better understanding, we will use geometry to analyze the robotic arm.
 
-<img src="../_static/media/chapter_8/section_6/image13.png"  />
+<img class="common_img" style="width:70%" src="../_static/media/chapter_8/section_5/image11.png"  alt="逆运动学分析" />
 
-## 7. 机械臂底盘联动
+To simplify the model of the robotic arm, we remove the pan--tilt and actuator parts and only remain the body part. From the above picture, you will find that the coordinates of the endpoint P of the robotic arm (x,y) can also be regarded as (x1+x2+x3, y1+y2+y3).
 
-### 7.1 玩法简要说明
+θ<sub>1</sub>, θ<sub>2</sub> and θ<sub>3 </sub>are the servo angle to be solved. α is the angle between the gripper and the horizontal plane. From the above picture, the pitch angle of gripper α=θ1+θ2+θ3. Based on that, these formulas can be formed.
 
-本节课将前面第二课和第三课结合在一起。课程中，在调节机器人的机械臂高度后，同时调节机器人底盘的高度，从而达到保持机器人整体高度不变的效果。
+<img class="common_img" src="../_static/media/chapter_8/section_5/image1.png" />
 
-设置时，根据逆运动学原理，通过调节坐标Z轴的数值，转换为ID为21、22、23和24舵机的数值调节，达到调节机械臂高度的效果。
+Among them, x and y are given by the user, and l<sub>1</sub>,l<sub>2</sub> and l<sub>3</sub> are the inherent properties of the mechanical structure of the robotic arm.
 
-底盘设置成站立模式，调节对应的站立高度，即调节底盘高度。
+To facilitate calculation, process the known parts and consider them as a whole.
 
-<img src="../_static/media/chapter_8/section_7/image2.jpeg"  />
+<img class="common_img" src="../_static/media/chapter_8/section_5/image2.png" />
 
-### 7.2 玩法开启及关闭步骤
+The above formula is for finding the root of a quadratic equation in one variable. And according to below formulas, a, b and c can be obtained.
+
+<img class="common_img" src="../_static/media/chapter_8/section_5/image13.png" />
+
+Hence, we can get θ<sub>1</sub>, θ<sub>2</sub> and θ<sub>3</sub> angle, and get the angle of three servos.
+
+**(3) Drive servo to rotate**
+
+Call `servosMove()` function to drive the servo to the designated position.
+
+{lineno-start=122}
+
+```python
+        movetime = self.servosMove((servos["servo24"], servos["servo23"], servos["servo22"], servos["servo21"]), movetime)
+```
+
+
+## 7. Synchronized Adjustment
+
+### 7.1 Program Logic
+
+This lesson is the combination of "[5.Robotic Arm Height Adjustment]()" and "[6.Chassis Height Adjustment]()". After adjusting the height of the robotic arm, adjust the height of robot chassis to make the overall height of robot unchanged.
+
+According to inverse kinematics, adjust the value of Z axis and convert it into the servo value of 21, 22, 23 and 24 servos to realize robotic arm height adjustment.
+
+Set the robot chassis as "Stand" mode and then adjust the height of the robot chassis.
+
+### 7.2 Operation Steps
 
 :::{Note}
-指令的输入需严格区分大小写，另外可按键盘"**Tab**"键进行关键词补齐。
+The input command should be case sensitive and space sensitive
 :::
 
-1)  将机器人开机，然后通过VNC远程连接树莓派桌面。
+(1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-2)  点击系统桌面左上角的图标<img src="../_static/media/chapter_8/section_7/image4.png" style="width:0.32292in;height:0.30208in" />，打开Terminator终端。
+(2) Click <img src="../_static/media/chapter_8/section_7/image4.png"  /> at upper left corner of desktop to open the Terminator.
 
-3)  输入指令，按下回车键则可定位到存放玩法程序的目录。
+(3) Enter the command "cd spiderpi/kinematic_routines" and press "Enter" to navigate to the directory where the game program is located.
 
-```commandline
+```bash
 cd spiderpi/kinematic_routines
 ```
 
-4)  输入指令，然后按下回车键将玩法启动。
+(4) Input the command "python3 head\_stabilizer.py", and then press "Enter" to start the game.
 
-```commandline
+```bash
 python3 head_stabilizer.py
 ```
 
-5)  如需关闭此玩法，只需在终端界面按下"Ctrl+C"。如果关闭失败，可多次按下。
+(5) If want to close this game, press "Ctrl+C" on LX terminal. If the game cannot be quit, please try again.
 
-### 7.3 功能实现
+### 7.3 Project Outcome
 
-玩法开启后，机器人的机械臂和底盘不断进行高度变化，同时机器人整体高度不变，然后保持站立不动。
+After the game starts, the height of the robotic arm and chassis will change continuously. At the same time, the overall height of the robot remains unchanged. Then the robot will stand still.
 
-### 7.4 运动学实现分析
+### 7.4 Analysis of Inverse Kinematics
 
-该程序的源代码位于：**/home/pi/spiderpi/kinematic_routines/head_stabilizer.py**
+The source codes of this program are stored in：**[/home/pi/spiderpi/kinematic_routines/head_stabilizer.py]()**
 
-- #### 7.4.1 底盘运动学实现分析
+**7.4.1 Analysis of chassis kinematics**
 
-机器人的机械臂和底盘不断进行高度变化，代码如下图：
+The height of the robot chassis and robotic arm will change continuously.
 
-<img src="../_static/media/chapter_8/section_7/image8.png"  />
+{lineno-start=39}
 
-代码中"**3**"代表高度变化的次数；"**Stand**"代表站立，以"**Stand(150,2,2000)**"为例；
+```python
+    for i in range(3):
+        ak.setPitchRangeMoving((0, 15, 25), 0, -90, 100, 2)
+        Stand(150,2,2000)
+        
+        ak.setPitchRangeMoving((0, 15, 35), 0, -90, 100, 2)
+        Stand(50,2,2000)
+```
 
-第一个参数"**150**"代表高度，单位为mm；
 
-第二个参数"**2**"代表模式为六足模式；
+In the code, `3` represents the number of the height change. Take "Stand(150 ,2, 2000)" for example.
 
-第三个参数"**2000**"代表控制站立的所需时间，单位为ms。
+The first parameter `150`  represents the height in mm.
 
-- #### 7.4.2 机械臂逆运动学实现分析
+The second parameter `2` represents Hexapod robot mode.
 
-在进行逆运动学求解之前，需要先将相关的库导入：
+The third parameter `2000` represents the time in ms spent on standing.
 
-<img src="../_static/media/chapter_8/section_7/image9.png"  />
+**7.4.2 Analysis of inverse kinematics**
 
-在机械臂色块追踪玩法程序中，通过调用setPitchRangeMoving()函数，可以控制机械臂移动到目标位置。
+Before solving the inverse kinematics, relevant libraries need to be
 
-该函数会根据给定坐标coordinate_data、俯仰角alpha，以及俯仰角范围的范围alpha1和alpha2，自动寻找最接近给定俯仰角的解。当函数无解时则返回False，否则返回舵机角度和俯仰角。
+imported:
 
-<img src="../_static/media/chapter_8/section_7/image10.png"  />
+{lineno-start=8}
 
-以上图代码为例，括号内的参数含义如下：
+```python
+import arm_ik.arm_move_ik as AMK
+```
 
-第一个参数"**(x,y,z)**"是给定坐标；
+Then call `setPitchRangeMoving()` function to control the robotic arm to move to the target position.
 
-第二个参数"**-90**"是俯仰角；
+Based on the given coordinate, coordinate\_data, pitch angle, alpha, and pitch angle range, this function will search for the solution closest to the given pitch angle. When there is no solution, **False** will be return. Otherwise, the servo angle and pitch angle will be returned.
 
-第三个参数"**-90**"和第四个参数"100"是俯仰角的取值范围；
+{lineno-start=33}
 
-第五个参数"**2**"是舵机转动时间，单位为s（秒）。
+```python
+    ak.setPitchRangeMoving((0, 15, 30), 0, -90, 100, 2)
+```
 
-下面会对该函数进行具体分析，相关程序的源代码位于：**/home/pi/spiderpi/spiderpi_sdk/arm_ik_sdk/arm_ik//arm_move_ik.py**
+Take the source code above for example, and the meaning of the parameter is as follow.
 
-下图是setPitchRangeMoving()函数的具体内容：
+The first parameter `(x,y,z)` is the given coordinate;
 
-<img src="../_static/media/chapter_8/section_7/image11.png"  />
+The second parameter `-90` is the pitch angle;
 
-- **传递坐标参数**
+The third parameter `-90` and the fourth parameter `100` is the pitch angle range.
 
-将坐标位置参数传递给**self.setPitchRange()** 函数，进行坐标和角度的转换。
+The fifth parameter `2` is the servo rotation duration in s.
 
-<img src="../_static/media/chapter_8/section_7/image12.png"  />
+The detailed analysis of the function is given below, and the related source code is saved in:
 
-括号内的第一个参数是给定坐标，即夹持器末端坐标，单位为厘米，以元组形式传入。第二个与第三个参数是俯仰角范围。
+[/home/pi/spiderpi/spiderpi\_sdk/arm\_ik\_sdk/arm\_ik//arm\_move\_ik.py]()
 
-- **逆运动学计算**
+Detailed information of the `setPitchRangeMoving()` is as below:
 
-逆运动学的计算过程需要使用大量的矩阵运算，由于篇幅过长，这里不做详细讲解。但是为了让大家更好地理解逆运动学原理，此处使用几何法对机械臂进行分析。
+{lineno-start=107}
 
-<img class="common_img" style="width:70%" src="../_static/media/chapter_8/section_7/image13.png"  alt="逆运动学分析" />
+```python
+        x, y, z = coordinate_data
+        result1 = self.setPitchRange((x, y, z), alpha, alpha1)
+        result2 = self.setPitchRange((x, y, z), alpha, alpha2)
+        if result1 != False:
+            data = result1
+            if result2 != False:
+                if abs(result2[1] - alpha) < abs(result1[1] - alpha):
+                    data = result2
+        else:
+            if result2 != False:
+                data = result2
+            else:
+                return False
+        servos, alpha = data[0], data[1]
 
-将机械臂的模型简化，去掉底座云台和执行器部分，得到机械臂的主体。由上图可得，机械臂的端点P的坐标（x,y），也可看作是（x1+x2+x3，y1+y2+y3）。
+        movetime = self.servosMove((servos["servo24"], servos["servo23"], servos["servo22"], servos["servo21"]), movetime)
 
-图中的θ1、θ2、θ3即为需要求解的舵机角度，α是爪子与水平面的夹角。由上图可知，爪子的俯视角度α=θ1+θ2+θ3，据此可以列出下式：
+        return servos, alpha, movetime
+```
 
-<img src="../_static/media/chapter_8/section_7/image1.png" />
+**(1) Pass coordinate parameter**
 
-其中，x、y由使用者给定，l1、l2、l3为机械臂的机械结构固有属性。
+Pass the coordinate parameters to `self.setPitchRange` function for coordinate and angle conversion.
 
-为了方便计算，将已知部分处理一下，作整体考虑：
+The first parameter in the bracket is the given coordinate in cm, that is the coordinate of gripper end. It is passed as tuple.
 
-<img src="../_static/media/chapter_8/section_7/image3.png" />
+The second and the third parameters are the pitch angle range.
 
-将m、n代入已有方程，再化简可得：
+**(2) Perform inverse kinematic calculation**
 
-<img src="../_static/media/chapter_8/section_7/image15.png" />
+Large amount of matrix operations are required in the calculation of inverse kinematic. For your better understanding, we will use geometry to analyze the robotic arm.
 
-据此可以求出θ1的角度，同理可得θ2和θ3，由此便解得三个舵机的角度。
+<img class="common_img" style="width:70%" src="../_static/media/chapter_8/section_5/image11.png"  alt="逆运动学分析" />
 
-- **驱动舵机转动**
+To simplify the model of the robotic arm, we remove the pan--tilt and actuator parts and only remain the body part. From the above picture, you will find that the coordinates of the endpoint P of the robotic arm (x,y) can also be regarded as (x1+x2+x3, y1+y2+y3).
 
-通过调用**servosMove()** 函数，驱动舵机转动到指定位置。
+θ<sub>1</sub>,θ<sub>2</sub> and θ<sub>3</sub> are the servo angle to be solved. α is the angle between the gripper and the horizontal plane. From the above picture, the pitch angle of gripper α=θ1+θ2+θ3. Based on that, these formulas can be formed.
 
-<img src="../_static/media/chapter_8/section_7/image14.png"  />
+<img class="common_img" src="../_static/media/chapter_8/section_5/image1.png" />
+
+Among them, x and y are given by the user, and l<sub>1</sub>,l<sub>2</sub> and l<sub>3</sub> are the inherent properties of the mechanical structure of the robotic arm.
+
+To facilitate calculation, process the known parts and consider them as a whole.
+
+<img class="common_img" src="../_static/media/chapter_8/section_5/image2.png" />
+
+The above formula is for finding the root of a quadratic equation in one variable. And according to below formulas, a, b and c can be obtained.
+
+<img class="common_img" src="../_static/media/chapter_8/section_5/image13.png" />
+
+Hence, we can get θ<sub>1</sub>,θ<sub>2</sub> and θ<sub>3</sub>  angle, and get the angle of three servos.
+
+**(3) Drive servo to rotate**
+
+Call `servosMove()` function to drive the servo to the designated position.
+
+{lineno-start=122}
+
+```python
+        movetime = self.servosMove((servos["servo24"], servos["servo23"], servos["servo22"], servos["servo21"]), movetime)
+```
+
+**(4) Perform inverse kinematic calculation**
+
+Large amount of matrix operations are required in the calculation of inverse kinematic. For your better understanding, we will use geometry to analyze the robotic arm.
+
+<img class="common_img" style="width:70%" src="../_static/media/chapter_8/section_5/image11.png"  alt="逆运动学分析" />
+
+To simplify the model of the robotic arm, we remove the pan--tilt and actuator parts and only remain the body part. From the above picture, you will find that the coordinates of the endpoint P of the robotic arm (x,y) can also be regarded as (x1+x2+x3, y1+y2+y3).
+
+θ<sub>1</sub>,θ<sub>2</sub> and θ<sub>3</sub> are the servo angle to be solved. α is the angle between the gripper and the horizontal plane. From the above picture, the pitch angle of gripper α=θ1+θ2+θ3. Based on that, these formulas can be formed.
+
+<img class="common_img" src="../_static/media/chapter_8/section_5/image1.png" />
+
+Among them, x and y are given by the user, and l<sub>1</sub>,l<sub>2</sub> and l<sub>3</sub> are the inherent properties of the mechanical structure of the robotic arm.
+
+To facilitate calculation, process the known parts and consider them as a whole.
+
+<img class="common_img" src="../_static/media/chapter_8/section_5/image2.png" />
+
+The above formula is for finding the root of a quadratic equation in one variable. And according to below formulas, a, b and c can be obtained.
+
+<img class="common_img" src="../_static/media/chapter_8/section_5/image13.png" />
+
+Hence, we can get θ<sub>1</sub>,θ<sub>2</sub> and θ<sub>3</sub>  angle, and get the angle of three servos.
+
+**(5) Drive servo to rotate**
+
+Call `servosMove()` function to drive the servo to the designated position.
+
+{lineno-start=122}
+
+```python
+        movetime = self.servosMove((servos["servo24"], servos["servo23"], servos["servo22"], servos["servo21"]), movetime)
+```
