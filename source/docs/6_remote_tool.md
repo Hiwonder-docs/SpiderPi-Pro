@@ -39,7 +39,7 @@ VNC is a graphics remote control software. With VNC, we can control the Raspberr
 
 **1.1.3 Turn on Device**
 
-Please refer to the tutorial  [Getting Ready/Start SpiderPi Pro]()  to turn on the robot. Wait a moment, LED1 and LED2 of Raspberry Pi will be on firstly and then the LED2 will flash every 2 seconds, which means SpiderPi Pro is turned on successfully.
+Please refer to the tutorial  [Getting Ready](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/1_read_before_studying.html)  to turn on the robot. Wait a moment, LED1 and LED2 of Raspberry Pi will be on firstly and then the LED2 will flash every 2 seconds, which means SpiderPi Pro is turned on successfully.
 
 ### 1.2 Connect Device
 

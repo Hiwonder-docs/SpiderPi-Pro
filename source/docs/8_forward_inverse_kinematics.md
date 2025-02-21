@@ -609,6 +609,8 @@ Call `servosMove()` function to drive the servo to the designated position.
         movetime = self.servosMove((servos["servo24"], servos["servo23"], servos["servo22"], servos["servo21"]), movetime)
 ```
 
+<p id="anchor_5"></p>
+
 ## 5. Robotic Arm Height Adjustment
 
 ### 5.1 Program Logic
@@ -757,6 +759,8 @@ Call `servosMove()` function to drive the servo to the designated position.
         movetime = self.servosMove((servos["servo24"], servos["servo23"], servos["servo22"], servos["servo21"]), movetime)
 ```
 
+<p id="anchor_6"></p>
+
 ## 6. Chassis Height Adjustment
 
 ### 6.1 Program Logic
@@ -777,7 +781,7 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_8/section_6/image3.png"  /> at upper left corner of desktop to open the Terminator.
+(2) Click <img src="../_static/media/chapter_8/section_5/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
 (3) Enter the command  and press "Enter" to navigate to the directory where the game program is located.
 
@@ -937,7 +941,7 @@ Call `servosMove()` function to drive the servo to the designated position.
 
 ### 7.1 Program Logic
 
-This lesson is the combination of "[5.Robotic Arm Height Adjustment]()" and "[6.Chassis Height Adjustment]()". After adjusting the height of the robotic arm, adjust the height of robot chassis to make the overall height of robot unchanged.
+This lesson is the combination of "[5.Robotic Arm Height Adjustment](#anchor_5)" and "[6.Chassis Height Adjustment](#anchor_6)". After adjusting the height of the robotic arm, adjust the height of robot chassis to make the overall height of robot unchanged.
 
 According to inverse kinematics, adjust the value of Z axis and convert it into the servo value of 21, 22, 23 and 24 servos to realize robotic arm height adjustment.
 
@@ -951,15 +955,15 @@ The input command should be case sensitive and space sensitive
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_8/section_7/image4.png"  /> at upper left corner of desktop to open the Terminator.
+(2) Click <img src="../_static/media/chapter_8/section_5/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-(3) Enter the command "cd spiderpi/kinematic_routines" and press "Enter" to navigate to the directory where the game program is located.
+(3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
 ```bash
 cd spiderpi/kinematic_routines
 ```
 
-(4) Input the command "python3 head\_stabilizer.py", and then press "Enter" to start the game.
+(4) Input the command, and then press "Enter" to start the game.
 
 ```bash
 python3 head_stabilizer.py

@@ -284,7 +284,7 @@ Set the time as 200ms and click "**Add Action**" to get NO.16 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image47.png"  alt="loading" />
 
-<img class="common_img" src="../_static/media/chapter_7/section_2/image48.png" style="width:7.37569in;height:2.83819in" />
+<img class="common_img" src="../_static/media/chapter_7/section_2/image48.png" />
 
 The servo value of the whole action group is as follow.
 
@@ -306,7 +306,7 @@ SpiderPi Pro has 15 built-in action groups which are stored in the path `/home/p
 
 ### 3.1 Operation steps
 
-(1) According to the tutorial in "[Set Development Environment\1.VNC Installation and Connection]()", install VNC and remotely connect to Raspberry Pi system desktop.
+(1) According to the tutorial in "[Installing VNC Remote Connection Tool\1. VNC Installation and Connection](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#vnc-installation-and-connection)", install VNC and remotely connect to Raspberry Pi system desktop.
 
 (2) Double click<img src="../_static/media/chapter_7/section_3/image1.png" style="width:0.39306in;height:0.40347in" alt="loading" />and click "**Run**" in the pop-up window to enter the editing interface, as shown in the below figure.
 
@@ -422,6 +422,8 @@ At this time, SpiderPi Pro will execute "**stand**" action group, then execute "
 
 ### 5.3 Change Action Group to be Called
 
+<p id="anchor_5_3_1"></p>
+
 **5.3.1 Call Individual Action**
 
 User can modify the program to enable SpiderPi Pro to execute single action group. Detailed instructions are as below:
@@ -461,7 +463,7 @@ To do this, you can navigate the mouse cursor using the keyboard's arrow keys an
 <img class="common_img" src="../_static/media/chapter_7/section_5/image11.png"  />
 
 :::{Note}
-the action group files must be saved in the directory `/home/pi/spiderpi/action_groups/`. If you want to call the customized action group, you need to edit the action group first according to the file saved in "[Action Editing\2.Action Editing]()".
+the action group files must be saved in the directory `/home/pi/spiderpi/action_groups/`. If you want to call the customized action group, you need to edit the action group first according to the file saved in "[2. Action Editing](#anchor_2)".
 :::
 
 <img class="common_img" src="../_static/media/chapter_7/section_5/image12.png"  />
@@ -490,7 +492,7 @@ The following operation is carried out based on the preceding operation.
 
 User can enable SpiderPi Pro to execute several action groups through copying multiple lines of codes. Take calling action groups "**left_move**" and "**kick**" as example.
 
-(1) Repeat steps 1-3 provided in "[5.3.1 Call Individual Action]()" to open the program file. Please note that never enter the editing mode, otherwise you will fail to copy the codes. If you find you are in editing mode, press `Esc` key to exit this mode.
+(1) Repeat steps 1-3 provided in "[5.3.1 Call Individual Action](#anchor_5_3_1)" to open the program file. Please note that never enter the editing mode, otherwise you will fail to copy the codes. If you find you are in editing mode, press `Esc` key to exit this mode.
 
 (2) Position the cursor just before the 29th line using the arrow keys, and then press 'yy' on the keyboard. To copy 2 lines, use '2yy,' with '2' indicating the number of lines to be copied. You can specify the desired number of lines to copy; for instance, use '5yy' to copy 5 lines.
 

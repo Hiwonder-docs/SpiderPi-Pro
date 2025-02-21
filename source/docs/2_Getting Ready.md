@@ -44,7 +44,7 @@ The interface of `Robot Control` can be divided into three parts. The left side 
 
 Click the icon <img src="../_static/media/chapter_2/section_2/image11.png" style="width:0.375in;height:0.37222in" /> at the top to bring up the interface for controlling the robotic arm. The movement of the robotic arm can be controlled by adjusting the angle of its 5 servos using the buttons.
 
-<img class="common_img" style="width:50%" src="../_static/media/chapter_2/section_2/image12.jpeg"  alt="loading" />
+<img class="common_img" style="width:200px" src="../_static/media/chapter_2/section_2/image12.jpeg"  alt="loading" />
 
 If you want to back to the games option interface, you can click the blank area, then the title bar will appear. Next, click <img src="../_static/media/chapter_2/section_2/image13.png" style="width:0.27222in;height:0.21944in" /> at the left side.
 

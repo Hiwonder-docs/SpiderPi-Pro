@@ -75,7 +75,7 @@ The ID of servos on the robot arm is as below:
 
 (1) 2 or above SpiderPi Pros are needed in group control.
 
-(2) Set up development environment.  Please refer to the tutorial in "[Set Development Environment->1.VNC Installation and Connection]()" to download and install VNC.
+(2) Set up development environment.  Please refer to the tutorial in "[Installing VNC Remote Connection Tool/ 1.VNC Installation and Connection](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#vnc-installation-and-connection)" to download and install VNC.
 
 ### 2.2 Program logic
 

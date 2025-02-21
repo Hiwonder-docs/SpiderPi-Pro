@@ -20,7 +20,7 @@ Closing: The image undergoes dilation followed by erosion. This operation fills 
 
 After recognition, the servo and buzzer are set up to provide feedback based on the detected color. For example, when red is detected, the buzzer will emit a sound.
 
-For detailed feedback behavior, please refer to  [1.3 Program Outcome]()  of this document.
+For detailed feedback behavior, please refer to  [1.3 Program Outcome](#anchor_1_3)  of this document.
 
 ### 1.2 Start and Close the Game
 
@@ -28,7 +28,7 @@ For detailed feedback behavior, please refer to  [1.3 Program Outcome]()  of thi
 The input command is case-sensitive, and keywords can be auto-completed using the Tab key.
 :::
 
-(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\1.VNC Installation and Connection]()", use the VNC remote connection tool to connect.
+(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\1.VNC Installation and Connection](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#vnc-installation-and-connection)", use the VNC remote connection tool to connect.
 
 <img class="common_img" src="../_static/media/chapter_10/section_1/image2.png"  />
 
@@ -62,7 +62,7 @@ After starting the game, the camera will be used to detect colors. When a red ba
 
 * Ensure that no objects with similar or matching colors to the target are present in the background within the cameras visual range, as this may cause misrecognition.
 
-* If color recognition is inaccurate, refer to the section "[1.5 Function Extensions -> 1.5.1 Adjusting Color Thresholds]()" in this document to adjust the color threshold settings.
+* If color recognition is inaccurate, refer to the section "[1.5 Function Extensions -> 1.5.1 Adjusting Color Thresholds](#anchor_1_5_1)" in this document to adjust the color threshold settings.
 
 :::
 
@@ -316,6 +316,8 @@ The code `time.sleep(0.2)` is a delay function, and `0.2` is the buzzing time.
 
 ### 1.5 Function Extensions
 
+<p id="anchor_1_5_1"></p>
+
 **1.5.1 Adjusting Color Thresholds**
 
 The color recognition program is pre-configured to recognize three colors: red, green, and blue. By default, the program identifies red, triggering the buzzer to emit a beep and drawing a circle around the red ball in the transmitted image, displaying "Color: red."
@@ -401,7 +403,7 @@ python3 color_detect.py
 ### 2.3 Project Outcome
 
 :::{Note}
-The default recognition color is red. If you want to change it to blue or green, please refer to "2.4.1 Modify Default Recognition Color".
+The default recognition color is red. If you want to change it to blue or green, please refer to "[2.5.1 Change the Default Recognition Color](#anchor_2_5_1)".
 :::
 
 Place the red ball in front of SpiderPi Pro's camera and it will nod when recognizing the red ball. It will "shake head" when detecting the green and blue balls.
@@ -724,19 +726,21 @@ def move():
 ```
 ### 2.5 Function Extensions
 
+<p id="anchor_2_5_1"></p>
+
 **2.5.1 Change the Default Recognition Color**
 
 There are three built-in colors, including red, green and blue, in the color recognition program. The robot defaults to nod when recognizing red.
 
 Take modifying the default recognition color as green as an example. The specific operation steps are as follow. 
 
-(1) Input command "cd spiderpi/functions" and press "Enter" to navigate to the directory where the game programs are stored. 
+(1) Input command and press "Enter" to navigate to the directory where the game programs are stored. 
 
 ```bash
 cd spiderpi/functions
 ```
 
-(2) Enter the command "vim color_detect.py" and press "Enter" to open the program file.
+(2) Enter the command and press "Enter" to open the program file.
 
 ```bash
 vim color_detect.py
@@ -747,7 +751,7 @@ vim color_detect.py
 <img class="common_img" src="../_static/media/chapter_10/section_2/image9.png" />
 
 :::{Note}
- we can input the serial number of the line and press "Shift+G" to jump to the corresponding position. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
+we can input the serial number of the line and press "Shift+G" to jump to the corresponding position. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
 (4) Press "i" to enter the editing mode, then modify "red" in `if detect_color == 'red':` to "green". And replace "green" with "red" in `elif detect_color == 'green' or detect_color == 'blue':`. And you can modify it as blue in the same way.
@@ -760,7 +764,7 @@ After modification, Press "Esc" and input ":wq" and then press "Enter" to save t
 :wq
 ```
 
-(5) After the modification is completed, you can follow the steps in "[2.2 Operation Steps]()" to check the game performance. 
+(5) After the modification is completed, you can follow the steps in "[2.2 Start and Close the Game](#anchor_2_2)" to check the game performance. 
 
 **2.5.2 Add New Recognition Colors**
 
@@ -810,7 +814,7 @@ In order to avoid the game performance, it's recommended to use the LAB_Tool too
 :wq
 ```
 
-(6) According to the steps in "[2.5.1 Modify Default Recognition Color]()", set the default recognition color as red.
+(6) According to the steps in "[2.5.1 Change the Default Recognition Color](#anchor_2_5_1)", set the default recognition color as red.
 
 <img class="common_img" src="../_static/media/chapter_10/section_2/image9.png" />
 
@@ -842,7 +846,7 @@ Position marking requires specific detection algorithms. The basic principle is 
 The input of commands must strictly distinguish between uppercase and lowercase letters, as well as spaces. Additionally, you can use the "Tab" key on the keyboard to auto-complete keywords.
 :::
 
-(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\1.VNC Installation and Connection]()", use the VNC remote connection tool to connect.
+(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\1.VNC Installation and Connection](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#vnc-installation-and-connection)", use the VNC remote connection tool to connect.
 
 <img class="common_img" src="../_static/media/chapter_10/section_3/image3.png"  />
 
@@ -874,10 +878,8 @@ The program defaults to recognizing red, green, and blue balls. After recognitio
 
 * Ensure there are no objects with similar or identical colors to the target colors within the camera's field of view to prevent misrecognition.
 
-* If color recognition is inaccurate, refer to the section "[3.5 Function Extension/ 3.5.1 Adjusting Color Threshold]()" in this document to adjust the color threshold settings.
-  :::
-
-
+* If color recognition is inaccurate, refer to the section "[3.5 Function Extension/ 3.5.1 Adjusting Color Threshold](#anchor_3_5_1)" in this document to adjust the color threshold settings.
+:::
 
 ### 3.4 Program Description
 
@@ -1147,6 +1149,8 @@ The function `cv2.waitKey()` is used to wait for a key press; the parameter `1` 
 
 ### 3.5 Function Extension
 
+<p id="anchor_3_5_1"></p>
+
 **3.5.1 Adjusting Color Threshold**
 
 During the game experience, if the color recognition of objects is not accurate, you may need to adjust the color threshold. This section uses adjusting the red color as an example; the process for adjusting other colors is similar. Follow the steps below:
@@ -1195,13 +1199,13 @@ The input command should be case sensitive and space sensitive.
 
 <img class="common_img" src="../_static/media/chapter_10/section_4/image3.png"  />
 
-(3) Enter the command "cd spiderpi/functions" and press "Enter" to navigate to the directory where the game program is located.
+(3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(4) Enter "python3 color_track.py", then press "Enter" to start the game.
+(4) Enter the command, then press "Enter" to start the game.
 
 ```bash
 python3 color_track.py
@@ -1212,7 +1216,7 @@ python3 color_track.py
 ### 4.3 Project outcome
 
 :::{Note}
-The default recognized and tracking color is green. If you want to change it to blue, please refer to "4.4.1 Modify Default Recognition Color". And, please don't move the ball too fast and out of the camera vision. 
+The default recognized and tracking color is green. If you want to change it to blue, please refer to "[4.5.1 Modify Default Recognized Color](#anchor_4_5_1)". And, please don't move the ball too fast and out of the camera vision. 
 :::
 
 After the game starts, move the green ball slowly, and the robotic arm of SpiderPi Pro will move with the green ball. 
@@ -1389,7 +1393,7 @@ The third parameter `y_dis` is the rotation position.
 
 ### 4.5 Function extension
 
-<span id="anchor_4_4_1" class="anchor"></span>
+<span id="anchor_4_5_1" ></span>
 
 **4.5.1 Modify Default Recognized Color**
 
@@ -1397,13 +1401,13 @@ There are two built-in colors in the program of color tracking, including green 
 
 Take modifying the default recognition color as blue for example. The specific operation steps are as follow.
 
-(1) Input command "cd spiderpi/functions/" and press "Enter" into the directory where the game programs are stored.
+(1) Input command and press "Enter" into the directory where the game programs are stored.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(2) Enter command "vim color_track.py" and press "Enter" to open the program file.
+(2) Enter command and press "Enter" to open the program file.
 
 ```bash
 vim color_track.py
@@ -1435,7 +1439,7 @@ press "Shift+G" after inputting the line number to directly jump to the correspo
 
 In addition to the built-in recognition colors, you can set other recognition colors in the program. Take orange as example
 
-(1) Open VNC, input command "vim spiderpi/config/lab_config.yaml" to open Lab color setting document.
+(1) Open VNC, input command to open Lab color setting document.
 
 ```bash
 Vim spiderpi/config/lab_config.yaml
@@ -1463,7 +1467,7 @@ For example, if you want to recognize orange, you can put the orange ball within
 
 <img class="common_img" src="../_static/media/chapter_10/section_4/image15.png"  />
 
-(4) After the modification is completed, check whether the modified data was successfully written in. Enter the command again "Vim spiderpi/config/lab_config.yaml" to open file of Lab color setting.
+(4) After the modification is completed, check whether the modified data was successfully written in. Enter the command again to open file of Lab color setting.
 
 ```bash
 Vim spiderpi/config/lab_config.yaml
@@ -1481,7 +1485,7 @@ In order to avoid the game performance, it's recommended to use the LAB_Tool too
 :wq
 ```
 
-(6) According to the steps in "[4.4.1 Modify Default Recognition Color]()", set the default recognition color as green.
+(6) According to the steps in "[4.5.1 Modify Default Recognized Color](#anchor_4_5_1)", set the default recognition color as green.
 
 <img class="common_img" src="../_static/media/chapter_10/section_4/image7.png"  />
 
@@ -1512,13 +1516,13 @@ The input command should be case sensitive and space sensitive.
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image4.png"  />
 
-(3)  Enter the command "cd spiderpi/functions" and press "Enter" to navigate to the directory where the game program is located.
+(3)  Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(4) Enter "python3 visual_patrol.py", then press "Enter" to start the game.
+(4) Enter the command, then press "Enter" to start the game.
 
 ```bash
 python3 visual_patrol.py
@@ -1529,7 +1533,7 @@ python3 visual_patrol.py
 ### 5.3 Project Outcome
 
 :::{Note}
-The default recognition color is red. If you want to change it to white or black, please refer to "5.4.1Modify Default Recognition Color".
+The default recognition color is red. If you want to change it to white or black, please refer to "[5.5.1Modify Default Recognition Color](#anchor_5_5_1)".
 :::
 
 Paste red electrical tape to form a path. Then place SpiderPi Pro on the red line. After the game starts, the robot will move along the red line.
@@ -1806,7 +1810,7 @@ The fifth parameter `1` is the number of execution. When it is "0", it means tha
 
 ### 5.5 Function Extension
 
-<span id="anchor_5_4_1" ></span>
+<span id="anchor_5_5_1" ></span>
 
 **5.5.1 Modify Default Recognition Color**
 
@@ -1873,9 +1877,7 @@ For example, if you want to modify the default color as blue, you can put the bl
 <img class="common_img" src="../_static/media/chapter_10/section_5/image17.png"  />
 
 :::{Note}
-
 In order to avoid the influence on game performance, it's recommended to use the "LAB_Tool" tool to modify the value back to the initial value after the modification.
-
 :::
 
 (5) After the modification is completed, check whether the modified data was successfully written in. Enter the command again to open file of Lab color setting.
@@ -1890,12 +1892,11 @@ Vim spiderpi/config/lab_config.yaml
 :wq
 ```
 
-(7) According to the steps in "[5.4.1 Modify Default Recognition Color]()", set the default recognition color as red.
+(7) According to the steps in "[5.5.1 Modify Default Recognition Color](#anchor_5_5_1)", set the default recognition color as red.
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image9.png"  />
 
-(8) Start the line following game again according to the steps in "[5.2 Operation Steps]()". Then SpiderPi Pro will move along the blue line.
-
+(8) Start the line following game again according to the steps in "[5.2 Operation Steps](#anchor_5_2)". Then SpiderPi Pro will move along the blue line.
 
 ## 6. Tag Detection
 
@@ -1913,7 +1914,7 @@ In this lesson, we will combine OpenCV with AprilTag to complete a small project
 The input of commands must strictly distinguish between uppercase and lowercase letters, as well as spaces.
 :::
 
-(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\ 1.VNC Installation and Connection]()", use the VNC remote connection tool to connect.
+(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\ 1.VNC Installation and Connection](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#vnc-installation-and-connection)", use the VNC remote connection tool to connect.
 
 <img class="common_img" src="../_static/media/chapter_10/section_6/image2.png"  />
 
@@ -2291,7 +2292,7 @@ After the tag ID is obtained, control SpiderPi Pro to execute the corresponding 
 ```
 ### 7.5 Function Extension
 
-<span id="anchor_7_4_1" class="anchor"></span>
+<span id="anchor_7_4_1" ></span>
 
 **7.5.1 Modify Action Corresponding to the Tag**
 
@@ -2303,7 +2304,7 @@ SpiderPi Pro is default to "wave hands" in the program when the ID 1 tag is dete
 cd spiderpi/functions
 ```
 
-(2) Enter command "vim apriltag_detect.py" and press Enter to open the program file.
+(2) Enter command and press Enter to open the program file.
 
 ```bash
 vim apriltag_detect.py
@@ -2347,7 +2348,7 @@ You can find the Tag materials in this directory "AprilTag collection", but you 
 
 Take adding Tag ID4 for example. The corresponding action of this tag is "Stand at Attention in High Posture". Please follow the below steps to modify.
 
-(1) According to "[7.5.1 Modify Action Corresponding to the Tag]()", enter the catalog of the game program and open the corresponding program file.
+(1) According to "[7.5.1 Modify Action Corresponding to the Tag](#anchor_7_4_1)", enter the catalog of the game program and open the corresponding program file.
 
 (2) Locate the code in 98th line, input "5yy", and then copy the codes of 98-102 line. 
 
@@ -2375,9 +2376,9 @@ Take adding Tag ID4 for example. The corresponding action of this tag is "Stand 
 
 (7) Find Tag ID4 in folder "AprilTag Collection" and print it directly.
 
-<img class="common_img" src="../_static/media/chapter_10/section_7/image17.png" class="common_img" style="width:400px"  />
+<img class="common_img" src="../_static/media/chapter_10/section_7/image17.png" style="width:400px"  />
 
-(8) According to "[7.2 Operation Steps]()" to start the game and check whether the modification works.
+(8) According to "[7.2 Operation Steps](#anchor_7_2)" to start the game and check whether the modification works.
 
 <img class="common_img" style="width:400px" src="../_static/media/chapter_10/section_7/image18.png"  />
 
@@ -3190,6 +3191,8 @@ Firstly, program SpiderPi Pro to recognize colors through Lab color space. Conve
 
 The next step is to judge the shape of the outline and program SpiderPi Pro to give corresponding response.
 
+<p id="anchor_11_2"></p>
+
 ### 11.2 Operation Steps 
 
 :::{Note}
@@ -3527,7 +3530,7 @@ sudo vim shape_recognition_plain.py
 :wq
 ```
 
-(6) Execute the steps in "[11.2 Operation Steps]()" to check the modification effect.
+(6) Execute the steps in "[11.2 Operation Steps](#anchor_11_2)" to check the modification effect.
 
 ## 12. Shape Recognition
 
@@ -3545,7 +3548,7 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
-(2) Click  <img src="../_static/media/chapter_10/section_12/image3.png" style="width:0.32292in;height:0.30208in" />at upper left corner of desktop to open the Terminator.
+(2) Click  <img src="../_static/media/chapter_10/section_12/image3.png" style="width:0.32292in;height:0.30208in" /> at upper left corner of desktop to open the Terminator.
 
 <img class="common_img" src="../_static/media/chapter_10/section_12/image4.png" />
 

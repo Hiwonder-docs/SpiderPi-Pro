@@ -1,6 +1,6 @@
 #  8. AI Vision Advanced Lesson
 
-## 1.Locate the Ball
+## 1. Locate the Ball
 
 ### 1.1 Program logic
 
@@ -8,41 +8,39 @@ Firstly, recognize the color of the ball. Firstly, convert the color space of th
 
 Then use the robot body as a reference to establish a coordinate system, and then obtain the coordinate of the ball. Judge whether the ball is on the right or left through the coordinate of the x axis, and then control the corresponding foot to lift
 
+<p id="anchor_1_2"></p>
+
 ### 1.2 Operation steps
 
 The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_12\section_1\media\image3.png"  /> at upper left corner of desktop to open the Terminator.
+(2) Click <img src="../_static/media/chapter_12/section_1/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image4.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/image4.png"  />
 
-(3) Enter the command "cd spiderpi/advanced" and press "Enter" to navigate to the directory where the game program is located.
+(3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
-```
+```bash
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image5.png"  />
-
 (4) Input the command "python3 ball_orientation.py", and then press Enter to start the game.
 
-```
+```bash
 python3 ball_orientation.py
 ```
-
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image6.png"  />
 
 (5) If want to close this game, press "Ctrl+C" on LX terminal. If the game cannot be quit, please try again.
 
 ### 1.3 Project outcome
 
-The default recognition color is green. If you want to modify it as other color, please check how to modify in "[1.5 Function Extension]()"
+The default recognition color is green. If you want to modify it as other color, please check how to modify in "[1.5 Function Extension](#anchor_1_5)"
 
 When the green ball is recognized, the green ball will be circled and its coordinate will be displayed on the terminal. And then control the robot to lift the corresponding leg.
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image7.png"   />
+<img class="common_img" src="../_static/media/chapter_12/section_1/image7.png"   />
 
 ### 1.4 Program Analysis
 
@@ -284,6 +282,8 @@ The first parameter `5` is used to control the position of the leg. Robot legs i
 
 The second parameter `[-300, 100, -50]` is x, y, z coordinate of the end of the leg.
 
+<p id="anchor_1_5"></p>
+
 ### 1.5 Function extension
 
 The program defaults to recognize green ball and display its coordinate. If you want to modify the recognition color, like red, you can follow the below steps to operate.
@@ -294,35 +294,31 @@ The program defaults to recognize green ball and display its coordinate. If you 
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image5.png"  />
-
 (2) Input command and press "Enter" to open the program file.
 
 ```bash
 sudo vim ball_orientation.py
 ```
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image19.png"  />
-
 (3) Locate these codes.
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image20.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/image20.png"  />
 
 (4) Press "i" key to enter the editing mode.
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image21.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/image21.png"  />
 
 (5) Modify "green" of "color='green'" as "red", as shown below.
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image22.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/image22.png"  />
 
 (6) After successful modification, press "Esc" and then input ":wq" to save the file and exit the editor.
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image23.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/image23.png"  />
 
-(7) Execute the steps in "[1.2 Operation Steps]()" to locate the red ball.
+(7) Execute the steps in "[1.2 Operation Steps](#anchor_1_2)" to locate the red ball.
 
-## 2.Kick the Ball
+## 2. Kick the Ball
 
 In the experiment, a small "ball" is used for demonstration. A color block can also be used to achieve intelligent kicking of the block.
 
@@ -342,9 +338,9 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_12\section_2\media\image3.png"  /> at upper left corner of desktop to open the Terminator.
+(2) Click <img src="../_static/media/chapter_12/section_2/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-<img class="common_img" src="../_static/media/chapter_12\section_2\media\image4.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_2/image4.png"  />
 
 (3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
@@ -709,9 +705,9 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_12/section_2/media/image3.png"  /> at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
+(2) Click <img src="../_static/media/chapter_12/section_2/image3.png"  /> at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
 
-<img class="common_img" src="../_static/media/chapter_12/section_2/media/image4.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_2/image4.png"  />
 
 (3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
@@ -719,15 +715,11 @@ The input command should be case sensitive and space sensitive.
 cd spiderpi/functions
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_2/media/image5.png"  />
-
 (4) Input command and press "Enter" to run calibration program.
 
 ```bash
 python3 camera_cal_main.py
 ```
-
-<img class="common_img" src="../_static/media/chapter_12/section_2/media/image6.png"  />
 
 (5) Place the block with ID1 sticker right under the gripper.
 
@@ -737,7 +729,7 @@ python3 camera_cal_main.py
 
 (8) 15s later, the robot will beep three times continuously. When the 5 black dots overlap the 5 colored dots, it means that the calibration is completed.
 
-<img class="common_img" src="../_static/media/chapter_12/section_2/media/image7.png"   />
+<img class="common_img" src="../_static/media/chapter_12/section_2/image7.png"   />
 
 :::{Note}
 
@@ -747,7 +739,7 @@ If it beeps three times continuously but 5 black dots don't coincide with the 5 
 
 (9) Having calibrated, press "Ctrl+C" to close the LX terminal interface. If it cannot be closed, you can try again.
 
-(10\) En<span class="mark">ter the command "cd .." and press "Enter" to switch to the parent directory; enter the "cd advand/" command</span> and press "Enter" to get into the catalog of intelligent picking program; and place the red block under the gripper and input the command "python3 intelligent_fetch.py", then press "Enter" to start the intelligent picking game.
+(10) En<span class="mark">ter the command "cd .." and press "Enter" to switch to the parent directory; enter the "cd advand/" command</span> and press "Enter" to get into the catalog of intelligent picking program; and place the red block under the gripper and input the command "python3 intelligent_fetch.py", then press "Enter" to start the intelligent picking game.
 
 ```bash
 cd ..
@@ -761,7 +753,7 @@ cd advanced/
 python3 intelligent_fetch.py
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_2/media/image8.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_2/image8.png"  />
 
 (11) If the gripper is not at the accurate position during picking, as the picture shown, you can run the calibration program to make fine adjustment again.
 
@@ -778,11 +770,11 @@ cd functions
 ```bash
 python3 camera_cal_ main.py
 ```
-<img class="common_img" src="../_static/media/chapter_12/section_2/media/image9.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_2/image9.png"  />
 
-(13\) Place the tag block according to the picking effect in the game. For example, if the gripper stops in front of the red block not at the middle, place the tag block under the gripper not at the position of the red block.
+(13) Place the tag block according to the picking effect in the game. For example, if the gripper stops in front of the red block not at the middle, place the tag block under the gripper not at the position of the red block.
 
-(14\) Having calibrated, run the intelligent picking program in the same way to check the calibration effect. You can see that the gripper can stop at the middle of the block and pick the block.
+(14) Having calibrated, run the intelligent picking program in the same way to check the calibration effect. You can see that the gripper can stop at the middle of the block and pick the block.
 
 ### 3.3 Program Analysis
 
@@ -1124,7 +1116,7 @@ def move():
 
 Upon observing that the five black dots overlapped with the five colored dots on the AprilTag block, SpiderPi Pro makes three beeps.
 
-## 4.Block Picking
+## 4. Block Picking
 
 ### 4.1 Program Logic
 
@@ -1142,9 +1134,9 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_12/section_4/media/image3.png"  /> at upper left corner of desktop to open the Terminator.
+(2) Click <img src="../_static/media/chapter_12/section_4/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-<img class="common_img" src="../_static/media/chapter_12/section_4/media/image4.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_4/image4.png"  />
 
 (3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
@@ -1152,15 +1144,11 @@ The input command should be case sensitive and space sensitive.
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_4/media/image5.png"  />
-
 (4) Input the command, and then press "Enter" to start the game.
 
 ```bash
 python3 block_fetch.py
 ```
-
-<img class="common_img" src="../_static/media/chapter_12/section_4/media/image6.png"  />
 
 (5) If want to close this game, press "Ctrl+C" on LX terminal. If the game cannot be quit, please try again.
 
@@ -1413,7 +1401,7 @@ The second parameter `25` is the ID of the servo to be driven.
 
 The third parameter `120` is the rotation position. It is obtained by angle conversion.
 
-The rotation range of the serial bus servo is 0-1000 pulse width. The converted angle range is 0-240°, that is 1°is approximately equivalent to 4.2 pulse width. Formula: pulse width=4.2\*Angle. Note: this formula is only for reference.
+The rotation range of the serial bus servo is 0-1000 pulse width. The converted angle range is 0-240°, that is 1° is approximately equivalent to 4.2 pulse width. Formula: pulse width=4.2*Angle. Note: this formula is only for reference.
 
 `setPitchRangeMoving()` function is used to control the robotic arm of the SpiderPi Pro to move to the given coordinate. Take `AK.setPitchRangeMoving((x, y, -5), -90, -90, 100, 1)` for example. The meaning of the parameters in bracket is as follow.
 
@@ -1425,7 +1413,7 @@ The third parameter `-90` and the fourth parameter `100` is the range of the pit
 
 The fifth parameter `1` is the rotation time of the servo and the unit is s.
 
-## 5.Color Sorting
+## 5. Color Sorting
 
 ### 5.1 Program Logic
 
@@ -1439,9 +1427,9 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_12/section_5/media/image3.png"  /> at upper left corner of desktop to open the Terminator.
+(2) Click <img src="../_static/media/chapter_12/section_5/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-<img class="common_img" src="../_static/media/chapter_12/section_5/media/image4.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_5/image4.png"  />
 
 (3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
@@ -1449,15 +1437,11 @@ The input command should be case sensitive and space sensitive.
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_5/media/image5.png"  />
-
 (4) Input the command, and then press "Enter" to start the game.
 
 ```bash
 python3 color_sorting.py
 ```
-
-<img class="common_img" src="../_static/media/chapter_12/section_5/media/image6.png"  />
 
 (5) If want to close this game, press "Ctrl+C" on LX terminal. If the game cannot be quit, please try again.
 
@@ -1731,7 +1715,7 @@ Using the `cv2.minEnclosingCircle` function in the cv2 library to obtain the min
             cv2.circle(img, (centerX, centerY), radius, range_rgb[color_area_max], 2) #画圆(draw the circle)
 ```
 
-<span class="mark">Obtaining the color with the largest area in the image through conditional statements.</span>
+Obtaining the color with the largest area in the image through conditional statements.
 
 {lineno-start=218}
 
@@ -1881,7 +1865,7 @@ The second parameter `21` is the ID of servo to drive.
 
 The third parameter `560` is the rotation position obtained by angle conversion.
 
-The rotation range of the serial bus servo is 0-1000, corresponding to 0-240°. 1°is approximately equivalent to 4.2 pulse width. Formula: pulse width=4.2\*angle. Note: this formula is only for reference.
+The rotation range of the serial bus servo is 0-1000, corresponding to 0-240°. 1°is approximately equivalent to 4.2 pulse width. Formula: pulse width=4.2*angle. Note: this formula is only for reference.
 
 **(2) Recognize green or blue**
 
@@ -1942,9 +1926,9 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_12\section_6\media\image3.png"  /> at upper left corner of desktop to open the Terminator.
+(2) Click <img src="../_static/media/chapter_12/section_6/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-<img class="common_img" src="../_static/media/chapter_12\section_6\media\image4.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_6/image4.png"  />
 
 (3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
@@ -1952,15 +1936,11 @@ The input command should be case sensitive and space sensitive.
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12\section_6\media\image5.png"  />
-
 (4) Input the command, and then press "Enter" to start the game.
 
 ```bash
 python3 intelligent_fetch.py
 ```
-
-<img class="common_img" src="../_static/media/chapter_12\section_6\media\image6.png"  />
 
 (5) If want to close this game, press "Ctrl+C" on LX terminal. If the game cannot be quit, please try again.
 
@@ -2209,7 +2189,7 @@ The second parameter `25` is the ID of the servo to drive.
 
 The third parameter `120` is the rotation position. It is obtained by angle conversion.
 
-The rotation range of the serial bus servo is 0-1000 pulse width. The converted angle range is 0-240°, that is 1° is approximately equivalent to 4.2 pulse width. Formula: pulse width=4.2\*Angle. Note: this formula is only for reference.
+The rotation range of the serial bus servo is 0-1000 pulse width. The converted angle range is 0-240°, that is 1° is approximately equivalent to 4.2 pulse width. Formula: pulse width=4.2*Angle. Note: this formula is only for reference.
 
 `setPitchRangeMoving()` function is used to control the robotic arm of the SpiderPi Pro to move to the given coordinate. Take `AK.setPitchRangeMoving((x, y, -5), -90, -90, 100, 1)` for example. The meaning of the parameters in bracket is as follow.
 
@@ -2355,9 +2335,9 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_12/section_7/media/image3.png"  /> at upper left corner of desktop to open the Terminator.
+(2) Click <img src="../_static/media/chapter_12/section_7/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-<img class="common_img" src="../_static/media/chapter_12/section_7/media/image4.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_7/image4.png"  />
 
 (3) Enter the command and press "Enter" to navigate to the directory where the game program is located.
 
@@ -2365,15 +2345,11 @@ The input command should be case sensitive and space sensitive.
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_7/media/image5.png"  />
-
 (4) Input the command, and then press "Enter" to start the game.
 
 ```bash
 python3 cruise_carry.py
 ```
-
-<img class="common_img" src="../_static/media/chapter_12/section_7/media/image6.png"  />
 
 (5) If want to close this game, press "Ctrl+C" on LX terminal. If the game cannot be quit, please try again.
 
