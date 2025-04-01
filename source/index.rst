@@ -17,7 +17,7 @@ SpiderPi Pro
    docs/7_PC_Software.md
    docs/8_forward_inverse_kinematics.md
    docs/10_recognition_tracking.md
-   docs/12_AI_Vision_advanced_lesson.md
-   docs/11_mass_control.md
+   docs/11_AI_Vision_advanced_lesson.md
+   docs/12_mass_control.md
    docs/13_network_configuration.md
    docs/resources_download.md
