@@ -8,47 +8,49 @@ Firstly, recognize the color of the ball. Firstly, convert the color space of th
 
 Then use the robot body as a reference to establish a coordinate system, and then obtain the coordinate of the ball. Judge whether the ball is on the right or left through the coordinate of the x axis, and then control the corresponding foot to lift
 
+<p id="anchor_7_1_2"></p>
+
 ### 7.1.2 Operation steps
 
 The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_12\section_1\media\image3.png"  /> at upper left corner of desktop to open the Terminator.
+(2) Click <img src="../_static/media/chapter_12/section_1/media/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-(3) Enter the command “cd spiderpi/advanced” and press “Enter” to navigate to the directory where the game program is located.
+(3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 
-```
+```bash
 cd spiderpi/advanced
 ```
 
-(4) Input the command “python3 ball_orientation.py”, and then press Enter to start the game.
+(4) Input the command, and then press Enter to start the game.
 
-```
+```bash
 python3 ball_orientation.py
 ```
 
-(5) If want to close this game, press “Ctrl+C” on LX terminal. If the game cannot be quit, please try again.
+(5) If want to close this game, press "**Ctrl+C**" on LX terminal. If the game cannot be quit, please try again.
 
 ### 7.1.3 Project outcome
 
-The default recognition color is green. If you want to modify it as other color, please check how to modify in “[7.1.5 Function Extension]()”
+The default recognition color is green. If you want to modify it as other color, please check how to modify in "[7.1.5 Function Extension](#anchor_7_1_5)"
 
 When the green ball is recognized, the green ball will be circled and its coordinate will be displayed on the terminal. And then control the robot to lift the corresponding leg.
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image7.png"   />
+<img class="common_img" src="../_static/media/chapter_12/section_1/media/image7.png"   />
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\1.gif"   />
+<img class="common_img" src="../_static/media/chapter_12/section_1/media/1.gif"   />
 
 ### 7.1.4 Program Analysis
 
-The source code of this program lies in: [/home/pi/spiderpi/advanced/ball_orientation.py]()
+The source code of this program lies in: [/home/pi/spiderpi/advanced/ball_orientation.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/transporting_kicking_ball/ball_orientation.zip)
 
 * **Import Function Library** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import cv2
 import math
@@ -66,38 +68,38 @@ import arm_ik.arm_move_ik as AMK
 
 (1) Import the libraries related to OpenCV, time, math, and threads. 
 
-If want to call a function in library, you can use “library name+function name (parameter, parameter)”. For example:
+If want to call a function in library, you can use "**library name+function name (parameter, parameter)**". For example:
 
 {lineno-start=139}
 
-```
+```python
                 time.sleep(2)
 ```
 
-Call `sleep` function in “time” library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle”.
+Call `sleep` function in "**time**" library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
 
 (2) Instantiate Function Library
 
-<span class="mark">The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:</span>
+The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:
 
 {lineno-start=13}
 
-```
+```python
 from common import yaml_handle
 from common import kinematics
 from common.ros_robot_controller_sdk import Board
 import arm_ik.arm_move_ik as AMK
 ```
 
-<span class="mark">After instantiating, you can directly input and call the function “Board.function name (parameter, parameter)”.</span>
+After instantiating, you can directly input and call the function "**Board.function name (parameter, parameter)**".
 
 * **Main Function Analysis** 
 
-The python program `__name__ == ’__main__:’` is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
 
 {lineno-start=214}
 
-```
+```python
 if __name__ == '__main__':
     from sensor.ultrasonic_sensor import Ultrasonic
     ultrasonic = Ultrasonic()
@@ -121,7 +123,7 @@ if __name__ == '__main__':
 
 {lineno-start=34}
 
-```
+```python
 current_pos = [[-199.53, -177.73, -100.0],
                [ -35.0, -211.27, -100.0],
                [199.53, -177.73, -100.0],
@@ -161,7 +163,7 @@ Before converting the image from RGB into LAB space, denoise the image and use `
 
 {lineno-start=167}
 
-```
+```python
     frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3) 
 ```
 
@@ -179,7 +181,7 @@ Adopt `inRange()` function in cv2 library to perform binaryzation on the image.
 
 {lineno-start=169}
 
-```
+```python
     frame_mask = cv2.inRange(frame_lab,
                              (lab_data[color]['min'][0],
                               lab_data[color]['min'][1],
@@ -197,7 +199,7 @@ To reduce the interference and make the image smoother, it is necessary to perfo
 
 {lineno-start=176}
 
-```
+```python
     eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
     dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
 ```
@@ -214,7 +216,7 @@ After processing the image, acquire the contour of the target to be recognized, 
 
 {lineno-start=178}
 
-```
+```python
     contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
 ```
 
@@ -224,7 +226,7 @@ Find the contour of the maximum area among the obtained contours. To avoid inter
 
 {lineno-start=87}
 
-```
+```python
 def get_area_maxContour(contours):
     contour_area_temp = 0
     contour_area_max = 0
@@ -248,7 +250,7 @@ According to the coordinate of the X axis, decide which leg of the robot to lift
 
 {lineno-start=129}
 
-```
+```python
 def move():
     global step
     global world_x, world_y
@@ -284,53 +286,55 @@ The first parameter `5` is used to control the position of the leg. Robot legs i
 
 The second parameter `[-300, 100, -50]` is x, y, z coordinate of the end of the leg.
 
+<p id="anchor_7_1_5"></p>
+
 ### 7.1.5 Function extension
 
 The program defaults to recognize green ball and display its coordinate. If you want to modify the recognition color, like red, you can follow the below steps to operate.
 
-(1) Input the command **“cd spiderpi/advanced”** and press **“Enter”** to get to the catalog where the game programs are stored.
+(1) Input the command and press **"Enter"** to get to the catalog where the game programs are stored.
 
-```
+```bash
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image5.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/media/image5.png"  />
 
-(2) Input command **“sudo vim ball_orientation.py”** and press **“Enter”** to open the program file.
+(2) Input command and press **"Enter"** to open the program file.
 
-```
+```bash
 sudo vim ball_orientation.py
 ```
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image19.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/media/image19.png"  />
 
 (3) Locate these codes.
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image20.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/media/image20.png"  />
 
-(4) Press **“i”** key to enter the editing mode.
+(4) Press **"i"** key to enter the editing mode.
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image21.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/media/image21.png"  />
 
-(5) Modify “green” of `color=’green’` as “red”, as shown below.
+(5) Modify "**green**" of `color='green'` as "**red**", as shown below.
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image22.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/media/image22.png"  />
 
-(6) After successful modification, press **“Esc”** and then input **“:wq”** to save the file and exit the editor.
+(6) After successful modification, press **"Esc"** and then input **":wq"** to save the file and exit the editor.
 
-<img class="common_img" src="../_static/media/chapter_12\section_1\media\image23.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_1/media/image23.png"  />
 
-(7) Execute the steps in “[7.1.2 Operation Steps]()” to locate the red ball.
+(7) Execute the steps in "[7.1.2 Operation Steps](#anchor_7_1_2)" to locate the red ball.
 
 ## 7.2 Kick the Ball
 
-In the experiment, a small “ball” is used for demonstration. A color block can also be used to achieve intelligent kicking of the block.
+In the experiment, a small "**ball**" is used for demonstration. A color block can also be used to achieve intelligent kicking of the block.
 
 ### 7.2.1 Program Logic
 
 Firstly, program SpiderPi Pro to recognize the color. Convert RGB color space into Lab. Then perform binaryzation, corrosion, dilation, etc., to obtain the contour only containing the target color and circle it.
 
-The robot will perform color recognition till the coordinate of the “ball” is obtained. Then it will approach the ball. Next, according to the X axis coordinate of the ball, control the front leg which is closer to the ball to kick.
+The robot will perform color recognition till the coordinate of the "**ball**" is obtained. Then it will approach the ball. Next, according to the X axis coordinate of the ball, control the front leg which is closer to the ball to kick.
 
 ### 7.2.2 Operation Steps
 
@@ -342,23 +346,23 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_12\section_2\media\image3.png"  /> at upper left corner of desktop to open the Terminator.
+(2) Click <img src="../_static/media/chapter_12/section_2/media/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-<img class="common_img" src="../_static/media/chapter_12\section_2\media\image4.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_2/media/image4.png"  />
 
-(3) Enter the command and press **“Enter”** to navigate to the directory where the game program is located.
+(3) Enter the command and press **"Enter"** to navigate to the directory where the game program is located.
 
-```
+```bash
 cd spiderpi/advanced
 ```
 
-(4) Input the command and then press **“Enter”** to start the game.
+(4) Input the command and then press **"Enter"** to start the game.
 
-```
+```bash
 python3 intelligent_kick.py
 ```
 
-(5) If want to close this game, press “Ctrl+C” on LX terminal. If the game cannot be quit, please try again.
+(5) If want to close this game, press "**Ctrl+C**" on LX terminal. If the game cannot be quit, please try again.
 
 ### 7.2.3 Project Outcome
 
@@ -368,19 +372,19 @@ The default recognition color is green.
 
 :::
 
-After the green ball is recognized, based on the position of the “ball”, SpiderPi Pro will use the front leg closer to the ball to kick the ball. Besides, the ball will be circled and the color of the “ball” will be printed on the camera returned image.
+After the green ball is recognized, based on the position of the "**ball**", SpiderPi Pro will use the front leg closer to the ball to kick the ball. Besides, the ball will be circled and the color of the "**ball**" will be printed on the camera returned image.
 
-<img class="common_img" src="../_static/media/chapter_12\section_2\media\1.gif"   />
+<img class="common_img" src="../_static/media/chapter_12/section_2/media/1.gif"   />
 
 ### 7.2.4 Program Analysis
 
-The source codes of this program are stored in: [/home/pi/spiderpi/advanced/intelligent_kick.py]()
+The source codes of this program are stored in: [/home/pi/spiderpi/advanced/intelligent_kick.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/transporting_kicking_ball/intelligent_kick.zip)
 
 * **Import Function Library** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import cv2
 import math
@@ -398,23 +402,23 @@ from sensor.ultrasonic_sensor import Ultrasonic
 import arm_ik.arm_move_ik as AMK
 ```
 
-(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use “library name+function name (parameter, parameter)”. For example:
+(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "**library name+function name (parameter, parameter)**". For example:
 
 {lineno-start=251}
 
-```
+```python
             time.sleep(0.05)
 ```
 
-Call `sleep`  function in `time` library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
+Call `sleep`  function in `time` library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
 
 (2) Instantiate Function Library
 
-<span class="mark">The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:</span>
+The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:
 
 {lineno-start=12}
 
-```
+```python
 from common import misc
 from common.pid import PID
 from common import yaml_handle
@@ -422,15 +426,15 @@ from common import kinematics
 from common.ros_robot_controller_sdk import Board
 ```
 
-<span class="mark">After instantiating, you can directly input and call the function `Board.function name (parameter, parameter)`.</span>
+After instantiating, you can directly input and call the function `Board.function name (parameter, parameter)`.
 
 * **Main Function Analysis** 
 
-The python program  `__name__ == ’__main__:’`  is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+The python program  `__name__ == '__main__:'`  is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
 
 {lineno-start=338}
 
-```
+```python
 if __name__ == '__main__':
     from sensor.ultrasonic_sensor import Ultrasonic
 
@@ -458,7 +462,7 @@ Before converting the image from RGB into LAB space, denoise the image and use `
 
 {lineno-start=273}
 
-```
+```python
     frame_gb = cv2.GaussianBlur(frame_resize, (5, 5), 5)  
 ```
 
@@ -476,7 +480,7 @@ Adopt `inRange()` function in cv2 library to perform binaryzation on the image.
 
 {lineno-start=281}
 
-``` 
+```python
             frame_mask = cv2.inRange(frame_lab,
                                          (lab_data[i]['min'][0],
                                           lab_data[i]['min'][1],
@@ -494,7 +498,7 @@ To reduce the interference and make the image smoother, it is necessary to perfo
 
 {lineno-start=288}
 
-```
+```python
             eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
             dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
 ```
@@ -513,7 +517,7 @@ After processing the image, acquire the contour of the target to be recognized, 
 
 {lineno-start=292}
 
-```
+```python
             contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  # 找出轮廓(find contours)
 ```
 
@@ -523,7 +527,7 @@ Find the contour of the maximum area among the obtained contours. To avoid inter
 
 {lineno-start=66}
 
-```
+```python
 def get_area_maxContour(contours):
     contour_area_temp = 0
     contour_area_max = 0
@@ -546,7 +550,7 @@ After the contour with the largest area is acquired, call `minEnclosingCircle()`
 
 {lineno-start=295}
 
-```
+```python
     if area_max > 50:  # 有找到最大面积(the maximum area has been found)
         (centerX, centerY), radius = cv2.minEnclosingCircle(areaMaxContour) #获取最小外接圆(obtain the minimum circumscribed circle)
         centerX = int(misc.map(centerX, 0, size[0], 0, img_w))
@@ -561,7 +565,7 @@ After the coordinate is confirmed, convert the coordinate into actual distance t
 
 {lineno-start=159}
 
-```
+```python
             if abs(dx) > 5 or dy > 20 or dy < -10:
                 if dy < -10:
                     direction = 0
@@ -591,7 +595,7 @@ Firstly, control the robot to approach the ball.
 
 {lineno-start=177}
 
-```
+```python
                     ago_direction = 'left'
                 ik.setStepMode(ik.initial_pos, 2, 2, amplitude*1.5, dz, direction, 0, dx/10, p, o, 50, 1)
                 move_st = True
@@ -604,7 +608,7 @@ Judge the ball is closer to which front leg according to the X axis coordinate o
 
 {lineno-start=182}
 
-```
+```python
                 ik.setStepMode(ik.initial_pos, 2, 2, 70, 20, 0, 0, 0, p, o, 50, 2)  # 朝前直走(go straight forward)
                 ik.stand(ik.initial_pos, t=500)
                 if x_dis <= 510:
@@ -643,7 +647,7 @@ The attitude data of the SpiderPi Pro is defined as a 3×6 array, and the array 
 
 {lineno-start=57}
 
-```
+```python
 current_pos = [[-199.53, -177.73, -100.0],
                [ -35.0, -211.27, -100.0],
                [199.53, -177.73, -100.0],
@@ -656,7 +660,7 @@ Modify the coordinate parameter of the corresponding leg, and call `stand()` fun
 
 {lineno-start=182}
 
-```
+```python
                 ik.setStepMode(ik.initial_pos, 2, 2, 70, 20, 0, 0, 0, p, o, 50, 2)  # 朝前直走(go straight forward)
                 ik.stand(ik.initial_pos, t=500)
                 if x_dis <= 510:
@@ -701,7 +705,7 @@ Before the game starts, you need to paste the included ID1 sticker on one block.
 
 The overall implementation process of this lesson is as follows:
 
-It’s necessary to import the required libraries and modules, load the calibration parameters of the camera (matrix mtx and distortion coefficient dist), and calculate the new camera matrix newcameramtx. Then, detect AprilTag markers through positioning, image segmentation, and contour finding. After contour positioning, detect quadrilaterals and fit lines to form a closed loop by obtaining the four corner points. Next, update the status, calculate the world coordinates, update the image, and perform calibration.
+It's necessary to import the required libraries and modules, load the calibration parameters of the camera (matrix mtx and distortion coefficient dist), and calculate the new camera matrix newcameramtx. Then, detect AprilTag markers through positioning, image segmentation, and contour finding. After contour positioning, detect quadrilaterals and fit lines to form a closed loop by obtaining the four corner points. Next, update the status, calculate the world coordinates, update the image, and perform calibration.
 
 After modification, SpiderPi Pro can pick the target object accurately.
 
@@ -711,29 +715,25 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_12/section_2/media/image3.png"  /> at upper left corner of desktop, or press “Ctrl+Alt+T” to open LX terminal.
+(2) Click <img src="../_static/media/chapter_12/section_2/media/image3.png"  /> at upper left corner of desktop, or press "**Ctrl+Alt+T**" to open LX terminal.
 
 <img class="common_img" src="../_static/media/chapter_12/section_2/media/image4.png"  />
 
-(3) Enter the command “cd spiderpi/functions” and press “Enter” to navigate to the directory where the game program is located.
+(3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 
-```
+```bash
 cd spiderpi/functions
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_2/media/image5.png"  />
+(4) Input command and press "**Enter**" to run calibration program.
 
-(4) Input command “python3 camera_cal_main.py” and press “Enter” to run calibration program.
-
-```
+```bash
 python3 camera_cal_main.py
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_2/media/image6.png"  />
-
 (5) Place the block with ID1 sticker right under the gripper.
 
-(6) If you want to exit the game, press “Ctrl+C” to close the LX terminal interface. If it cannot be closed, you can try again.
+(6) If you want to exit the game, press "**Ctrl+C**" to close the LX terminal interface. If it cannot be closed, you can try again.
 
 (7) When you hear two beeps, start calibrating the position.
 
@@ -743,54 +743,53 @@ python3 camera_cal_main.py
 
 :::{Note}
 
- If it beeps three times continuously but 5 black dots don’t coincide with the 5 colored dots, the calibration doesn’t work. And you can adjust the lighting again and then start the program of position calibration.
+If it beeps three times continuously but 5 black dots don't coincide with the 5 colored dots, the calibration doesn't work. And you can adjust the lighting again and then start the program of position calibration.
 
 :::
 
-(9) Having calibrated, press “Ctrl+C” to close the LX terminal interface. If it cannot be closed, you can try again.
+(9) Having calibrated, press "**Ctrl+C**" to close the LX terminal interface. If it cannot be closed, you can try again.
 
-(10\) En<span class="mark">ter the command “cd ..” and press “Enter” to switch to the parent directory; enter the “cd advand/” command</span> and press “Enter” to get into the catalog of intelligent picking program; and place the red block under the gripper and input the command “python3 intelligent_fetch.py”, then press “Enter” to start the intelligent picking game.
+(10) Enter the command "**cd ..**" and press "**Enter**" to switch to the parent directory; enter the "**cd advand/**" commandand press "**Enter**" to get into the catalog of intelligent picking program; and place the red block under the gripper and input the command "**python3 intelligent_fetch.py**", then press "**Enter**" to start the intelligent picking game.
 
-```
+```bash
 cd ..
 ```
 
-```
+```bash
 cd advanced/
 ```
 
-```
+```bash
 python3 intelligent_fetch.py
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_2/media/image8.png"  />
-
 (11) If the gripper is not at the accurate position during picking, as the picture shown, you can run the calibration program to make fine adjustment again.
 
-(12\) Enter command<span class="mark">s “cd ..”, “cd functions”,</span> and “python3 camera_cal\_ main.py” in turn to run the calibration program.
-```
+(12) Enter commands "**cd ..**", "**cd functions**", and "**python3 camera_cal_ main.py**" in turn to run the calibration program.
+
+```bash
 cd ..
 ```
 
-```pycon
+```bash
 cd functions
 ```
-```pycon
+
+```bash
 python3 camera_cal_ main.py
 ```
-<img class="common_img" src="../_static/media/chapter_12/section_2/media/image9.png"  />
 
-(13\) Place the tag block according to the picking effect in the game. For example, if the gripper stops in front of the red block not at the middle, place the tag block under the gripper not at the position of the red block.
+(13) Place the tag block according to the picking effect in the game. For example, if the gripper stops in front of the red block not at the middle, place the tag block under the gripper not at the position of the red block.
 
-(14\) Having calibrated, run the intelligent picking program in the same way to check the calibration effect. You can see that the gripper can stop at the middle of the block and pick the block.
+(14) Having calibrated, run the intelligent picking program in the same way to check the calibration effect. You can see that the gripper can stop at the middle of the block and pick the block.
 
 ### 7.3.3 Program Analysis
 
-The source code of the program is located in:[/home/pi/spiderpi/functions/camera_cal_main.py]()
+The source code of the program is located in: [/home/pi/spiderpi/functions/camera_cal_main.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/transporting_kicking_ball/camera_cal_main.zip)
 
 {lineno-start=1}
 
-```
+```python
 #!/usr/bin/python3
 # coding=utf8
 import os
@@ -834,7 +833,7 @@ marker_corners_block[:, 2] = marker_corners_block[:, 2] - 40
 
 {lineno-start=3}
 
-```
+```python
 import os
 import cv2
 import yaml
@@ -849,11 +848,11 @@ from common.ros_robot_controller_sdk import Board
 import arm_ik.arm_move_ik as AMK
 ```
 
-(1) Import the libraries related to OpenCV, time, math, threads, and inverse kinematics. If want to call a function in library, you can use “library name+function name (parameter, parameter)”. For example:
+(1) Import the libraries related to OpenCV, time, math, threads, and inverse kinematics. If want to call a function in library, you can use "**library name+function name (parameter, parameter)**". For example:
 
 {lineno-start=174}
 
-```
+```python
     time.sleep(3)
 ```
 
@@ -867,19 +866,19 @@ The name of function library is too long to memorize. For calling function easil
 
 {lineno-start=13}
 
-```
+```python
 from common.ros_robot_controller_sdk import Board
 ```
 
-<span class="mark">After instantiating, you can directly input and call the function `Board.function name (parameter, parameter)`.</span>
+After instantiating, you can directly input and call the function `Board.function name (parameter, parameter)`.
 
 * **Main Function Analysis** 
 
-The python program  `__name__ == ’__main__:’`  is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+The python program  `__name__ == '__main__:'`  is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
 
 {lineno-start=189}
 
-```
+```python
 if __name__ == '__main__':
     
     #mapx, mapy = cv2.initUndistortRectifyMap(mtx, dist, None, newcameramtx, (640, 480), 5)
@@ -912,7 +911,7 @@ if __name__ == '__main__':
 
 {lineno-start=56}
 
-```
+```python
 def initMove():
     ik.stand(ik.initial_pos)
     board.bus_servo_set_position(1, [[25, 650]])
@@ -923,7 +922,7 @@ def initMove():
 
 {lineno-start=62}
 
-```
+```python
 def camera_to_world(cam_mtx, r, t, img_points):
     inv_k = np.asmatrix(cam_mtx).I
     r_mat = np.zeros((3, 3), dtype=np.float64)
@@ -958,7 +957,7 @@ def camera_to_world(cam_mtx, r, t, img_points):
 
 {lineno-start=92}
 
-```
+```python
 def run(img):
     frame_gray = cv2.cvtColor(np.copy(img), cv2.COLOR_RGB2GRAY)
     tags = at_detector.detect(frame_gray)
@@ -1013,7 +1012,7 @@ Convert an input color image to grayscale image using `cv2.cvtColor`.
 
 {lineno-start=93}
 
-```
+```python
     frame_gray = cv2.cvtColor(np.copy(img), cv2.COLOR_RGB2GRAY)
 ```
 
@@ -1021,7 +1020,7 @@ Convert an input color image to grayscale image using `cv2.cvtColor`.
 
 {lineno-start=94}
 
-```
+```python
     tags = at_detector.detect(frame_gray)
 ```
 
@@ -1029,7 +1028,7 @@ Convert an input color image to grayscale image using `cv2.cvtColor`.
 
 {lineno-start=97}
 
-```
+```python
         if tag.tag_id == 1:
             corners = tag.corners.reshape(1, -1, 2).astype(np.float32)
             pts = np.insert(corners[0], 0, values=tag.center, axis=0)
@@ -1051,13 +1050,13 @@ Convert an input color image to grayscale image using `cv2.cvtColor`.
 
 ① Traverse all detected tags and obtain the center and corner coordinates for each tag.
 
-② If the tag ID is 1, process it and perform pose estimation using  `cv2.solvePnP`. This updates the state variables R and T.
+② If the tag ID is 1, process it and perform pose estimation using  `cv2.solvePnP`. This updates the state variables R and T.
 
 (7) Coordinate transformation and visual marker:
 
 {lineno-start=115}
 
-```
+```python
             w = camera_to_world(state.K, state.R_40, state.T_40,
                                         center.reshape((1, 1, 2)))[0][0]
             print(center.reshape((1, 1, 2)))
@@ -1083,25 +1082,25 @@ Convert an input color image to grayscale image using `cv2.cvtColor`.
     return img
 ```
 
-Use the `camera_to_world` function to convert the point from the camera coordinate system to the physical coordinate system.
+Use the `camera_to_world` function to convert the point from the camera coordinate system to the physical coordinate system.
 
 Draw the corner points and the center point of the tag on the image, and use `cv2.putText` to display the tag ID and physical coordinates on the image. 
 
 The parameters in the function are as follows:  
 
-① The first parameter `img` is the input image;  
+① The first parameter `img` is the input image;  
 
-② The second parameter `str(tag_id)` is the content to be displayed;  
+② The second parameter `str(tag_id)` is the content to be displayed;  
 
-③ The third parameter `(10, img.shape[0] - 30)` is the display position;  
+③ The third parameter `(10, img.shape[0] - 30)` is the display position;  
 
-④ The fourth parameter `cv2.FONT_HERSHEY_SIMPLEX` is the font type;  
+④ The fourth parameter `cv2.FONT_HERSHEY_SIMPLEX` is the font type;  
 
-⑤ The fifth parameter `0.65` is the font size;  
+⑤ The fifth parameter `0.65` is the font size;  
 
-⑥ The sixth parameter `[0, 255, 255]` is the font color, in BGR order, which is yellow;  
+⑥ The sixth parameter `[0, 255, 255]` is the font color, in BGR order, which is yellow;  
 
-⑦ The seventh parameter `2` is the font thickness.  
+⑦ The seventh parameter `2` is the font thickness.  
 
 Finally, the function returns the image.
 
@@ -1109,7 +1108,7 @@ Finally, the function returns the image.
 
 {lineno-start=173}
 
-```
+```python
 def move():
     time.sleep(3)
     board.set_buzzer(2400, 0.1, 0.4, 1)
@@ -1122,7 +1121,7 @@ def move():
     save_cb()
 ```
 
-<span class="mark">Upon observing that the five black dots overlapped with the five colored dots on the AprilTag block, SpiderPi Pro makes three beeps.</span>
+Upon observing that the five black dots overlapped with the five colored dots on the AprilTag block, SpiderPi Pro makes three beeps.
 
 ## 7.4 Block Picking
 
@@ -1146,23 +1145,19 @@ The input command should be case sensitive and space sensitive.
 
 <img class="common_img" src="../_static/media/chapter_12/section_4/media/image4.png"  />
 
-(3) Enter the command “cd spiderpi/advanced” and press “Enter” to navigate to the directory where the game program is located.
+(3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 
-```
+```bash
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_4/media/image5.png"  />
+(4) Input the command, and then press "**Enter**" to start the game.
 
-(4) Input the command “python3 block_fetch.py”, and then press “Enter” to start the game.
-
-```
+```bash
 python3 block_fetch.py
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_4/media/image6.png"  />
-
-(5) If want to close this game, press “Ctrl+C” on LX terminal. If the game cannot be quit, please try again.
+(5) If want to close this game, press "**Ctrl+C**" on LX terminal. If the game cannot be quit, please try again.
 
 ### 7.4.3 Project Outcome
 
@@ -1170,13 +1165,13 @@ After the block is recognized, the robotic arm will approach the block and open 
 
 ### 7.4.4 Program Analysis
 
-The source code of this program lies in: [/home/pi/spiderpi/advanced/block_fetch.py]()
+The source code of this program lies in: [/home/pi/spiderpi/advanced/block_fetch.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/transporting_kicking_ball/block_fetch.zip)
 
 * **Import Function Library** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import cv2
 import math
@@ -1195,23 +1190,23 @@ from sensor.ultrasonic_sensor import Ultrasonic
 
 (1) Import the libraries related to OpenCV, time, math, and threads.
 
- If want to call a function in library, you can use “library name+function name (parameter, parameter)”. For example:</span>
+ If want to call a function in library, you can use "**library name+function name (parameter, parameter)**". For example:</span>
 
 {lineno-start=119}
 
-```
+```python
             time.sleep(0.5)
 ```
 
-Call `sleep` function in “time” library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
+Call `sleep` function in "**time**" library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
 
 (2) Instantiate Function Library
 
-<span class="mark">The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:</span>
+The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:
 
 {lineno-start=10}
 
-```
+```python
 from common import misc
 from common import yaml_handle
 from common import kinematics
@@ -1222,11 +1217,11 @@ After instantiating, you can directly input and call the function `Board.functio
 
 * **Main Function Analysis** 
 
-The python program  `__name__ == ’__main__:’` is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.</span>
+The python program  `__name__ == '__main__:'` is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.</span>
 
 {lineno-start=215}
 
-```
+```python
 if __name__ == '__main__':
     #加载参数(load parameter)
     param_data = np.load(calibration_param_path + '.npz')
@@ -1251,7 +1246,7 @@ Before converting the image from RGB into LAB space, denoise the image and use `
 
 {lineno-start=161}
 
-```
+```python
     frame_gb = cv2.GaussianBlur(img, (3, 3),3)  
 ```
 
@@ -1269,7 +1264,7 @@ Adopt `inRange()` function in cv2 library to perform binaryzation on the image.
 
 {lineno-start=162}
 
-```
+```python
     frame_mask = cv2.inRange(frame_lab,
                              (lab_data[color]['min'][0],
                               lab_data[color]['min'][1],
@@ -1289,7 +1284,7 @@ To reduce the interference and make the image smoother, it is necessary to perfo
 
 {lineno-start=169}
 
-```
+```python
     eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
     dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
 ```
@@ -1308,7 +1303,7 @@ After processing the image, acquire the contour of the target to be recognized, 
 
 {lineno-start=171}
 
-```
+```python
     contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
 ```
 
@@ -1318,7 +1313,7 @@ Find the contour of the maximum area among the obtained contours. To avoid inter
 
 {lineno-start=61}
 
-```
+```python
 def get_area_maxContour(contours):
     contour_area_temp = 0
     contour_area_max = 0
@@ -1342,18 +1337,18 @@ After the contour with the largest area is obtained, mark the contour with `circ
 
 {lineno-start=180}
 
-```
+```python
         cv2.circle(img, (centerX, centerY), radius, range_rgb[color], 2)#画圆(draw the circle)
         cv2.putText(img, "Color: " + color, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, range_rgb[color], 2)
 ```
 
 * **Acquire the coordinate** 
 
-(1) Judge whether the position of the ball remains stable in order to avoid the influence on the robot’s piking performance.
+(1) Judge whether the position of the ball remains stable in order to avoid the influence on the robot's piking performance.
 
 {lineno-start=183}
 
-```
+```python
         if abs(centerX-old_x) < 8 and abs(centerY-old_y) < 8: # 判断目标坐标有没有变化(determine whether the target coordinate is changed)
             num += 1
         else:
@@ -1365,7 +1360,7 @@ After the contour with the largest area is obtained, mark the contour with `circ
 
 {lineno-start=189}
 
-```
+```python
         if num > 10: # 多次判断，确定目标位置稳定(judge multiple times to ensure stable target position)
             # 转换成现实距离(convert to realistic distance)
             center = np.array([centerX,centerY])
@@ -1379,7 +1374,7 @@ Having gotten the location of the block, control the robotic arm of the SpiderPi
 
 {lineno-start=117}
 
-```
+```python
     while True:
         if start:
             time.sleep(0.5)
@@ -1447,39 +1442,35 @@ The input command should be case sensitive and space sensitive.
 
 <img class="common_img" src="../_static/media/chapter_12/section_5/media/image4.png"  />
 
-(3) Enter the command and press **“Enter”** to navigate to the directory where the game program is located.
+(3) Enter the command and press **"Enter"** to navigate to the directory where the game program is located.
 
-```
+```bash
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_5/media/image5.png"  />
+(4) Input the command and then press **"Enter"** to start the game.
 
-(4) Input the command and then press **“Enter”** to start the game.
-
-```
+```bash
 python3 color_sorting.py
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_5/media/image6.png"  />
-
-(5) If want to close this game, press “Ctrl+C” on LX terminal. If the game cannot be quit, please try again.
+(5) If want to close this game, press "**Ctrl+C**" on LX terminal. If the game cannot be quit, please try again.
 
 ### 7.5.3 Project Outcome
 
-After the game starts, the robotic arm will raise, and the camera is facing forward horizontally. Please place red, green and blue balls in sequence within the camera’s field of view. When the colored block is recognized, it will be circled and the color of the block will be printed on the camera returned image.
+After the game starts, the robotic arm will raise, and the camera is facing forward horizontally. Please place red, green and blue balls in sequence within the camera's field of view. When the colored block is recognized, it will be circled and the color of the block will be printed on the camera returned image.
 
 When recognizing the red block, SpiderPi Pro will shake its head. When recognizing green or blue block, the robotic arm will move forward and open its gripper. Please place the block in the middle of the gripper, and then the robotic arm will pick the block and place it to the corresponding position. SpiderPi Pro will place the green block to its left front side, and blue block to its right front side.
 
 ### 7.5.4 Program Analysis
 
-The source codes of this program are stored in: [/home/pi/spiderpi/advanced/color_sorting.py]()
+The source codes of this program are stored in: [/home/pi/spiderpi/advanced/color_sorting.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/transporting_kicking_ball/color_sorting.zip)
 
 * **Import Function Library** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import cv2
 import math
@@ -1508,7 +1499,7 @@ ak = AMK.ArmIK()
 
 {lineno-start=122}
 
-```
+```python
                         time.sleep(0.3)
 ```
 
@@ -1516,23 +1507,23 @@ Call `sleep` function in `time` library. The function `sleep ()` is used to dela
 
 (2) Instantiate Function Library
 
-<span class="mark">The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:</span>
+The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:
 
 {lineno-start=122}
 
-```
+```python
                         time.sleep(0.3)
 ```
 
-<span class="mark">After instantiating, you can directly input and call the function “Board.function name (parameter, parameter)”.</span>
+After instantiating, you can directly input and call the function "**Board.function name (parameter, parameter)**".
 
 * **Main Function Analysis** 
 
-The python program `__name__ == ’__main__:’` is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
 
 {lineno-start=252}
 
-```
+```python
 if __name__ == '__main__':
 
     #加载参数(load parameter)
@@ -1549,20 +1540,20 @@ if __name__ == '__main__':
 
 {lineno-start=267}
 
-```
+```python
     while True:
         img = camera.frame
 ```
 
-<span class="mark">When the the game is started, store the image in “img”.</span>
+When the the game is started, store the image in "**img**".
 
 **(2) Enter Image Processing**
 
-<span class="mark">When the captured image is read, call `run` function to process the image.</span>
+When the captured image is read, call `run` function to process the image.
 
 {lineno-start=269}
 
-```
+```python
         if img is not None:
             frame = img.copy()
             frame = cv2.remap(frame, mapx, mapy, cv2.INTER_LINEAR)  # 畸变矫正(distortion correction)
@@ -1575,7 +1566,7 @@ The function `run()` is used to process image.
 
 {lineno-start=}
 
-```
+```python
 size = (320, 240)
 def run(img):
     global draw_color
@@ -1613,13 +1604,13 @@ def run(img):
 
 {lineno-start=182}
 
-```
+```python
     frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
 ```
 
 The first parameter `img_copy` is the input image.
 
-The second parameter `size` is the size of the output image. The size can be set based on you own needs. 
+The second parameter `size` is the size of the output image. The size can be set based on you own needs.
 
 The third parameter `interpolation=cv2.INTER_NEAREST` is interpolation method. 
 
@@ -1633,11 +1624,11 @@ The third parameter `interpolation=cv2.INTER_NEAREST` is interpolation method.
 
 **(4) Gaussian filtering**
 
-<span class="mark">Noise is always present in image to influence the image quality to weaken the features. Select the filter methods according to the different noises and the command method includes Gaussian filter, Median filtering, Mean filter, etc. Gaussian filter is a linear filter also smooths an image and reduces noise, which is widely used in processing image to eliminate noise.</span>
+Noise is always present in image to influence the image quality to weaken the features. Select the filter methods according to the different noises and the command method includes Gaussian filter, Median filtering, Mean filter, etc. Gaussian filter is a linear filter also smooths an image and reduces noise, which is widely used in processing image to eliminate noise.
 
 {lineno-start=183}
 
-```
+```python
     frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3)
 ```
 
@@ -1653,13 +1644,13 @@ Use the `cv2.cvtColor()` function to convert the color space.
 
 {lineno-start=184}
 
-```
+```python
     frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间(convert the image to LAB space)
 ```
 
 The first parameter `frame_gb` is the input image.
 
-The second parameter `cv2.COLOR_BGR2LAB` specifies the conversion format. `cv2.COLOR_BGR2LAB` is used to convert BGR format to LAB format. If you want to convert to RGB, `cv2.COLOR_BGR2RGB` can be used.
+The second parameter `cv2.COLOR_BGR2LAB` specifies the conversion format. `cv2.COLOR_BGR2LAB` is used to convert BGR format to LAB format. If you want to convert to RGB, `cv2.COLOR_BGR2RGB` can be used.
 
 **(6) Binaryzation processing**
 
@@ -1667,7 +1658,7 @@ Adopt `inRange()` function in cv2 library to perform binaryzation on the image.
 
 {lineno-start=193}
 
-```
+```python
                 frame_mask = cv2.inRange(frame_lab,
                                          (lab_data[i]['min'][0],
                                           lab_data[i]['min'][1],
@@ -1685,7 +1676,7 @@ To reduce distraction and make the image smoother, perform corrosion and dilatio
 
 {lineno-start=200}
 
-```
+```python
                 eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
                 dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
 ```
@@ -1704,7 +1695,7 @@ After processing the image, acquire the contour of the target to be recognized, 
 
 {lineno-start=204}
 
-```
+```python
                 contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
 ```
 
@@ -1714,7 +1705,7 @@ Find the contour of the maximum area among the obtained contours. To avoid inter
 
 {lineno-start=205}
 
-```
+```python
                 areaMaxContour, area_max = getAreaMaxContour(contours)  #找出最大轮廓(find the largest contour)
                 if areaMaxContour is not None:
                     if area_max > max_area:#找最大面积(find the largest area)
@@ -1722,11 +1713,11 @@ Find the contour of the maximum area among the obtained contours. To avoid inter
 
 **(9) Obtain position information**
 
-Using the `cv2.minEnclosingCircle` function in the cv2 library to obtain the minimum enclosing circle of the target contour, and obtaining the center coordinates and radius of the minimum enclosing circle.
+Using the `cv2.minEnclosingCircle` function in the cv2 library to obtain the minimum enclosing circle of the target contour, and obtaining the center coordinates and radius of the minimum enclosing circle.
 
 {lineno-start=211}
 
-```
+```python
         if max_area > 100:  # 有找到最大面积(the maximum area has been found)
             ((centerX, centerY), radius) = cv2.minEnclosingCircle(areaMaxContour_max)  # 获取最小外接圆(obtain the minimum circumscribed circle)
             centerX = int(misc.map(centerX, 0, size[0], 0, img_w))
@@ -1735,11 +1726,11 @@ Using the `cv2.minEnclosingCircle` function in the cv2 library to obtain the
             cv2.circle(img, (centerX, centerY), radius, range_rgb[color_area_max], 2) #画圆(draw the circle)
 ```
 
-<span class="mark">Obtaining the color with the largest area in the image through conditional statements.</span>
+Obtaining the color with the largest area in the image through conditional statements.
 
 {lineno-start=218}
 
-```
+```python
             if color_area_max == 'red':  #红色最大(red is the largest)
                 color = 1
             elif color_area_max == 'green':  #绿色最大(green is the largest)
@@ -1771,11 +1762,11 @@ Using the `cv2.minEnclosingCircle` function in the cv2 library to obtain the
             draw_color = range_rgb["black"]
 ```
 
-Cal the `putText()` function to display the block color in the live camera feed.
+Cal the `putText()` function to display the block color in the live camera feed.
 
 {lineno-start=248}
 
-```
+```python
     cv2.putText(img, "Color: " + detect_color, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, draw_color, 2)
 ```
 
@@ -1783,7 +1774,7 @@ Cal the `putText()` function to display the block color in the live camera fee
 
 {lineno-start=272}
 
-```
+```python
             Frame = run(frame)
             cv2.imshow('Frame', Frame)
             key = cv2.waitKey(1)
@@ -1791,7 +1782,7 @@ Cal the `putText()` function to display the block color in the live camera fee
                 break
 ```
 
-The function `cv2.imshow()` is used to display an image in a window. `'frame'` is the name of the window, and `'Frame'` is the content to be displayed. It is important to include `cv2.waitKey()` after this function, otherwise the image won’t be displayed.
+The function `cv2.imshow()` is used to display an image in a window. `'frame'` is the name of the window, and `'Frame'` is the content to be displayed. It is important to include `cv2.waitKey()` after this function, otherwise the image won't be displayed.
 
 The function `cv2.waitKey()` is used to wait for a key input, and the parameter `1` is the delay time.
 
@@ -1801,7 +1792,7 @@ Run the `move()` function of the robotic arm as a subthread. When a color is rec
 
 {lineno-start=105}
 
-```
+```python
 def move():
     global draw_color
     global detect_color
@@ -1859,12 +1850,12 @@ def move():
 
 {lineno-start=110}
 
-```
+```python
     coord = {'blue':  ( 8, 24, -5.5),
              'green': (-8, 24, -5.5)}
 ```
 
-`(8, 24, -5.5)` is a given coordinate, passed in the form of a tuple.
+`(8, 24, -5.5)` is a given coordinate, passed in the form of a tuple.
 
 **(2) Recognize red**
 
@@ -1872,7 +1863,7 @@ When recognizing the red block, call `setBusServoPulse()` function in Board libr
 
 {lineno-start=110}
 
-```
+```python
     coord = {'blue':  ( 8, 24, -5.5),
              'green': (-8, 24, -5.5)}
 ```
@@ -1893,7 +1884,7 @@ When green or blue block is recognized, combine `setBusServoPulse()` function in
 
 {lineno-start=130}
 
-```
+```python
                 elif detect_color == 'green' or detect_color == 'blue': # 识别到蓝色或者绿色(blue or green is recognized)
                     board.bus_servo_set_position(0.6,[[25,120]])
                     time.sleep(0.6)
@@ -1946,45 +1937,41 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
-(2) Click <img src="../_static/media/chapter_12\section_6\media\image3.png"  /> at upper left corner of desktop to open the Terminator.
+(2) Click <img src="../_static/media/chapter_12/section_6/media/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-<img class="common_img" src="../_static/media/chapter_12\section_6\media\image4.png"  />
+<img class="common_img" src="../_static/media/chapter_12/section_6/media/image4.png"  />
 
-(3) Enter the command “cd spiderpi/advanced” and press “Enter” to navigate to the directory where the game program is located.
+(3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 
-```
+```bash
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12\section_6\media\image5.png"  />
+(4) Input the command, and then press "**Enter**" to start the game.
 
-(4) Input the command “python3 intelligent_fetch.py”, and then press “Enter” to start the game.
-
-```
+```bash
 python3 intelligent_fetch.py
 ```
 
-<img class="common_img" src="../_static/media/chapter_12\section_6\media\image6.png"  />
-
-(5) If want to close this game, press “Ctrl+C” on LX terminal. If the game cannot be quit, please try again.
+(5) If want to close this game, press "**Ctrl+C**" on LX terminal. If the game cannot be quit, please try again.
 
 ### 7.6.3 Project Outcome
 
-After the game starts, place the red block within camera’s field of view. When recognizing the red block, SpiderPi Pro will bend the robotic arm down to pick the block.
+After the game starts, place the red block within camera's field of view. When recognizing the red block, SpiderPi Pro will bend the robotic arm down to pick the block.
 
 SpiderPi Pro will start detecting human face. When human face is recognized, transfer the block to the designated position.
 
-<img class="common_img" src="../_static/media/chapter_12\section_6\media\1.gif"   />
+<img class="common_img" src="../_static/media/chapter_12/section_6/media/1.gif"   />
 
 ### 7.6.4 Program Analysis
 
-The source codes of this program are stored in： [/home/pi/spiderpi/advanced/intelligent_fetch.py]()
+The source codes of this program are stored in： [/home/pi/spiderpi/advanced/intelligent_fetch.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/transporting_kicking_ball/intelligent_fetch.zip)
 
 * **Import Function Library** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import cv2
 import math
@@ -2002,38 +1989,38 @@ from sensor.ultrasonic_sensor import Ultrasonic
 import arm_ik.arm_move_ik as AMK
 ```
 
-(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use “library name+function name (parameter, parameter)”. For example:
+(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "**library name+function name (parameter, parameter)**". For example:
 
 {lineno-start=133}
 
-```
+```python
                 time.sleep(0.5)
 ```
 
-Call `sleep` function in “time” library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
+Call `sleep` function in "**time**" library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
 
 (2) Instantiate Function Library
 
-<span class="mark">The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:</span>
+The name of function library is too long to memorize. For calling function easily, the library can be instantiated. For example:
 
 {lineno-start=11}
 
-```
+```python
 from common import misc
 from common import yaml_handle
 from common import kinematics
 from common.ros_robot_controller_sdk import Board
 ```
 
-<span class="mark">After instantiating, you can directly input and call the function “Board.function name (parameter, parameter)”.</span>
+After instantiating, you can directly input and call the function "**Board.function name (parameter, parameter)**".
 
 * **Main Function Analysis** 
 
-The python program `__name__ == ’__main__:’` is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function `init()` is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
 
 {lineno-start=301}
 
-```
+```python
 if __name__ == '__main__':
     #加载参数(load parameter)
     param_data = np.load(calibration_param_path + '.npz')
@@ -2056,7 +2043,7 @@ Before converting the image from RGB into LAB space, denoise the image and use `
 
 {lineno-start=245}
 
-```
+```python
     frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3) 
 ```
 
@@ -2074,7 +2061,7 @@ Adopt `inRange()` function in cv2 library to perform binaryzation on the image.
 
 {lineno-start=247}
 
-```
+```python
     frame_mask = cv2.inRange(frame_lab,
                              (lab_data[color]['min'][0],
                               lab_data[color]['min'][1],
@@ -2092,7 +2079,7 @@ To reduce the interference and make the image smoother, it is necessary to perfo
 
 {lineno-start=254}
 
-```
+```python
     eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
     dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
 ```
@@ -2111,7 +2098,7 @@ The second parameter `cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))` is the 
 
 {lineno-start=256}
 
-```
+```python
     contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
 ```
 
@@ -2121,7 +2108,7 @@ The first parameter in parentheses is the input image; the second parameter is t
 
 {lineno-start=72}
 
-```
+```python
 def get_area_max_contour(contours):
     contour_area_temp = 0
     contour_area_max = 0
@@ -2145,18 +2132,18 @@ After the contour with the largest area is obtained, mark the contour with `circ
 
 {lineno-start=265}
 
-```
+```python
         cv2.circle(img, (centerX, centerY), radius, range_rgb[color], 2)#画圆(draw the circle)
         cv2.putText(img, "Color: " + color, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, range_rgb[color], 2)
 ```
 
 * **Acquire the coordinate** 
 
-(1) Judge whether the position of the ball remains stable in order to avoid the influence on the robot’s piking performance.
+(1) Judge whether the position of the ball remains stable in order to avoid the influence on the robot's piking performance.
 
 {lineno-start=268}
 
-```
+```python
         if abs(centerX-old_x) < 8 and abs(centerY-old_y) < 8: # 判断目标坐标有没有变化(determine whether the target coordinate is changed)
             num += 1
         else:
@@ -2168,7 +2155,7 @@ After the contour with the largest area is obtained, mark the contour with `circ
 
 {lineno-start=274}
 
-```
+```python
         if num > 10: # 多次判断，确定目标位置稳定(judge multiple times to ensure stable target position)
             # 转换成现实距离(convert to realistic distance)
             center = np.array([centerX,centerY])
@@ -2185,7 +2172,7 @@ Having gotten the location of the block, control the robotic arm of the SpiderPi
 
 {lineno-start=131}
 
-```
+```python
         if step == 'color': # 夹取色块阶段(the phrase of grasping block)
             if start:
                 time.sleep(0.5)
@@ -2223,7 +2210,7 @@ The first parameter `(x, y, -5)` is the given coordinate and the unit is cm. Thi
 
 The second parameter `-90` is the given pitch angle
 
-The third parameter `-90` and the fourth parameter “100” is the range of the pitch angle.
+The third parameter `-90` and the fourth parameter "**100**" is the range of the pitch angle.
 
 The fifth parameter `1` is the rotation time of the servo and the unit is s.
 
@@ -2233,7 +2220,7 @@ After picking the block, detect human face. The detection parameters involved in
 
 {lineno-start=189}
 
-```
+```python
 def face_detect(img):
     global  area
     global center_x, center_y
@@ -2286,7 +2273,7 @@ After completing face detection, use `rectangle()` function to draw a rectangle 
 
 {lineno-start=218}
 
-```
+```python
                 cv2.rectangle(img, bbox, (0, 255, 0), 2)  # 在每一帧图像上绘制矩形框(draw rectangle box on the image of each frame)
 ```
 
@@ -2304,7 +2291,7 @@ After recognizing the human face, the robotic arm will transfer the block to the
 
 {lineno-start=152}
 
-```
+```python
         elif step == 'face': # 检测人脸阶段(detect face phrase)
             if FaceDetect:
 
@@ -2330,7 +2317,7 @@ If not recognizing human face, the robotic arm will rotate around to search huma
 
 {lineno-start=173}
 
-```
+```python
             else: # 左右转动，寻找人脸(rotate left and right to find the face)
                 if pulse21 > 700 or pulse21 < 300:
                     dn = 0 - dn
@@ -2365,23 +2352,19 @@ The input command should be case sensitive and space sensitive.
 
 <img class="common_img" src="../_static/media/chapter_12/section_7/media/image4.png"  />
 
-(3) Enter the command “cd spiderpi/advanced” and press “Enter” to navigate to the directory where the game program is located.
+(3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 
-```
+```bash
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_7/media/image5.png"  />
+(4) Input the command, and then press "**Enter**" to start the game.
 
-(4) Input the command “python3 cruise_carry.py”, and then press “Enter” to start the game.
-
-```
+```bash
 python3 cruise_carry.py
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_7/media/image6.png"  />
-
-(5) If want to close this game, press “Ctrl+C” on LX terminal. If the game cannot be quit, please try again.
+(5) If want to close this game, press "**Ctrl+C**" on LX terminal. If the game cannot be quit, please try again.
 
 ### 7.7.3 Project Outcome
 
@@ -2389,11 +2372,13 @@ SpiderPi Pro will crawl along the red line. After detecting the red horizontal l
 
 After placing the colored block, it will turn right 180° again to continue transferring other colored blocks.
 
-<img class="common_img" src="../_static/media/chapter_12\section_7\media\1.gif"   />
+<img class="common_img" src="../_static/media/chapter_12/section_7/media/1.gif"   />
+
+<p id="anchor_7_7_4"></p>
 
 ### 7.7.4 Program Analysis
 
-The source code of this program is stored in: [/home/pi/spiderpi/advanced/cruise_carry.py]()
+The source code of this program is stored in: [/home/pi/spiderpi/advanced/cruise_carry.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/transporting_kicking_ball/cruise_carry.zip)
 
 * **Set the detected color** 
 
@@ -2401,18 +2386,20 @@ In this game, SpiderPi Pro will detect green or blue block and red line.
 
 {lineno-start=42}
 
-```
+```python
 color_list = ('green','blue')
 ```
 
 {lineno-start=403}
 
-```
+```python
     if step == 'move':
         img = lineDetect(img, 'red')
     elif step == 'detect' and not place:
         img = ColorDetect(img, color_list[skip])
 ```
+
+<p id="anchor_7_7_4_2"></p>
 
 * **Parameter of red line detection** 
 
@@ -2422,7 +2409,7 @@ Red line detection mainly involves the following parameters.
 
 {lineno-start=281}
 
-```
+```python
     frame_gb = cv2.GaussianBlur(img, (3, 3), 3)
 ```
 
@@ -2436,7 +2423,7 @@ The third parameter `3` is the standard deviation of Gaussian function along X d
 
 {lineno-start=286}
 
-```
+```python
         frame_mask = cv2.inRange(frame_lab,
                                  (lab_data[color]['min'][0],
                                   lab_data[color]['min'][1],
@@ -2450,7 +2437,7 @@ The third parameter `3` is the standard deviation of Gaussian function along X d
 
 {lineno-start=293}
 
-```
+```python
         eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
         dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))    #膨胀(dilate)
 ```
@@ -2465,7 +2452,7 @@ The second parameter `(3, 3)` is the size of the rectangle. The current dimensio
 
 {lineno-start=71}
 
-```
+```python
 def getAreaMaxContour(contours):
     contour_area_temp = 0
     contour_area_max = 0
@@ -2489,7 +2476,7 @@ To avoid interference, use  `if contour_area_temp > 100`  for command setting. O
 
 {lineno-start=305}
 
-```
+```python
             cv2.drawContours(img, [box], -1, (0, 255, 255), 2)  #画出四个点组成的矩形(draw the rectangle composed of four points)
 ```
 
@@ -2507,7 +2494,7 @@ The fifth parameter `2` is the contour width. If it is `-1`, it represents that 
 
 {lineno-start=311}
 
-```
+```python
             cv2.circle(img, (int(line_center_x), int(line_center_y)), 5, (0, 0, 255), -1)  #画出中心点(draw the center point)
             line_centerX = line_center_x
             line_centerY = line_center_y
@@ -2523,13 +2510,15 @@ The fourth parameter `(0, 0, 255)` is the color of the drawn circle. These three
 
 The fifth parameter `-1` represents fill in the circle with the color of parameter 4. If it is a number, this parameter represents the width of the drawn circle.
 
+<p id="anchor_7_7_4_3"></p>
+
 * **Parameters of line following** 
 
 After the red line is detected, control the robot to move along the red line. Its source code can be checked in the below figure.
 
 {lineno-start=217}
 
-```
+```python
         elif step == 'move': # 机器人巡线移动(robot line following movement)
             if line_centerX >= 0 and line_width < 100:    # 判断是否检测到线条(determine whether the line is detected)
                 if abs(line_centerX -img_center_x) < 30:  # 判断是否偏离(check if there is any deviation)
@@ -2563,7 +2552,7 @@ The parameters of colored block detection are similar to that of red line detect
 
 {lineno-start=159}
 
-```
+```python
             else:   #夹取状态(grasping status)
                 if carry:
                     if world_x > 7:
@@ -2599,7 +2588,7 @@ According to the coordinate of the colored block, the robot will determine wheth
 
 {lineno-start=159}
 
-```
+```python
             else:   #夹取状态(grasping status)
                 if carry:
                     if world_x > 7:
@@ -2631,7 +2620,7 @@ According to the coordinate of the colored block, the robot will determine wheth
 
 {lineno-start=184}
 
-```
+```python
                     else:
                         ik.stand(ik.initial_pos)
                         time.sleep(0.5)
@@ -2648,7 +2637,7 @@ The second parameter `120` is the servo value ranging from 0 to 1000.
 
 {lineno-start=189}
 
-```
+```python
                         ak.setPitchRangeMoving((x, y+1.5, 0), -90, -90, 100, 1)  # 移动到目标位置上方(move above the target position)
 ```
 
@@ -2661,16 +2650,14 @@ The third parameter `-90` and the fourth parameter `100` are the range of the pi
 The fifth parameter `1` is the time taken for the robotic arm to move to the specified coordinate.
 
 :::{Note}
-
- `AK.tPitchRangeMoving` funcsetion finally will be converted into the values that control NO.21, 22, 23 and 24 servos on the robotic arm, which will involves the inverse kinematics of the robotic arm. If you want to learn more about inverse kinematics, you can refer to the tutoria<span class="mark">l in “Lesson 1 Color Tracking” in the same path as this lesson.</span>
-
+ `AK.tPitchRangeMoving` funcsetion finally will be converted into the values that control NO.21, 22, 23 and 24 servos on the robotic arm, which will involves the inverse kinematics of the robotic arm.
 :::
 
 (4) Next, pick the colored block and lift the robotic arm. After that, program SpiderPi Pro to perform line following.
 
 {lineno-start=189}
 
-```
+```python
                         ak.setPitchRangeMoving((x, y+1.5, 0), -90, -90, 100, 1)  # 移动到目标位置上方(move above the target position)
                         time.sleep(1)
                         ak.setPitchRangeMoving((x, y+1.5, -5), -90, -90, 100, 1) # 移动到目标位置(move to the target position)
@@ -2687,7 +2674,7 @@ The fifth parameter `1` is the time taken for the robotic arm to move to the spe
 
 {lineno-start=199}
 
-```
+```python
                         if direction == 'left':
                             ik.right_move(ik.initial_pos, 2, 30, 50, sp)
                             direction = None
@@ -2704,7 +2691,7 @@ The fifth parameter `1` is the time taken for the robotic arm to move to the spe
 
 {lineno-start=210}
 
-```
+```python
                         ik.back(ik.initial_pos, 2, 30, 50, 5)        # 向后退几步(back a few steps)
                         ik.stand(ik.initial_pos, t=500)              # 立正姿态(stand position)
                         ik.turn_left(ik.initial_pos, 2, 15, 50, 13)   # 右转180°(turn right for 180°)
@@ -2717,13 +2704,13 @@ The fifth parameter `1` is the time taken for the robotic arm to move to the spe
 
 After picking the block, the robot will transfer it to the designated position. The specific the operation is as follow.
 
-(1) The robot starts crawling along the red line. The parameters of this part are illustrated in “[7.7.4 Program Analysis -> Parameters of red line detection]()” and “[7.7.4 Program Analysis -> Parameters of line following]()”
+(1) The robot starts crawling along the red line. The parameters of this part are illustrated in "[**7.7.4 Program Analysis -> Parameters of red line detection**](#anchor_7_7_4_2)" and "[**7.7.4 Program Analysis -> Parameters of line following**](#anchor_7_7_4_3)"
 
 (2) Control the robot to move along the red line. When the red horizontal line is detected, transfer the colored block and place it to the corresponding position.Lastly, control it to turn around, and continue line following and transferring other blocks.
 
 {lineno-start=242}
 
-```
+```python
             if line_width > 200: # 检测到横线(a horizontal line is detected)
                 dn += 1
                 time.sleep(0.01)

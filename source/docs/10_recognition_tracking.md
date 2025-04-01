@@ -2,13 +2,13 @@
 
 ## 6.1 Single Color Recognition
 
-In this section, the camera detects colors. When a red ball is recognized, the buzzer will emit a beep, and the red ball will be highlighted in the transmitted image with "Color: red" displayed.
+In this section, the camera detects colors. When a red ball is recognized, the buzzer will emit a beep, and the red ball will be highlighted in the transmitted image with "**Color: red**" displayed.
 
 ### 6.1.1 Program Description
 
 The implementation of color recognition consists of two parts: color detection and execution feedback after recognition.
 
-First, for the color detection part, Gaussian filtering is applied to the image to reduce noise. The Lab color space is then used to convert the color of the object (you can learn more about the Lab color space in the "[OpenCV Vision Basic Course]()" section of the tutorial materials). 
+First, for the color detection part, Gaussian filtering is applied to the image to reduce noise. The Lab color space is then used to convert the color of the object (you can learn more about the Lab color space in the "[**OpenCV Vision Basic Course**]()" section of the tutorial materials). 
 
 Next, the object's color within the circle is recognized using color thresholding, followed by masking (masking involves using selected images, shapes, or objects to globally or locally obscure the image being processed). 
 
@@ -20,7 +20,7 @@ Closing: The image undergoes dilation followed by erosion. This operation fills 
 
 After recognition, the servo and buzzer are set up to provide feedback based on the detected color. For example, when red is detected, the buzzer will emit a sound.
 
-For detailed feedback behavior, please refer to  [6.1.3 Program Outcome]()  of this document.
+For detailed feedback behavior, please refer to  [6.1.3 Program Outcome](#anchor_6_1_3)  of this document.
 
 ### 6.1.2 Start and Close the Game
 
@@ -28,11 +28,11 @@ For detailed feedback behavior, please refer to  [6.1.3 Program Outcome]()  of t
 The input command is case-sensitive, and keywords can be auto-completed using the Tab key.
 :::
 
-(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\3.1 VNC Installation and Connection](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#vnc-installation-and-connection)", use the VNC remote connection tool to connect.
+(1) Power on the device and, following the instructions in "[**Remote Desktop Installation and Connection\3.1 VNC Installation and Connection**](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#vnc-installation-and-connection)", use the VNC remote connection tool to connect.
 
 <img class="common_img" src="../_static/media/chapter_10/section_1/image2.png"  />
 
-(2) Click the icon<img src="../_static/media/chapter_10/section_1/image3.png" style="width:0.375in;height:0.3125in" />，in the top left corner of the system desktop or press the shortcut "**Ctrl+Alt+T**" to open the Terminator terminal.
+(2) Click the icon <img src="../_static/media/chapter_10/section_1/image3.png" style="width:0.375in;height:0.3125in" />，in the top left corner of the system desktop or press the shortcut "**Ctrl+Alt+T**" to open the Terminator terminal.
 
 <img class="common_img" src="../_static/media/chapter_10/section_1/image4.png"  />
 
@@ -50,27 +50,25 @@ python3 color_recognition.py
 
 (5) To close the program, simply press "**Ctrl+C**" in the LX terminal. If it does not close, press it multiple times.
 
-<p id="anchor_1_3"></p>
+<p id="anchor_6_1_3"></p>
 
 ### 6.1.3 Program Outcome
 
-After starting the game, the camera will be used to detect colors. When a red ball is recognized, the buzzer will emit a beep sound, and the ball will be circled in the transmitted image, with "Color: red" printed.
+After starting the game, the camera will be used to detect colors. When a red ball is recognized, the buzzer will emit a beep sound, and the ball will be circled in the transmitted image, with "**Color: red**" printed.
 
 :::{Note}
-
 * During the recognition process, ensure the environment is well-lit to avoid inaccurate recognition due to poor lighting conditions.
 
 * Ensure that no objects with similar or matching colors to the target are present in the background within the cameras visual range, as this may cause misrecognition.
 
-* If color recognition is inaccurate, refer to the section "[6.1.5 Function Extensions -> Adjusting Color Thresholds](#anchor_6_1_5)" in this document to adjust the color threshold settings.
-
+* If color recognition is inaccurate, refer to the section "[**6.1.5 Function Extensions -> Adjusting Color Thresholds**](#anchor_6_1_5)" in this document to adjust the color threshold settings.
 :::
 
 <img class="common_img" src="../_static/media/chapter_10/section_1/image6.png"  />
 
 ### 6.1.4 Program Analysis
 
-The source code of this program is saved in: [/home/pi/spiderpi/functions/color_recognition.py]()
+The source code of this program is saved in: [/home/pi/spiderpi/functions/color_recognition.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/color_recognition.zip)
 
 * **Import Function Library** 
 
@@ -133,7 +131,7 @@ In a Python program, `__name__ == '__main__'` indicates the main function of the
     camera = Camera()
 ```
 
-When the play mode starts, the video stream is obtained and stored in "cap".
+When the play mode starts, the video stream is obtained and stored in "**cap**".
 
 (2) Entering Image Processing
 
@@ -324,7 +322,7 @@ The code `time.sleep(0.2)` is a delay function, and `0.2` is the buzzing time.
 
 * **Adjusting Color Thresholds** 
 
-The color recognition program is pre-configured to recognize three colors: red, green, and blue. By default, the program identifies red, triggering the buzzer to emit a beep and drawing a circle around the red ball in the transmitted image, displaying "Color: red."
+The color recognition program is pre-configured to recognize three colors: red, green, and blue. By default, the program identifies red, triggering the buzzer to emit a beep and drawing a circle around the red ball in the transmitted image, displaying "**Color: red**".
 
 **To change the recognized color to green, follow these steps:**
 
@@ -346,17 +344,17 @@ sudo vim color_recognition.py
 
 <img class="common_img" src="../_static/media/chapter_10/section_1/image9.png"  />
 
-(4) Press the "i" key on the keyboard to enter edit mode.
+(4) Press the "**i**" key on the keyboard to enter edit mode.
 
 <img class="common_img" src="../_static/media/chapter_10/section_1/image10.png"  alt="loading" />
 
-(5) Replace "red" (highlighted in red in the image) with "green," as shown in the image below:
+(5) Replace "**red**" (highlighted in red in the image) with "**green**", as shown in the image below:
 
 <img class="common_img" src="../_static/media/chapter_10/section_1/image11.png"  />
 
 <img class="common_img" src="../_static/media/chapter_10/section_1/image12.png"  />
 
-(6) To save your changes, press the "Esc" key, then type ":wq" (note the colon before "wq") and press Enter to save and exit.
+(6) To save your changes, press the "**Esc**" key, then type "**:wq**" (note the colon before "**wq**") and press Enter to save and exit.
 
 <img class="common_img" src="../_static/media/chapter_10/section_1/image13.png"  alt="loading" />
 
@@ -378,7 +376,7 @@ First, program SpiderPi Pro to recognize colors with Lab color space. Convert th
 
 Lastly, circle the obtained color outline and control the robot to take action according to the result of color recognition.
 
-<p id="anchor_2_2"></p>
+<p id="anchor_6_2_2"></p>
 
 ### 6.2.2 Start and Close the Game
 
@@ -410,14 +408,14 @@ python3 color_detect.py
 The default recognition color is red. If you want to change it to blue or green, please refer to "[**6.2.5 Function Extension -> Change the Default Recognition Color**](#anchor_6_2_5)".
 :::
 
-Place the red ball in front of SpiderPi Pro's camera and it will nod when recognizing the red ball. It will "shake head" when detecting the green and blue balls.
+Place the red ball in front of SpiderPi Pro's camera and it will nod when recognizing the red ball. It will "**shake head**" when detecting the green and blue balls.
 
 <img class="common_img" src="../_static/media/chapter_10/section_2/1.gif">
 
 
 ### 6.2.4 Program Analysis
 
-The source code of this program is located at: [/home/pi/spiderpi/functions/color_detect.py]()
+The source code of this program is located at: [/home/pi/spiderpi/functions/color_detect.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/color_detect.zip)
 
 * **Import Function Libraries** 
 
@@ -444,7 +442,7 @@ Before converting the image from RGB into LAB space, denoise the image and use `
 
 {lineno-start=179}
 
-```
+```python
     frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3)    
 ```
 
@@ -462,7 +460,7 @@ The `inRange()` function in the cv2 library is used to perform binarization proc
 
 {lineno-start=189}
 
-```
+```python
                 frame_mask = cv2.inRange(frame_lab,
                                          (lab_data[i]['min'][0],
                                           lab_data[i]['min'][1],
@@ -482,7 +480,7 @@ To reduce the interference and make the image smoother, it is necessary to perfo
 
 {lineno-start=196}
 
-```
+```python
                 eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
                 dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
 ```
@@ -503,7 +501,7 @@ After processing the image, acquire the contour of the target to be recognized, 
 
 {lineno-start=200}
 
-```
+```python
                 contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
 ```
 
@@ -517,7 +515,7 @@ Find the contour of the maximum area among the obtained contours. To avoid inter
 
 {lineno-start=205}
 
-```
+```python
         if max_area > 100:  # 有找到最大面积(the maximum area has been found)
             ((centerX, centerY), radius) = cv2.minEnclosingCircle(areaMaxContour_max)  # 获取最小外接圆(obtain the minimum circumscribed circle)
             centerX = int(misc.map(centerX, 0, size[0], 0, img_w))
@@ -532,7 +530,7 @@ After the contour of the maximum area is obtained, call `circle()` function in c
 
 {lineno-start=210}
 
-```
+```python
             cv2.circle(img, (centerX, centerY), radius, range_rgb[color_area_max], 2)#画圆(drwa circle)
 
 ```
@@ -541,7 +539,7 @@ To improve the accuracy of the recognition result, it is necessary to make sever
 
 {lineno-start=212}
 
-```
+```python
             if color_area_max == 'red':  #红色最大(red is the maximum)
                 color = 1
             elif color_area_max == 'green':  #绿色最大(green is the maximum)
@@ -579,7 +577,7 @@ After the judgment is completed, the color of the recognition target is printed 
 
 {lineno-start=244}
 
-```
+```python
     cv2.putText(img, "Color: " + detect_color, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, draw_color, 2)
 ```
 
@@ -605,7 +603,7 @@ The python program `__name__ == '__main__:'` is the main function of program. Fi
 
 {lineno-start=248}
 
-```
+```python
 if __name__ == '__main__':
     from common.ros_robot_controller_sdk import Board
 ```
@@ -614,14 +612,14 @@ if __name__ == '__main__':
 
 {lineno-start=263}
 
-```
+```python
     while True:
         img = camera.frame
         if img is not None:
             frame = img.copy()
 ```
 
-When the game starts, the image is stored in "img".
+When the game starts, the image is stored in "**img**".
 
 **(2) Enter Image Processing**
 
@@ -629,7 +627,7 @@ When the captured image is read, call `run` function to process the image.
 
 {lineno-start=266}
 
-```
+```python
             frame = img.copy()
             Frame = run(frame)
             cv2.imshow('Frame', Frame)
@@ -644,7 +642,7 @@ When the captured image is read, call `run` function to process the image.
 
 {lineno-start=248}
 
-```
+```python
 if __name__ == '__main__':
     from common.ros_robot_controller_sdk import Board
 
@@ -682,7 +680,7 @@ The function mainly involves processing the image results, making a judgment, an
 
 {lineno-start=112}
 
-```
+```python
 def move():
     global draw_color
     global detect_color
@@ -742,13 +740,13 @@ There are three built-in colors, including red, green and blue, in the color rec
 
 Take modifying the default recognition color as green as an example. The specific operation steps are as follow. 
 
-(1) Input command **"cd spiderpi/functions"** and press **"Enter"** to navigate to the directory where the game programs are stored. 
+(1) Input command and press **"Enter"** to navigate to the directory where the game programs are stored. 
 
 ```bash
 cd spiderpi/functions
 ```
 
-(2) Enter the command **"vim color_detect.py"** and press **"Enter"** to open the program file.
+(2) Enter the command and press **"Enter"** to open the program file.
 
 ```bash
 vim color_detect.py
@@ -759,35 +757,33 @@ vim color_detect.py
 <img class="common_img" src="../_static/media/chapter_10/section_2/image9.png" />
 
 :::{Note}
-We can input the serial number of the line and press "Shift+G" to jump to the corresponding position. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
+We can input the serial number of the line and press "**Shift+G**" to jump to the corresponding position. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-(4) Press "i" to enter the editing mode, then modify "red" in `if detect_color == 'red':` to "green". And replace "green" with "red" in `elif detect_color == 'green' or detect_color == 'blue':`. And you can modify it as blue in the same way.
+(4) Press "**i**" to enter the editing mode, then modify "**red**" in `if detect_color == 'red':` to "**green**". And replace "**green**" with "**red**" in `elif detect_color == 'green' or detect_color == 'blue':`. And you can modify it as blue in the same way.
 
 <img class="common_img" src="../_static/media/chapter_10/section_2/image10.png" />
 
-After modification, Press "Esc" and input ":wq" and then press "Enter" to save the file and exit the editor.
+After modification, Press "**Esc**" and input "**:wq**" and then press "**Enter**" to save the file and exit the editor.
 
 ```bash
 :wq
 ```
 
-(5) After the modification is completed, you can follow the steps in "[6.2.2 Operation Steps]()" to check the game performance. 
+(5) After the modification is completed, you can follow the steps in "[6.2.2 Start and Close the Game](#anchor_6_2_2)" to check the game performance. 
 
 * **Add New Recognition Colors** 
 
 In addition to the built-in recognition colors, you can set other recognition colors in the program. Take orange as example.
 
-(1) Open VNC, input command "vim spiderpi/config/lab_config.yaml" to open Lab color setting document.
+(1) Open VNC, input command to open Lab color setting document.
 
 ```bash
 Vim spiderpi/config/lab_config.yaml
 ```
 
 :::{Note}
-
-It is recommended to screenshot the initial value for recording. 
-
+It is recommended to screenshot the initial value for recording.
 :::
 
 <img class="common_img" src="../_static/media/chapter_10/section_2/image13.png" />
@@ -796,7 +792,7 @@ It is recommended to screenshot the initial value for recording.
 
 <img class="common_img" src="../_static/media/chapter_10/section_2/image15.png" />
 
-Click "Connect" button. When the interface displays the camera returned image, the connection is successful. Select "red" in the drop-down box.
+Click "**Connect**" button. When the interface displays the camera returned image, the connection is successful. Select "**red**" in the drop-down box.
 
 <img class="common_img" src="../_static/media/chapter_10/section_2/image16.png" />
 
@@ -806,7 +802,7 @@ For example, if you want to recognize orange, you can put the orange ball within
 
 <img class="common_img" src="../_static/media/chapter_10/section_2/image17.png" />
 
-(4) After the modification is completed, check whether the modified data was successfully written in. Enter the command again "vim spiderpi/config/lab config.yaml" to open file of Lab color setting.
+(4) After the modification is completed, check whether the modified data was successfully written in. Enter the command again "**vim spiderpi/config/lab config.yaml**" to open file of Lab color setting.
 
 ```bash
 Vim spiderpi/config/lab_config.yaml
@@ -816,7 +812,7 @@ Vim spiderpi/config/lab_config.yaml
 In order to avoid the game performance, it's recommended to use the LAB_Tool tool to modify the value back to the initial value after the modification.
 :::
 
-(5) The modified data is written successfully into the configuration program. Then you can press "Esc" and input ":wq" and then press "Enter" to save and exit.
+(5) The modified data is written successfully into the configuration program. Then you can press "**Esc**" and input "**:wq**" and then press "**Enter**" to save and exit.
 
 ```bash
 :wq
@@ -836,7 +832,7 @@ In this lesson, the camera will be used to recognize red, green, and blue balls.
 
 The implementation of target tracking can be divided into two parts: color recognition and position marking.
 
-First, for the color recognition part, Gaussian filtering is applied to the image for noise reduction. The Lab color space is then used to convert the color of the objects (for more details on the Lab color space, please refer to the "[OpenCV Vision Basic Course]()").
+First, for the color recognition part, Gaussian filtering is applied to the image for noise reduction. The Lab color space is then used to convert the color of the objects (for more details on the Lab color space, please refer to the "[**OpenCV Vision Basic Course**]()").
 
 Next, color thresholding is used to identify the color of objects within the circle. The image is then masked (masking involves using a selected image, shape, or object to globally or locally occlude the processed image).
 
@@ -851,14 +847,14 @@ Position marking requires specific detection algorithms. The basic principle is 
 ### 6.3.2 Start and Close the Game
 
 :::{Note}
-The input of commands must strictly distinguish between uppercase and lowercase letters, as well as spaces. Additionally, you can use the "Tab" key on the keyboard to auto-complete keywords.
+The input of commands must strictly distinguish between uppercase and lowercase letters, as well as spaces. Additionally, you can use the "**Tab**" key on the keyboard to auto-complete keywords.
 :::
 
-(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\3.1 VNC Installation and Connection]()", use the VNC remote connection tool to connect.
+(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\3.1 VNC Installation and Connection](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#vnc-installation-and-connection)", use the VNC remote connection tool to connect.
 
 <img class="common_img" src="../_static/media/chapter_10/section_3/image3.png"  />
 
-(2) Click the icon<img src="../_static/media/chapter_10/section_3/image6.png" style="width:0.375in;height:0.3125in" />in the top left corner of the system desktop or press the shortcut "**Ctrl+Alt+T**" to open the LX terminal.
+(2) Click the icon <img src="../_static/media/chapter_10/section_3/image6.png" style="width:0.375in;height:0.3125in" /> in the top left corner of the system desktop or press the shortcut "**Ctrl+Alt+T**" to open the LX terminal.
 
 <img class="common_img" src="../_static/media/chapter_10/section_3/image8.png"  />
 
@@ -886,20 +882,20 @@ The program defaults to recognizing red, green, and blue balls. After recognitio
 
 * Ensure there are no objects with similar or identical colors to the target colors within the camera's field of view to prevent misrecognition.
 
-* If color recognition is inaccurate, refer to the section "[6.3.5 Function Extension ->Adjusting Color Threshold]()" in this document to adjust the color threshold settings.
+* If color recognition is inaccurate, refer to the section "[**6.3.5 Function Extension ->Adjusting Color Threshold**](#anchor_6_3_5)" in this document to adjust the color threshold settings.
   :::
 
 <img class="common_img" src="../_static/media/chapter_10/section_3/image1.png"  />
 
 ### 6.3.4 Program Description
 
-The source code for this program is located at：[/home/pi/spiderpi/functions/color_position_recognition.py]()
+The source code for this program is located at：[/home/pi/spiderpi/functions/color_position_recognition.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/color_position_recognition.zip)
 
 * **Importing Libraries** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import cv2
 import math
@@ -918,13 +914,13 @@ To call a function from a library, use the format `LibraryName.FunctionName(Para
 
 {lineno-start=189}
 
-```
+```python
             time.sleep(0.01)
 ```
 
 This calls the  `sleep`  function from the  `time`  library, which is used for adding delays.
 
-Python comes with several built-in libraries like  `time`, `cv2`, `math`, which can be imported directly. You can also create your own libraries, such as the "yaml_handle" file reading library.
+Python comes with several built-in libraries like  `time`, `cv2`, `math`, which can be imported directly. You can also create your own libraries, such as the "**yaml_handle**" file reading library.
 
 (2) Instantiating Libraries  
 
@@ -932,7 +928,7 @@ Sometimes, library names are long and hard to remember. To make function calls m
 
 {lineno-start=12}
 
-```
+```python
 from calibration.camera import Camera
 ```
 
@@ -948,7 +944,7 @@ In a Python program, the  `if __name__ == '__main__':` block indicates the main 
 
 {lineno-start=167}
 
-```
+```python
 if __name__ == '__main__':
     from common.ros_robot_controller_sdk import Board
 
@@ -966,7 +962,7 @@ if __name__ == '__main__':
 
 {lineno-start=176}
 
-```
+```python
     camera = Camera()
 ```
 
@@ -978,13 +974,13 @@ When the program starts, the camera is initialized.
 
 {lineno-start=183}
 
-```
+```python
             Frame = run(frame)
 ```
 
 {lineno-start=85}
 
-```
+```python
 def run(img):
     global draw_color
     global color_list
@@ -1004,7 +1000,7 @@ def run(img):
 
 {lineno-start=95}
 
-```
+```python
     frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
 ```
 
@@ -1030,7 +1026,7 @@ Gaussian blur is a linear smoothing filter used to eliminate Gaussian noise and 
 
 {lineno-start=96}
 
-```
+```python
     frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3) 
 ```
 
@@ -1044,7 +1040,7 @@ The third parameter `3` is the standard deviation of the Gaussian kernel in the 
 
 {lineno-start=97}
 
-```
+```python
     frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间(convert the image to LAB space)
 ```
 
@@ -1058,7 +1054,7 @@ The `cv2.inRange()` function is used for binarization:
 
 {lineno-start=}
 
-```
+```python
                 frame_mask = cv2.inRange(frame_lab,
                                          (lab_data[i]['min'][0],
                                           lab_data[i]['min'][1],
@@ -1080,7 +1076,7 @@ Erosion reduces the size of foreground objects and eliminates small objects, whi
 
 {lineno-start=113}
 
-```
+```python
                 eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
                 dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
 ```
@@ -1091,7 +1087,7 @@ After the image processing steps, use the `cv2.findContours()` function to find 
 
 {lineno-start=117}
 
-```
+```python
                 contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
 ```
 
@@ -1105,7 +1101,7 @@ The program searches for the largest contour and sets a threshold area to ensure
 
 {lineno-start=118}
 
-```
+```python
                 areaMaxContour, area_max = get_area_max_contour(contours)  #找出最大轮廓(find the largest contour)
                 if areaMaxContour is not None:
                     if area_max > max_area:#找最大面积(find the maximum area)
@@ -1121,7 +1117,7 @@ Use `cv2.putText()` to draw text on the image:
 
 {lineno-start=162}
 
-```
+```python
     cv2.putText(img, "Color: " + detect_color, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, draw_color, 2)
 ```
 
@@ -1143,7 +1139,7 @@ The seventh parameter `2` specifies the thickness of the text line.
 
 {lineno-start=179}
 
-```
+```python
     while True:
         img = camera.frame
         if img is not None:
@@ -1158,13 +1154,16 @@ The seventh parameter `2` specifies the thickness of the text line.
 The `cv2.imshow()` function is used to display the image in a window. The first parameter is the window name (e.g., 'Frame'), and the second parameter is the image to display.  
 
 The function `cv2.waitKey()` is used to wait for a key press; the parameter `1` specifies the delay time.
+
+<p id="anchor_6_3_5"></p>
+
 ### 6.3.5 Function Extension
 
 * **Adjusting Color Threshold** 
 
 During the game experience, if the color recognition of objects is not accurate, you may need to adjust the color threshold. This section uses adjusting the red color as an example; the process for adjusting other colors is similar. Follow the steps below:
 
-(1) Double-click the system desktop icon<img src="../_static/media/chapter_10/section_3/image17.png" style="width:0.51667in;height:0.5in" />and click "Execute" in the pop-up window.
+(1) Double-click the system desktop icon <img src="../_static/media/chapter_10/section_3/image17.png" style="width:0.51667in;height:0.5in" /> and click "**Execute**" in the pop-up window.
 
 <img class="common_img" src="../_static/media/chapter_10/section_3/image18.png"  />
 
@@ -1172,7 +1171,7 @@ During the game experience, if the color recognition of objects is not accurate,
 
 <img class="common_img" src="../_static/media/chapter_10/section_3/image19.png"  />
 
-(3) After a successful connection, select "red" from the color options in the bottom-right corner of the interface.
+(3) After a successful connection, select "**red**" from the color options in the bottom-right corner of the interface.
 
 <img class="common_img" src="../_static/media/chapter_10/section_3/image20.png"  />
 
@@ -1182,7 +1181,7 @@ The image on the right side of the interface shows the real-time transmitted vid
 
 Point the camera at the red color block, and then adjust the six sliders at the bottom to ensure that the red color block on the left side of the screen turns completely white, while other areas remain black.
 
-Finally, click the "Save" button to save the data.
+Finally, click the "**Save**" button to save the data.
 
 <img class="common_img" src="../_static/media/chapter_10/section_3/image21.png"  />
 
@@ -1204,42 +1203,41 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
-(2) Click <img src="../_static/media/chapter_10/section_4/image2.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
+(2) Click <img src="../_static/media/chapter_10/section_4/image2.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "**Ctrl+Alt+T**" to open LX terminal.
 
-(3) Enter the command "cd spiderpi/functions" and press "Enter" to navigate to the directory where the game program is located.
+(3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(4) Enter "python3 color_track.py", then press "Enter" to start the game.
+(4) Enter the command, then press "**Enter**" to start the game.
 
-```
+```bash
 python3 color_track.py
 ```
 
-(5) If you want to exit the game programming, press "Ctrl+C" in the LX terminal interface. If the exit fails, please try it few more times.
+(5) If you want to exit the game programming, press "**Ctrl+C**" in the LX terminal interface. If the exit fails, please try it few more times.
 
 ### 6.4.3 Project outcome
 
 :::{Note}
-The default recognized and tracking color is green. If you want to change it to blue, please refer to "4.4.1 Modify Default Recognition Color". And, please don't move the ball too fast and out of the camera vision. 
+The default recognized and tracking color is green. If you want to change it to blue, please refer to "**[6.4.5 Function Extension ->Modify Default Recognition Color](#anchor_6_4_5)**". And, please don't move the ball too fast and out of the camera vision. 
 :::
 
 After the game starts, move the green ball slowly, and the robotic arm of SpiderPi Pro will move with the green ball. 
 
 <img class="common_img" src="../_static/media/chapter_10/section_4/1.gif">
 
-
 ### 6.4.4 Program Analysis
 
-The source code of this program is located in：[/home/pi/spiderpi/functions/color_track.py]()
+The source code of this program is located in：[/home/pi/spiderpi/functions/color_track.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/color_track.zip)
 
 * **Import Function Library** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import cv2
 import math
@@ -1256,7 +1254,7 @@ import arm_ik.arm_move_ik as AMK
 
 **(1) Gaussian filtering**
 
-Before converting the image from RGB into LAB space, denoise the image and use "GaussianBlur()" function in cv2 library for Gaussian filtering.
+Before converting the image from RGB into LAB space, denoise the image and use "**GaussianBlur()**" function in cv2 library for Gaussian filtering.
 
 {lineno-start=146}
 
@@ -1278,7 +1276,7 @@ Adopt `inRange()` function in cv2 library to perform binaryzation on the image.
 
 {lineno-start=187}
 
-```
+```python
             frame_mask = cv2.inRange(frame_lab,
                                          (lab_data[i]['min'][0],
                                           lab_data[i]['min'][1],
@@ -1296,7 +1294,7 @@ To reduce the interference and make the image smoother, it is necessary to perfo
 
 {lineno-start=161}
 
-```
+```python
             eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
             dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀(dilate)
 ```
@@ -1315,7 +1313,7 @@ After processing the image, acquire the contour of the target to be recognized, 
 
 {lineno-start=165}
 
-```
+```python
             contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  # 找出轮廓(find contours)
 ```
 
@@ -1325,7 +1323,7 @@ Find the contour of the maximum area among the obtained contours. To avoid inter
 
 {lineno-start=168}
 
-```
+```python
     if area_max > 50:  # 有找到最大面积(the maximum area has been found)
         (centerX, centerY), radius = cv2.minEnclosingCircle(areaMaxContour) #获取最小外接圆(obtain the minimum circumscribed circle)
         centerX = int(misc.map(centerX, 0, size[0], 0, img_w))
@@ -1340,7 +1338,7 @@ After the contour of the maximum area is obtained, call `minEnclosingCircle()` f
 
 {lineno-start=169}
 
-```
+```python
         (centerX, centerY), radius = cv2.minEnclosingCircle(areaMaxContour) #获取最小外接圆(obtain the minimum circumscribed circle)
 ```
 
@@ -1348,7 +1346,7 @@ Then circle the recognized target, which involves `circle()` function in cv2 lib
 
 {lineno-start=173}
 
-```
+```python
         cv2.circle(img, (int(centerX), int(centerY)), int(radius), range_rgb[detect_color], 2)
 ```
 
@@ -1358,7 +1356,7 @@ Take X and Y coordinate of the center of the image as setting value. And take th
 
 {lineno-start=175}
 
-```
+```python
         # use_time = 0
         x_pid.SetPoint = img_w/2  #设定(set)
         x_pid.update(centerX)  #当前(current)
@@ -1387,7 +1385,7 @@ Drive the specific servo to rotate to the designated position through calling th
 
 {lineno-start=194}
 
-```
+```python
         if not debug:
             board.bus_servo_set_position(0.02, [[24, y_dis], [21, x_dis]])
             time.sleep(0.02)
@@ -1397,14 +1395,15 @@ Take `bus_servo_set_position(0.02, [[24, y_dis], [21, x_dis]])` function for exa
 
 The meaning of the parameter in bracket is as follow.
 
-The first parameter `0.02` is the rotation time in the unit of "24". 
+The first parameter `0.02` is the rotation time in the unit of "**24**". 
 
 The second parameter `24` is the servo ID to be driven.
 
 The third parameter `y_dis` is the rotation position.
-### 6.4.5 Function extension
 
-<span id="anchor_4_4_1" class="anchor"></span>
+<span id="anchor_6_4_5"></span>
+
+### 6.4.5 Function extension
 
 * **Modify Default Recognized Color** 
 
@@ -1412,13 +1411,13 @@ There are two built-in colors in the program of color tracking, including green 
 
 Take modifying the default recognition color as blue for example. The specific operation steps are as follow.
 
-(1) Input command "cd spiderpi/functions/" and press "Enter" into the directory where the game programs are stored.
+(1) Input command and press "**Enter**" into the directory where the game programs are stored.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(2) Enter command "vim color_track.py" and press "Enter" to open the program file.
+(2) Enter command and press "**Enter**" to open the program file.
 
 ```bash
 vim color_track.py
@@ -1429,14 +1428,14 @@ vim color_track.py
 <img class="common_img" src="../_static/media/chapter_10/section_4/image7.png"  />
 
 :::{Note}
-press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
+press "**Shift+G**" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-(4) Press "i" to enter the editing mode. And modify "green" in "__target_color = ('green',)" as "blue".
+(4) Press "**i**" to enter the editing mode. And modify "**green**" in "**__target_color = ('green',)**" as "**blue**".
 
 <img class="common_img" src="../_static/media/chapter_10/section_4/image8.png"  />
 
-(5) After modification, press "Esc" and input ":wq" and then press Enter to save and exit. 
+(5) After modification, press "**Esc**" and input "**:wq**" and then press Enter to save and exit. 
 
 ```bash
 :wq
@@ -1450,16 +1449,14 @@ press "Shift+G" after inputting the line number to directly jump to the correspo
 
 In addition to the built-in recognition colors, you can set other recognition colors in the program. Take orange as example
 
-(1) Open VNC, input command "vim spiderpi/config/lab_config.yaml" to open Lab color setting document.
+(1) Open VNC, input command to open Lab color setting document.
 
 ```bash
 Vim spiderpi/config/lab_config.yaml
 ```
 
 :::{Note}
-
 It is recommended to screenshot the initial value for recording.
-
 :::
 
 <img class="common_img" src="../_static/media/chapter_10/section_4/image11.png"  />
@@ -1468,17 +1465,17 @@ It is recommended to screenshot the initial value for recording.
 
 <img class="common_img" src="../_static/media/chapter_10/section_4/image13.png"  />
 
-(3) Click **"Connect"** button. When the interface displays the camera returned image, the connection is successful. Select "green" in the drop-down box.
+(3) Click **"Connect"** button. When the interface displays the camera returned image, the connection is successful. Select "**green**" in the drop-down box.
 
 <img class="common_img" src="../_static/media/chapter_10/section_4/image14.png"  />
 
 Face the camera to the color to recognize. Drag the sliders of L, A, and B until the target color in the left screen becomes white and other areas become black.
 
-For example, if you want to recognize orange, you can put the orange ball within camera's vision. Adjust the corresponding sliders of L, A, and B until the orange part in the left screen turns white and other colors become black, and then click "Save" button to keep the modified data.
+For example, if you want to recognize orange, you can put the orange ball within camera's vision. Adjust the corresponding sliders of L, A, and B until the orange part in the left screen turns white and other colors become black, and then click "**Save**" button to keep the modified data.
 
 <img class="common_img" src="../_static/media/chapter_10/section_4/image15.png"  />
 
-(4) After the modification is completed, check whether the modified data was successfully written in. Enter the command again "Vim spiderpi/config/lab_config.yaml" to open file of Lab color setting.
+(4) After the modification is completed, check whether the modified data was successfully written in. Enter the command again "**Vim spiderpi/config/lab_config.yaml**" to open file of Lab color setting.
 
 ```bash
 Vim spiderpi/config/lab_config.yaml
@@ -1490,18 +1487,17 @@ In order to avoid the game performance, it's recommended to use the LAB_Tool too
 
 :::
 
-(5) The modified data is written successfully into the configuration program. Then you can press "Esc" and input ":wq" and then press Enter to save and exit.
+(5) The modified data is written successfully into the configuration program. Then you can press "**Esc**" and input "**:wq**" and then press Enter to save and exit.
 
 ```bash
 :wq
 ```
 
-(6) According to the steps in "[6.4.5 Function Extension ->Modify Default Recognition Color]()", set the default recognition color as green.
+(6) According to the steps in "[6.4.5 Function Extension ->Modify Default Recognition Color](#anchor_6_4_5)", set the default recognition color as green.
 
 <img class="common_img" src="../_static/media/chapter_10/section_4/image7.png"  />
 
 (7) Start the game again and put the orange object in front of the camera. SpiderPi Pro will nod when recognizing the color. If you want to add other color as recognition color, you can follow the previous steps to set.
-
 
 ## 6.5 Line Following
 
@@ -1513,7 +1509,7 @@ First, program SpiderPi Pro to recognize colors with Lab color space. Convert th
 
 After color recognition, calculate according to the the position feedback of the line in the image, and then program SpiderPi Pro to move along the line so as to realize line following.
 
-<p id="anchor_5_2"></p>
+<p id="anchor_6_5_2"></p>
 
 ### 6.5.2 Operation Steps
 
@@ -1523,15 +1519,15 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
-(2) Click <img src="../_static/media/chapter_10/section_5/image3.png" style="width:0.39583in;height:0.33333in" />at upper left corner of desktop, or press **"Ctrl+Alt+T"** to open LX terminal.
+(2) Click <img src="../_static/media/chapter_10/section_5/image3.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press **"Ctrl+Alt+T"** to open LX terminal.
 
-(3)  Enter the command **"cd spiderpi/functions"** and press **"Enter"** to navigate to the directory where the game program is located.
+(3)  Enter the command and press **"Enter"** to navigate to the directory where the game program is located.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(4) Enter **"python3 visual_patrol.py"**, then press **"Enter"** to start the game.
+(4) Enter the command, then press **"Enter"** to start the game.
 
 ```bash
 python3 visual_patrol.py
@@ -1542,7 +1538,7 @@ python3 visual_patrol.py
 ### 6.5.3 Project Outcome
 
 :::{Note}
-The default recognition color is red. If you want to change it to white or black, please refer to "[6.5.5 Function Extension -> Modify Default Recognition Color]()".
+The default recognition color is red. If you want to change it to white or black, please refer to "[6.5.5 Function Extension -> Modify Default Recognition Color](#anchor_6_5_5)".
 :::
 
 Paste red electrical tape to form a path. Then place SpiderPi Pro on the red line. After the game starts, the robot will move along the red line.
@@ -1552,13 +1548,13 @@ Paste red electrical tape to form a path. Then place SpiderPi Pro on the red lin
 
 ### 6.5.4 Program Analysis
 
-The source code of this program is stored in：[/home/pi/spiderpi/functions/visual_patrol.py]()
+The source code of this program is stored in：[/home/pi/spiderpi/functions/visual_patrol.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/visual_patrol.zip)
 
 * **Import Function Library** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import cv2
 import time
@@ -1575,11 +1571,11 @@ import arm_ik.arm_move_ik as AMK
 
 (1) Import the libraries related to OpenCV, time, math, and threads. 
 
-If want to call a function in library, you can use "library name+function name (parameter, parameter)". For example:
+If want to call a function in library, you can use "**library name+function name (parameter, parameter)**". For example:
 
 {lineno-start=218}
 
-```
+```python
             time.sleep(0.01)
 ```
 
@@ -1591,17 +1587,17 @@ The name of function library is too long to memorize. For calling function easil
 
 {lineno-start=11}
 
-```
+```python
 from calibration.camera import Camera 
 ```
 
 After instantiating, you can directly input and call the function `Board.function name (parameter, parameter)`.
 
-**5.4.2 Define Global Variable**
+* **Define Global Variable**
 
 {lineno-start=17}
 
-```
+```python
 if sys.version_info.major == 2:
     print('Please run this program with python3!')
     sys.exit(0)
@@ -1624,13 +1620,13 @@ def setLineTargetColor(target_color):
     return (True, ())
 ```
 
-**5.4.3 Main Function Analysis**
+* **Main Function Analysis**
 
-The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function "init()" is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function "**init()**" is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
 
 {lineno-start=182}
 
-```
+```python
 if __name__ == '__main__':
     from common.ros_robot_controller_sdk import Board
     from sensor.ultrasonic_sensor import Ultrasonic
@@ -1645,7 +1641,7 @@ if __name__ == '__main__':
 
 {lineno-start=207}
 
-```
+```python
     while True:
         img = camera.frame
         if img is not None:
@@ -1659,7 +1655,7 @@ When the captured image is read, call `run` function to process the image
 
 {lineno-start=209}
 
-```
+```python
         if img is not None:
             frame = img.copy()
             frame = cv2.remap(frame, mapx, mapy, cv2.INTER_LINEAR)  # 畸变矫正(distortion correction)
@@ -1678,7 +1674,7 @@ Before converting the image from RGB into LAB space, denoise the image and use G
 
 {lineno-start=141}
 
-```
+```python
     frame_gb = cv2.GaussianBlur(img, (3, 3), 3)
 ```
 
@@ -1696,7 +1692,7 @@ Adopt inRange() function in cv2 library to perform binaryzation on the image.
 
 {lineno-start=150}
 
-```
+```python
                 frame_mask = cv2.inRange(frame_lab,
                                          (lab_data[i]['min'][0],
                                           lab_data[i]['min'][1],
@@ -1714,7 +1710,7 @@ To reduce the interference and make the image smoother, it is necessary to perfo
 
 {lineno-start=157}
 
-```
+```python
                 eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀(erode)
                 dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #膨胀(dilate)
 ```
@@ -1734,7 +1730,7 @@ After processing the image, acquire the contour of the target to be recognized, 
 
 {lineno-start=159}
 
-```
+```python
                 cnts = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_TC89_L1)[-2]  #找出所有轮廓(find all contours)
 ```
 
@@ -1744,7 +1740,7 @@ the second parameter is the retrieval mode of the contour; the third parameter i
 
 {lineno-start=160}
 
-```
+```python
                 cnt_large, area = get_area_maxContour(cnts)  #找到最大面积的轮廓(find the largest contour)
                 if area > 10:
                     rect = cv2.minAreaRect(cnt_large)  #最小外接矩形(the minimum bounding rectangle)
@@ -1762,7 +1758,7 @@ the second parameter is the retrieval mode of the contour; the third parameter i
 
 {lineno-start=164}
 
-```
+```python
                     box = np.intp(cv2.boxPoints(rect))  #最小外接矩形的四个顶点(the four corner points of the minimum bounding rectangle)
                     for j in range(4):
                         box[j, 1] = box[j, 1] + r[0]
@@ -1783,7 +1779,7 @@ After the image processing, control SpiderPi Pro to move through calling the fun
 
 {lineno-start=111}
 
-```
+```python
             if line_center >= 0:              
                 if abs(line_center -img_center_x) < 60:
                     ik.go_forward(ik.initial_pos, 2, 60, 50, 1)
@@ -1823,22 +1819,23 @@ The third parameter `50` is the stride and the unit is mm when it goes straight,
 
 The fourth parameter `80` is the speed in mm/s.
 
-The fifth parameter `1` is the number of execution. When it is "0", it means that the robot will perform one action at loop.
-### 6.5.5 Function Extension
+The fifth parameter `1` is the number of execution. When it is "**0**", it means that the robot will perform one action at loop.
 
-<span id="anchor_5_4_1" class="anchor"></span>
+<span id="anchor_6_5_5"></span>
+
+### 6.5.5 Function Extension
 
 * **Modify Default Recognition Color** 
 
 There are three built-in colors, including red, black and white, in the program. Take modify the default recognition color as white for example.
 
-(1) Input command "cd spiderpi/functions" and press Enter into the directory where the game programs are stored.
+(1) Input command and press Enter into the directory where the game programs are stored.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(2) Enter command "vim visual_patrol.py" and press Enter to open the program file.
+(2) Enter command  and press Enter to open the program file.
 
 ```bash
 vim visual_patrol.py
@@ -1849,14 +1846,14 @@ vim visual_patrol.py
 <img class="common_img" src="../_static/media/chapter_10/section_5/image9.png"  />
 
 :::{Note}
-press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
+press "**Shift+G**" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-(4) Press "i" key to enter the editing mode. And modify "red" in "__target_color = ('red',)" as "white". Or you can modify it as black if you want. 
+(4) Press "**i**" key to enter the editing mode. And modify "**red**" in "__target_color = ('red',)" as "**white**". Or you can modify it as black if you want. 
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image10.png"  />
 
-(5) After modification, press "Esc" key and input ":wq" and then press Enter to save and exit.
+(5) After modification, press "**Esc**" key and input "**:wq**" and then press Enter to save and exit.
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image11.png"  />
 
@@ -1864,7 +1861,7 @@ press "Shift+G" after inputting the line number to directly jump to the correspo
 
 In addition to the three built-in tracked colors, you can set other colors in the program. Take blue as example
 
-(1) Open VNC, input command "vim spiderpi/config/lab_config.yaml" to open Lab color setting document.
+(1) Open VNC, input command to open Lab color setting document.
 
 ```bash
 Vim spiderpi/config/lab_config.yaml
@@ -1878,44 +1875,43 @@ It is recommended to screenshot the initial value for recording.
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image13.png"  />
 
-(2) Double click the icon of debugging tool <img src="../_static/media/chapter_10/section_5/image14.png" style="width:0.31458in;height:0.25139in" />in the system desktop. If the prompt box pops up, choose "Execute".
+(2) Double click the icon of debugging tool <img src="../_static/media/chapter_10/section_5/image14.png" style="width:0.31458in;height:0.25139in" />in the system desktop. If the prompt box pops up, choose "**Execute**".
 
-<img class="common_img" src="../_static/media/chapter_10/section_5/image15.png"  />
+<img class="common_img" src="../_static/media/chapter_10/section_5/image15.png" style="width:480px" />
 
-(3) Click "Connect" button. When the interface displays the camera returned image, the connection is successful. Select "red" in the drop-down box.
+(3) Click "**Connect**" button. When the interface displays the camera returned image, the connection is successful. Select "**red**" in the drop-down box.
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image16.png"  />
 
 (4) Face the camera to the color to recognize. Drag the sliders of L, A, and B until the target color area in the left screen becomes white and other areas become black.
 
-For example, if you want to modify the default color as blue, you can put the blue line within camera's vision. Adjust the corresponding sliders of L, A, and B until the blue part in the left screen turns white and other colors become black, and then click "Save" button to keep the modified data.
+For example, if you want to modify the default color as blue, you can put the blue line within camera's vision. Adjust the corresponding sliders of L, A, and B until the blue part in the left screen turns white and other colors become black, and then click "**Save**" button to keep the modified data.
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image17.png"  />
 
 :::{Note}
 
-In order to avoid the influence on game performance, it's recommended to use the "LAB_Tool" tool to modify the value back to the initial value after the modification.
+In order to avoid the influence on game performance, it's recommended to use the "**LAB_Tool**" tool to modify the value back to the initial value after the modification.
 
 :::
 
-(5) After the modification is completed, check whether the modified data was successfully written in. Enter the command again "vim spiderpi/config/lab_config.yaml" to open file of Lab color setting.
+(5) After the modification is completed, check whether the modified data was successfully written in. Enter the command again "**vim spiderpi/config/lab_config.yaml**" to open file of Lab color setting.
 
 ```bash
 Vim spiderpi/config/lab_config.yaml
 ```
 
-(6) The modified data is written successfully into the configuration program. Then you can press "Esc" and input ":wq" and then press Enter to save and exit.
+(6) The modified data is written successfully into the configuration program. Then you can press "**Esc**" and input "**:wq**" and then press Enter to save and exit.
 
 ```bash
 :wq
 ```
 
-(7) According to the steps in "[6.5.5 Function Extension -> Modify Default Recognition Color]()", set the default recognition color as red.
+(7) According to the steps in "[6.5.5 Function Extension -> Modify Default Recognition Color](#anchor_6_5_5)", set the default recognition color as red.
 
 <img class="common_img" src="../_static/media/chapter_10/section_5/image9.png"  />
 
-(8) Start the line following game again according to the steps in "[6.5.2 Operation Steps]()". Then SpiderPi Pro will move along the blue line.
-
+(8) Start the line following game again according to the steps in "[6.5.2 Operation Steps](#anchor_6_5_2)". Then SpiderPi Pro will move along the blue line.
 
 ## 6.6 Tag Detection
 
@@ -1933,11 +1929,11 @@ In this lesson, we will combine OpenCV with AprilTag to complete a small project
 The input of commands must strictly distinguish between uppercase and lowercase letters, as well as spaces.
 :::
 
-(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\3.1 VNC Installation and Connection]()", use the VNC remote connection tool to connect.
+(1) Power on the device and, following the instructions in "[Remote Desktop Installation and Connection\3.1 VNC Installation and Connection](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#vnc-installation-and-connection)", use the VNC remote connection tool to connect.
 
 <img class="common_img" src="../_static/media/chapter_10/section_6/image2.png"  />
 
-(2) Click the icon<img src="../_static/media/chapter_10/section_6/image3.png" style="width:0.375in;height:0.3125in" />in the top left corner of the system desktop or press the shortcut "Ctrl+Alt+T" to open the LX terminal.
+(2) Click the icon<img src="../_static/media/chapter_10/section_6/image3.png" style="width:0.375in;height:0.3125in" />in the top left corner of the system desktop or press the shortcut "**Ctrl+Alt+T**" to open the LX terminal.
 
 (3) In the terminal, enter the command to navigate to the directory where the program is located, then press Enter:
 
@@ -1951,7 +1947,7 @@ cd spiderpi/functions
 python3 apriltag_recognition.py
 ```
 
-(5) To close the program, simply press "Ctrl+C" in the LX terminal. If it does not close, press it multiple times.
+(5) To close the program, simply press "**Ctrl+C**" in the LX terminal. If it does not close, press it multiple times.
 
 ### 6.6.3 Program Outcome
 
@@ -1965,7 +1961,7 @@ Once the game is activated, position the included AprilTag tag in front of the c
 
 ### 6.6.4 Program Parameter Explanation
 
-The source code for this program is located at：[/home/pi/spiderpi/functions/apriltag_recognition.py]()
+The source code for this program is located at：[/home/pi/spiderpi/functions/apriltag_recognition.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/apriltag_recognition.zip)
 
 **(1) Image Acquisition and Processing**
 
@@ -1973,7 +1969,7 @@ The first step is image processing, which involves working with digital image da
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import time
 import cv2
@@ -1989,7 +1985,7 @@ Next, we initialize and start the camera to acquire the image, then proceed to c
 
 {lineno-start=95}
 
-```
+```python
     while True:
         img = camera.frame
         if img is not None:
@@ -2002,7 +1998,7 @@ Afterward, we need to convert the image from RGB format to grayscale. The corres
 
 {lineno-start=54}
 
-```
+```python
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 ```
 
@@ -2012,7 +2008,7 @@ Once the image has been processed, we need to detect the tag. This is done by us
 
 {lineno-start=51}
 
-```
+```python
 # 检测apriltag(detect apriltag)
 detector = apriltag.Detector(searchpath=apriltag._get_demo_searchpath())
 ```
@@ -2021,7 +2017,7 @@ After detection, the program will obtain the four corner points of the tag.
 
 {lineno-start=59}
 
-```
+```python
             corners = np.rint(detection.corners)  # 获取四个角点(obtain the four corner points)
 ```
 
@@ -2029,7 +2025,7 @@ Next, we need to draw the contours of the tag. In OpenCV, we use the `cv2.drawCo
 
 {lineno-start=62}
 
-```
+```python
             cv2.drawContours(img, [np.array(corners, np.intp)], -1, (0, 255, 255), 2)
 ```
 
@@ -2053,13 +2049,12 @@ Once the quadrilateral is identified, the grid coordinates are clarified. To ver
 
 {lineno-start=62}
 
-```
+```python
             tag_family = str(detection.tag_family, encoding='utf-8')  # 获取tag_family(obtain tag_family)
             tag_id = int(detection.tag_id)  # 获取tag_id(obtain tag_id)
             
             return tag_family, tag_id
 ```
-
 
 ## 6.7 Tag Recognition
 
@@ -2071,7 +2066,7 @@ First, detect AprilTag through positioning, image segmentation, and contour sear
 
 Encode and decode the detected tags. Finally, control SpiderPi Pro to execute the corresponding action according to different Tag IDs.
 
-<p id="anchor_7_2"></p>
+<p id="anchor_6_7_2"></p>
 
 ### 6.7.2 Operation Steps
 
@@ -2081,23 +2076,23 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
-(2) Click <img src="../_static/media/chapter_10/section_7/image2.png" style="width:0.39583in;height:0.33333in" />at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
+(2) Click <img src="../_static/media/chapter_10/section_7/image2.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "**Ctrl+Alt+T**" to open LX terminal.
 
 <img class="common_img" src="../_static/media/chapter_10/section_7/image3.png"  />
 
-(3) Enter the command "cd spiderpi/functions" and press "Enter" to navigate to the directory where the game program is located.
+(3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(4) Enter "python3 apriltag_detect.py", then press "Enter" to start the game.
+(4) Enter the command, then press "**Enter**" to start the game.
 
 ```bash
 python3 apriltag_detect.py
 ```
 
-(5) If you want to exit the game programming, press "Ctrl+C" in the LX terminal interface. If the exit fails, please try it a few more times.
+(5) If you want to exit the game programming, press "**Ctrl+C**" in the LX terminal interface. If the exit fails, please try it a few more times.
 
 ### 6.7.3 Project Outcome
 
@@ -2123,13 +2118,13 @@ The corresponding actions of different Tag ID are listed below.
 
 ### 6.7.4 Program Analysis
 
-The source code of the program is located in: [/home/pi/spiderpi/functions/apriltag_detect.py]()
+The source code of the program is located in: [/home/pi/spiderpi/functions/apriltag_detect.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/apriltag_detect.zip)
 
 * **Import Function Library** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import math
 import threading
@@ -2143,11 +2138,11 @@ from common import kinematics
 import common.apriltag as apriltag
 ```
 
-(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "library name+function name (parameter, parameter)". For example:
+(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "**library name+function name (parameter, parameter)**". For example:
 
 {lineno-start=199}
 
-```
+```python
             time.sleep(0.01)
 ```
 
@@ -2159,7 +2154,7 @@ The name of function library is too long to memorize. For calling function easil
 
 {lineno-start=11}
 
-```
+```python
 from calibration.camera import Camera 
 ```
 
@@ -2171,7 +2166,7 @@ The python program `__name__ == '__main__:'` is the main function of program. Fi
 
 {lineno-start=159}
 
-```
+```python
 if __name__ == '__main__':
     from common.ros_robot_controller_sdk import Board
     from sensor.ultrasonic_sensor import Ultrasonic
@@ -2192,7 +2187,7 @@ Use `np.rint()` to obtain the four corner points of the tag.
 
 {lineno-start=116}
 
-```
+```python
 # 检测apriltag(detect apriltag)
 detector = apriltag.Detector(searchpath=apriltag._get_demo_searchpath())
 def apriltagDetect(img):   
@@ -2220,7 +2215,7 @@ def apriltagDetect(img):
 
 {lineno-start=125}
 
-```
+```python
             cv2.drawContours(img, [np.array(corners, np.int64)], -1, (0, 255, 255), 2)
 ```
 
@@ -2240,7 +2235,7 @@ The fifth parameter `2` is the width of the contour.
 
 {lineno-start=127}
 
-```
+```python
             tag_family = str(detection.tag_family, encoding='utf-8')  # 获取tag_family(obtain tag_family)
             tag_id = int(detection.tag_id)  # 获取tag_id(obtain tag_id)
 ```
@@ -2249,7 +2244,7 @@ The fifth parameter `2` is the width of the contour.
 
 {lineno-start=150}
 
-```
+```python
     if tag_id is not None:
         cv2.putText(img, "tag_id: " + str(tag_id), (10, img.shape[0] - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.65, [0, 255, 255], 2)
         cv2.putText(img, "tag_family: " + tag_family, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, [0, 255, 255], 2)
@@ -2280,7 +2275,7 @@ After the tag ID is obtained, control SpiderPi Pro to execute the corresponding 
 
 {lineno-start=82}
 
-```
+```python
     while True:
         if debug:
             return
@@ -2311,21 +2306,22 @@ After the tag ID is obtained, control SpiderPi Pro to execute the corresponding 
         else:
             time.sleep(0.01)
 ```
-### 6.7.5 Function Extension
 
-<span id="anchor_7_4_1" class="anchor"></span>
+<span id="anchor_6_7_5"></span>
+
+### 6.7.5 Function Extension
 
 * **Modify Action Corresponding to the Tag** 
 
-SpiderPi Pro is default to "wave hands" in the program when the ID 1 tag is detected, but you can modify the default program. For example, we can revise the feedback action as kicking. 
+SpiderPi Pro is default to "**wave hands**" in the program when the ID 1 tag is detected, but you can modify the default program. For example, we can revise the feedback action as kicking. 
 
-(1) Enter command "cd spiderpi/functions" and press "Enter" to navigate to the directory where the game program is located.
+(1) Enter command and press "**Enter**" to navigate to the directory where the game program is located.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(2) Enter command "vim apriltag_detect.py" and press Enter to open the program file.
+(2) Enter command and press Enter to open the program file.
 
 ```bash
 vim apriltag_detect.py
@@ -2336,20 +2332,20 @@ vim apriltag_detect.py
 <img class="common_img" src="../_static/media/chapter_10/section_7/image8.png"  />
 
 :::{Note}
- press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
+ press "**Shift+G**" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-(4) Press "i" key to enter the editing mode.
+(4) Press "**i**" key to enter the editing mode.
 
-Modify "wave" of `agc.run_action("wave")` as "kick". If you want to change it to other action group, you can enter the other action group name which can be checked in "/home/pi/spiderpi/aiction_groups".
+Modify "**wave**" of `agc.run_action("wave")` as "**kick**". If you want to change it to other action group, you can enter the other action group name which can be checked in "**/home/pi/spiderpi/aiction_groups**".
 
-```
+```bash
 kick
 ```
 
 <img class="common_img" src="../_static/media/chapter_10/section_7/image9.png"  />
 
-(5) After modification, press "Esc" and input ":wq" and then press Enter to save and exit.
+(5) After modification, press "**Esc**" and input "**:wq**" and then press Enter to save and exit.
 
 ```bash
 :wq
@@ -2357,49 +2353,49 @@ kick
 
 * **Modify/ Add the Tag**  
 
-You can find the Tag materials in this directory "AprilTag collection", but you need to extract this folder first.
+You can find the Tag materials in this directory "**AprilTag collection**", but you need to extract this folder first.
 
 :::{Note}
 
-* There is no need to download materials online. 200 tags are provided and you can find them in "ApirlTag Collection". 
+* There is no need to download materials online. 200 tags are provided and you can find them in "**ApirlTag Collection**". 
 * You can print the tag in suitable size, not too large or too small, as long as the tag can be recognized by the robot. The tag will be circled in yellow when it is recognized.
 * The recognition background should be white. Dark background will influence the recognition effect.
 
 :::
 
-Take adding Tag ID4 for example. The corresponding action of this tag is "Stand at Attention in High Posture". Please follow the below steps to modify.
+Take adding Tag ID4 for example. The corresponding action of this tag is "**Stand at Attention in High Posture**". Please follow the below steps to modify.
 
-(1) According to  " [6.7.5 Function Extension -> Modify Action Corresponding to the Tag]() ", enter the catalog of the game program and open the corresponding program file.
+(1) According to  "[6.7.5 Function Extension -> Modify Action Corresponding to the Tag](#anchor_6_7_5) ", enter the catalog of the game program and open the corresponding program file.
 
-(2) Locate the code in 98th line, input "5yy", and then copy the codes of 98-102 line. 
+(2) Locate the code in 98th line, input "**5yy**", and then copy the codes of 98-102 line. 
 
 <img class="common_img" src="../_static/media/chapter_10/section_7/image11.png"  />
 
-(3) When the hint of "5 lines yanked" appears, it means that the codes are copied successfully. 
+(3) When the hint of "**5 lines yanked**" appears, it means that the codes are copied successfully. 
 
 <img class="common_img" src="../_static/media/chapter_10/section_7/image12.png"  />
 
-(4) Then move to the codes shown in the red frame and enter "p" to paste the codes copied before.
+(4) Then move to the codes shown in the red frame and enter "**p**" to paste the codes copied before.
 
 <img class="common_img" src="../_static/media/chapter_10/section_7/image13.png"  />
 
 <img class="common_img" src="../_static/media/chapter_10/section_7/image14.png"  />
 
-(5) Press "i" key to enter the editing mode, and modify "3" of "elif tag_id == 3:" as "4", and "twist_l" of "agc.run_action('twist_l')" as "stand_high". And modify the comment after the codes as "stand at attention in high posture". If you want to change it to other action groups, you can enter other action group name which can be checked in "/home/pi/spiderpi/action_groups".
+(5) Press "**i**" key to enter the editing mode, and modify "**3**" of "**elif tag_id == 3:**" as "**4**", and "**twist_l**" of "**agc.run_action('twist_l')**" as "**stand_high**". And modify the comment after the codes as "**stand at attention in high posture**". If you want to change it to other action groups, you can enter other action group name which can be checked in "**/home/pi/spiderpi/action_groups**".
 
 <img class="common_img" src="../_static/media/chapter_10/section_7/image15.png"  />
 
-(6) After modification, press "Esc" key, enter ":wq", and then press "Enter" to save and exit.
+(6) After modification, press "**Esc**" key, enter "**:wq**", and then press "**Enter**" to save and exit.
 
 ```bash
 :wq
 ```
 
-(7) Find Tag ID4 in folder "AprilTag Collection" and print it directly.
+(7) Find Tag ID4 in folder "**AprilTag Collection**" and print it directly.
 
-<img class="common_img" src="../_static/media/chapter_10/section_7/image17.png" class="common_img" style="width:400px"  />
+<img src="../_static/media/chapter_10/section_7/image17.png" class="common_img" style="width:400px"  />
 
-(8) According to "[6.7.2 Operation Steps]()" to start the game and check whether the modification works.
+(8) According to "[6.7.2 Operation Steps](#anchor_6_7_2)" to start the game and check whether the modification works.
 
 <img class="common_img" style="width:400px" src="../_static/media/chapter_10/section_7/image18.png"  />
 
@@ -2421,11 +2417,11 @@ Next, the pan-tilt servos are set to rotate left and right to locate the face. F
 The input of commands must strictly distinguish between uppercase and lowercase letters.
 :::
 
-(1) Power on the device and, following the instructions in  "[Remote Desktop Installation and Connection\3.1 VNC Installation and Connection]()", use the VNC remote connection tool to connect.
+(1) Power on the device and, following the instructions in  "[Remote Desktop Installation and Connection\3.1 VNC Installation and Connection](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#vnc-installation-and-connection)", use the VNC remote connection tool to connect.
 
 <img class="common_img" src="../_static/media/chapter_10/section_8/image2.png"  />
 
-(2) Click the icon<img src="../_static/media/chapter_10/section_8/image3.png" style="width:0.375in;height:0.3125in" />in the top left corner of the system desktop or press the shortcut "Ctrl+Alt+T" to open the LX terminal.
+(2) Click the icon<img src="../_static/media/chapter_10/section_8/image3.png" style="width:0.375in;height:0.3125in" />in the top left corner of the system desktop or press the shortcut "**Ctrl+Alt+T**" to open the LX terminal.
 
 (3) In the terminal, enter the command to navigate to the directory where the program is located, then press Enter:
 
@@ -2439,7 +2435,7 @@ cd spiderpi/functions
 python3 face_recongition.py
 ```
 
-(5) To close the program, simply press "Ctrl+C" in the LX terminal. If it does not close, press it multiple times.
+(5) To close the program, simply press "**Ctrl+C**" in the LX terminal. If it does not close, press it multiple times.
 
 ### 6.8.3 Program Outcome
 
@@ -2451,7 +2447,7 @@ Once the activity begins, the camera's pan-tilt will rotate left and right. If n
 
 ### 6.8.4 Program Brief Analysis 
 
-The source code of the program is saved in：[/home/pi/spiderpi/functions/face_recongition.py]()
+The source code of the program is saved in：[/home/pi/spiderpi/functions/face_recongition.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/face_recongnition.zip)
 
 * **Function Logic** 
 
@@ -2461,7 +2457,7 @@ At this initialization step, necessary libraries are imported to facilitate futu
 
 {lineno-start=4}
 
-```py
+```python
 import sys
 import cv2
 import time
@@ -2480,7 +2476,7 @@ from common import kinematics
 
 {lineno-start=19}
 
-```py
+```python
 debug = False
 iHWSONAR = None
 board = None
@@ -2503,7 +2499,7 @@ The BGR image is converted to an RGB image.
 
 {lineno-start=79}
 
-```py
+```python
  imgRGB = cv2.cvtColor(img_copy, cv2.COLOR_BGR2RGB) # 将BGR图像转为RGB图像(convert BGR image to RGB image)
 ```
 
@@ -2513,7 +2509,7 @@ The system performs face detection and draws a rectangle around the detected fac
 
 {lineno-start=81}
 
-```py
+```python
 if results.detections:  # 如果检测不到人脸那就返回None(If the face is not detected, return None)
 
         for index, detection in enumerate(results.detections):  # 返回人脸索引index(第几张脸)，和关键点的坐标信息(Return the face index (which face) and the coordinate information of the keypoints)
@@ -2557,7 +2553,7 @@ The third parameter `500` represents the pulse width, which typically correspond
 
 {lineno-start=130}
 
-```py
+```python
     while True:
         img = camera.frame
         if img is not None:
@@ -2577,18 +2573,22 @@ Call the resize() function in the cv2 library to scale the image and display it 
 
 {lineno-start=133}
 
+```python
         frame = img.copy()
         Frame = run(frame)           
         cv2.imshow('Frame', Frame)
         key = cv2.waitKey(1)
         if key == 27:
             break
+```
 
 when a face is detected, the buzzer makes a sound.
 
 {lineno-start=104}
 
+```python
                     board.set_buzzer(2400, 0.1, 0.2, 1)
+```
 
 ## 6.9 Face Detection
 
@@ -2612,19 +2612,19 @@ The input command should be case sensitive and space sensitive.
 
 (2) Click <img src="../_static/media/chapter_10/section_9/image3.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
 
-(3) Enter the command "cd spiderpi/functions" and press "Enter" to navigate to the directory where the game program is located.
+(3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(4) Enter "python3 face_detect.py", then press "Enter" to start the game.
+(4) Enter the command, then press "**Enter**" to start the game.
 
 ```bash
 python3 face_detect.py
 ```
 
-(5) If you want to exit the game programming, press "Ctrl+C" in the LX terminal interface. If the exit fails, please try it a few more times.
+(5) If you want to exit the game programming, press "**Ctrl+C**" in the LX terminal interface. If the exit fails, please try it a few more times.
 
 ### 6.9.3 Project outcome
 
@@ -2632,20 +2632,20 @@ python3 face_detect.py
 As the strong light will influence the effect of face detection, please do not play this game under strong light, such as sunlight, incandescent light. It is recommended to start this game in the indoor and the distance between human face and the camera is within 1m.
 :::
 
-After the game starts, the camera will raise to the specific angle and then rotate around to search human face. When recognizing human face, the robotic arm will stop rotating and SpiderPi Pro will "wave".
+After the game starts, the camera will raise to the specific angle and then rotate around to search human face. When recognizing human face, the robotic arm will stop rotating and SpiderPi Pro will "**wave**".
 
 <img class="common_img" src="../_static/media/chapter_10/section_9/1.gif">
 
 
 ### 6.9.4 Program Analysis
 
-The source code of this program is located in: [/home/pi/spiderpi/functions/face_detect.py]()
+The source code of this program is located in: [/home/pi/spiderpi/functions/face_detect.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/face_detect.zip)
 
 * **Import Function Library** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import cv2
 import time
@@ -2664,7 +2664,7 @@ from common import kinematics
 
 {lineno-start=20}
 
-```
+```python
 debug = False
 iHWSONAR = None
 board = None
@@ -2696,7 +2696,7 @@ Convert the BGR image to LAB image.
 
 {lineno-start=134}
 
-```
+```python
     imgRGB = cv2.cvtColor(img_copy, cv2.COLOR_BGR2RGB) # 将BGR图像转为RGB图像(convert BGR image to RGB image)
 ```
 
@@ -2710,7 +2710,7 @@ After completing the image processing steps mentioned above, the image is passed
 
 {lineno-start=135}
 
-```
+```python
     results = faceDetection.process(imgRGB) # 将每一帧图像传给人脸识别模块(transmit the image of each frame to facial recognition module)
     if results.detections:  # 如果检测不到人脸那就返回None(If the face is not detected, return None)
 
@@ -2725,7 +2725,7 @@ Call `resize()` function in cv2 library to scale the shape, and display it in th
 
 {lineno-start=182}
 
-```
+```python
     while True:
         img = camera.frame
         if img is not None:
@@ -2743,15 +2743,15 @@ When human face is recognized, call the `agc.run_action()`function to control Sp
 
 {lineno-start=102}
 
-```
+```python
                 AGC.run_action('wave') # 识别到人脸时执行的动作(If the face is detected, execute the action)
 ```
 
-When human face is not detected, call "board.bus_servo_set_position()" to control the robotic arm of SpiderPi Pro to rotate around.  
+When human face is not detected, call "**board.bus_servo_set_position()**" to control the robotic arm of SpiderPi Pro to rotate around.  
 
 {lineno-start=111}
 
-```
+```python
                 board.pwm_servo_set_position(0.05, [[2, servo2_pulse]])
                 time.sleep(0.05)
 ```
@@ -2762,7 +2762,7 @@ When human face is not detected, call "board.bus_servo_set_position()" to contro
 
 {lineno-start=42}
 
-```
+```python
 # 初始位置(initial position)
 def initMove():
     ultrasonic.setRGBMode(0)
@@ -2776,7 +2776,7 @@ def initMove():
 
 {lineno-start=57}
 
-```
+```python
 # 变量重置(reset variables)
 def reset():
     global d_pulse
@@ -2795,7 +2795,7 @@ def reset():
 
 {lineno-start=77}
 
-```
+```python
 def start():
     global __isRunning
     __isRunning = True
@@ -2806,7 +2806,7 @@ def start():
 
 {lineno-start=180}
 
-```
+```python
     camera = Camera()
     camera.camera_open(correction=True)
 ```
@@ -2817,7 +2817,7 @@ Run a sub-thread that calls the `move()` function to control the movement of pan
 
 {lineno-start=116}
 
-```
+```python
 # 运行子线程(run sub-thread)
 th = threading.Thread(target=move)
 ```
@@ -2826,7 +2826,7 @@ In the  `move()` function, adjust the rotation of the pan-tilt servo by sliding 
 
 {lineno-start=92}
 
-```
+```python
 def move():
     global start_greet
     global action_finish
@@ -2859,23 +2859,24 @@ The first parameter `0.05` is the runtime of the servo in the unit of m.
 The second parameter `21` is the servo number, which is servo 21.
 
 The third parameter `x_pulse` is pulse width of the servo ranging from 1000 to 1900.
+
 ### 6.9.5 Function extension
 
 :::{Note}
 
-The built-in action group file can be found in this catalog "/home/pi/SpiderPi/action_groups".
+The built-in action group file can be found in this catalog "**/home/pi/SpiderPi/action_groups**".
 
 :::
 
-When human face is recognized, SpiderPi Pro will "wave hands" by default. But we can modify the program to let SpiderPi Pro react differently, such as "twist body". Please follow the below steps to modify.
+When human face is recognized, SpiderPi Pro will "**wave hands**" by default. But we can modify the program to let SpiderPi Pro react differently, such as "**twist body**". Please follow the below steps to modify.
 
-(1) Enter the command "cd spiderpi/functions/" and press "Enter" to come to the catalog where the game programs are stored.
+(1) Enter the command and press "**Enter**" to come to the catalog where the game programs are stored.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(2) Enter command "vim face_detect.py" and press "Enter" to open the program file.
+(2) Enter command "**vim face_detect.py**" and press "**Enter**" to open the program file.
 
 ```bash
 vim face_detect.py
@@ -2886,16 +2887,16 @@ vim face_detect.py
 <img class="common_img" src="../_static/media/chapter_10/section_9/image9.png"  />
 
 :::{Note}
- press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
+ press "**Shift+G**" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-(4) Press "i" key to enter the editing mode.
+(4) Press "**i**" key to enter the editing mode.
 
-(5) Modify "wave" in `agc.run_action("wave")` as "twist". If you want to change it to other action groups, please move to the catalog "/home/pi/spiderpi/ action_groups" to check other action group names.
+(5) Modify "**wave**" in `agc.run_action("wave")` as "**twist**". If you want to change it to other action groups, please move to the catalog "**/home/pi/spiderpi/ action_groups**" to check other action group names.
 
 <img class="common_img" src="../_static/media/chapter_10/section_9/image10.png"  />
 
-After modification, press "Esc" key and enter ":wq" and then press Enter to save and exit. 
+After modification, press "**Esc**" key and enter "**:wq**" and then press Enter to save and exit. 
 
 ```bash
 :wq
@@ -2915,28 +2916,28 @@ The input command should be case sensitive and space sensitive.
 
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
-(2) Click <img src="../_static/media/chapter_10/section_10/image4.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "Ctrl+Alt+T" to open LX terminal.
+(2) Click <img src="../_static/media/chapter_10/section_10/image4.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "**Ctrl+Alt+T**" to open LX terminal.
 
 <img class="common_img" src="../_static/media/chapter_10/section_10/image5.png"  />
 
-(3) Enter the command  `cd spiderpi/functions` and press "Enter" to navigate to the directory where the game program is located.
+(3) Enter the command  and press "**Enter**" to navigate to the directory where the game program is located.
 
 ```bash
 cd spiderpi/functions
 ```
 
-(4) Enter "python3 avoidance.py", then press "Enter" to start the game.
+(4) Enter the command, then press "**Enter**" to start the game.
 
 ```bash
 python3 avoidance.py
 ```
 
-(5) If you want to exit the game program, press "Ctrl+C" in the LX terminal interface. If the exit fails, please try a few more times.
+(5) If you want to exit the game program, press "**Ctrl+C**" in the LX terminal interface. If the exit fails, please try a few more times.
 
 ### 6.10.3 Project Outcome
 
 :::{Note}
-The default distance threshold is 40cm. If you want to modify it as other value, you can refer to "[6.10.5 Function Extension -> Modify Default Distance Threshold]()".
+The default distance threshold is 40cm. If you want to modify it as other value, you can refer to "[6.10.5 Function Extension -> Modify Default Distance Threshold](#anchor_6_10_5)".
 :::
 
 After the game starts, the measured distance will be displayed on the camera returned image. When the distance between SpiderPi Pro and the obstacle is shorter than 25cm, the robot will step back and then turn left. When longer than 25cm and shorter than 40cm, the robot will turn left. When the distance is longer than 40cm, the robot will move forward. 
@@ -2945,13 +2946,13 @@ After the game starts, the measured distance will be displayed on the camera ret
 
 ### 6.10.4 Program Analysis
 
-The source code of this program is located in ：[/home/pi/spiderpi/functions/avoidance.py]()
+The source code of this program is located in ：[/home/pi/spiderpi/functions/avoidance.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/avoidance.zip)
 
 * **Import Function Library** 
 
 {lineno-start=4}
 
-```
+```python
 import os
 import sys
 import cv2
@@ -2971,7 +2972,7 @@ import arm_ik.arm_move_ik as AMK
 
 {lineno-start=19}
 
-```
+```python
 if sys.version_info.major == 2:
     print('Please run this program with python3!')
     sys.exit(0)
@@ -2998,7 +2999,7 @@ distance = 0
 
 {lineno-start=117}
 
-```
+```python
 if __name__ == '__main__':
     from common.ros_robot_controller_sdk import Board
 
@@ -3013,7 +3014,7 @@ if __name__ == '__main__':
 
 {lineno-start=135}
 
-```
+```python
     init()
     start()
     camera = Camera()
@@ -3024,7 +3025,7 @@ if __name__ == '__main__':
 
 {lineno-start=38}
 
-```
+```python
 def reset():
     ak.setPitchRangeMoving((0, 15, 30), 0, -90, 100, 1)
 ```
@@ -3033,7 +3034,7 @@ def reset():
 
 {lineno-start=137}
 
-```
+```python
     camera = Camera()
     camera.camera_open()
 ```
@@ -3046,7 +3047,7 @@ Set a `Threshold` to determine whether to perform obstacle avoidance. Its unit i
 
 {lineno-start=31}
 
-```
+```python
 Threshold = 40.0 # 默认阈值40cm(default threshold is 40cm)
 ```
 
@@ -3056,7 +3057,7 @@ Obtain the distance measured by the ultrasonic sensor through calling `getDistan
 
 {lineno-start=102}
 
-```
+```python
         # 数据处理，过滤异常值(process data and filter abnormal values)
         distance_ = ultrasonic.getDistance() / 10.0
         distance_data.append(distance_)
@@ -3073,7 +3074,7 @@ Process the obtained data for more accurate distance.
 
 {lineno-start=103}
 
-```
+```python
         distance_ = ultrasonic.getDistance() / 10.0
         distance_data.append(distance_)
         data = pd.DataFrame(distance_data)
@@ -3093,7 +3094,7 @@ Through calling `putText()` function in cv2 library, the measured distance will 
 
 {lineno-start=115}
 
-```
+```python
         cv2.putText(img, "Dist:%.1fcm" % distance, (30, 480 - 30), cv2.FONT_HERSHEY_SIMPLEX, 1.2, TextColor, 2)
 ```
 
@@ -3119,7 +3120,7 @@ Compare the measured distance with the set threshold. SpiderPi Pro will execute 
 
 {lineno-start=78}
 
-```
+```python
             if 0 < distance < Threshold:
                 while distance < 25: # 小于25cm时后退(back up when the distance is less than 25cm)
                     ik.back(ik.initial_pos, 2, 80, 50, 1)
@@ -3159,15 +3160,16 @@ The third parameter is stride. When the robot turns, the unit is mm, and when it
 The fourth parameter is speed in mm/s.
 
 The fifth parameter is the number of execution.  `0`  represents that the action will be executed at loop.
-### 10.5 Function Extension 
 
-<span id="anchor_10_4_1" class="anchor"></span>
+<span id="anchor_6_10_5"></span>
 
-**10.5.1 Modify Default Distance Threshold**
+### 6.10.5 Function Extension
+
+**Modify Default Distance Threshold**
 
 The default distance threshold is 40cm, and it can set to 30-60. For example, modify it as 50cm. 
 
-(1) Enter the command **"cd spiderpi/functions"** and press **"Enter"** to come to the directory of the game program. 
+(1) Enter the command\ and press **"Enter"** to come to the directory of the game program. 
 
 ```bash
 cd spiderpi/functions
@@ -3184,14 +3186,14 @@ vim avoidance.py
 <img class="common_img" src="../_static/media/chapter_10/section_10/image14.png"  />
 
 :::{Note}
-Press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
+Press "**Shift+G**" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation.
 :::
 
-(4) Press "i" key to enter the editing mode. And modify "40.0" of "Threshold = 40.0" as "50.0".
+(4) Press "**i**" key to enter the editing mode. And modify "**40.0**" of "**Threshold = 40.0**" as "**50.0**".
 
 <img class="common_img" src="../_static/media/chapter_10/section_10/image16.png"  />
 
-(5) After modification, press "Esc" and enter ":wq" and then press "Enter" to save and exit.
+(5) After modification, press "**Esc**" and enter "**:wq**" and then press "**Enter**" to save and exit.
 
 ```bash
 :wq
@@ -3204,6 +3206,8 @@ Press "Shift+G" after inputting the line number to directly jump to the correspo
 Firstly, program SpiderPi Pro to recognize colors through Lab color space. Convert the RGB color space to Lab, and then perform image binarization, expansion, corrosion and other operations in sequence to obtain an outline only containing the target color. Then, circle the color outline to realize object color recognition.
 
 The next step is to judge the shape of the outline and program SpiderPi Pro to give corresponding response.
+
+<p id="anchor_6_11_2"></p>
 
 ### 6.11.2 Operation Steps 
 
@@ -3223,29 +3227,27 @@ When entering commands, pay strict attention to case sensitivity and spaces.
 cd spiderpi/advanced
 ```
 
-(4) Enter "python3 shape_recognition_plain.py", and then press "Enter" to start the game.
+(4) Enter **"python3 shape_recognition_plain.py"**, and then press "**Enter**" to start the game.
 
 ```bash
 python3 shape_recognition_plain.py
 ```
 
-(5) f want to quit this game, just press "Ctrl+C". If the game cannot be quit, please try again.
+(5) f want to quit this game, just press "**Ctrl+C**". If the game cannot be quit, please try again.
 
 ### 6.11.3 Project Outcome
 
 After the game starts, place the blue object in front of SpiderPi Pro's camera. When the shape of the object is recognized, the shape name will be printed on the terminal, and the buzzer will beep. When triangle is recognized, the buzzer will beep once. When rectangle is recognized, the buzzer will beep twice. When circle is recognized, the buzzer will beep three times.
 
-
-
 ### 6.11.4 Program Parameter Description
 
-The source code of this program is located at: [/home/pi/spiderpi/advanced/shape_recognition_plain.py]()
+The source code of this program is located at: [/home/pi/spiderpi/advanced/shape_recognition_plain.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/shape_recognition_plain.zip)
 
 * **Importing Function Libraries** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import cv2
 import math
@@ -3264,15 +3266,15 @@ from sensor.ultrasonic_sensor import Ultrasonic
 import sensor.dot_matrix_sensor as DMS
 ```
 
-(1)  Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "library name+function name (parameter, parameter)". For example:
+(1)  Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "**library name+function name (parameter, parameter)**". For example:
 
 {lineno-start=78}
 
-```
+```python
             time.sleep(3)
 ```
 
-Call `sleep` function in "time" library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, "time", "cv2" and "math". You can also write a new library like "yaml_handle".
+Call `sleep` function in "**time**" library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, "**time**", "**cv2**" and "**math**". You can also write a new library like "**yaml_handle**".
 
 **(2) Instantiating Function Libraries**
 
@@ -3280,7 +3282,7 @@ The name of function library is too long to memorize. For calling function easil
 
 {lineno-start=14}
 
-```
+```python
 from common import kinematics
 from common.ros_robot_controller_sdk import Board
 from common.action_group_controller import ActionGroupController
@@ -3290,11 +3292,11 @@ After instantiating, you can directly input and call the function `Board.functio
 
 * **Main Function Analysis** 
 
-The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function "init()" is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
+The python program `__name__ == '__main__:'` is the main function of program. Firstly, the function "**init()**" is called to initialize. The initialization in this program includes: return the servo to the initial position, read the color threshold file. Generally there are also configurations for ports, peripherals, timing interrupts, etc., which are all done in the process of initialization.
 
 {lineno-start=148}
 
-```
+```python
 if __name__ == '__main__':
     #加载参数(load parameter)
     param_data = np.load(calibration_param_path + '.npz')
@@ -3318,7 +3320,7 @@ Shape recognition is realized through detecting the color of the object. The det
 
 {lineno-start=123} 
 
-```
+```python
     color = 'blue'
 ```
 
@@ -3328,7 +3330,7 @@ The main detection parameters involved in the process of detecting the color of 
 
 {lineno-start=118}
 
-```
+```python
     frame_gb = cv2.GaussianBlur(img, (3, 3), 3)
 ```
 
@@ -3342,7 +3344,7 @@ The third parameter `3` is the standard deviation of Gaussian function along the
 
 {lineno-start=124}
 
-```
+```python
     frame_mask = cv2.inRange(frame_lab,
                              (lab_data[color]['min'][0],
                               lab_data[color]['min'][1],
@@ -3356,7 +3358,7 @@ The third parameter `3` is the standard deviation of Gaussian function along the
 
 {lineno-start=131}
 
-```
+```python
     opened = cv2.morphologyEx(frame_mask, cv2.MORPH_OPEN, np.ones((6, 6), np.uint8))
     closed = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, np.ones((6, 6), np.uint8))
 ```
@@ -3373,7 +3375,7 @@ The third parameter `np.ones((6,6),np.uint8)` represents the size of the box.
 
 {lineno-start=54}
 
-```
+```python
 # 找出面积最大的轮廓(find the contour with the maximum area)
 def get_area_maxContour(contours):
     contour_area_temp = 0
@@ -3396,7 +3398,7 @@ When the robot recognizes a blue object, the cv2.drawContours() function is used
 
 {lineno-start=136}
 
-```
+```python
         cv2.drawContours(img, areaMaxContour, -1, (0, 0, 255), 2)
 ```
 
@@ -3416,7 +3418,7 @@ The fifth parameter `2` is the width of the contour.
 
 {lineno-start=138}
 
-```
+```python
         approx = cv2.approxPolyDP(areaMaxContour, epsilon, True)
 ```
 
@@ -3428,7 +3430,7 @@ The third parameter `True` represents the closed contour newly generated. `False
 
 The below picture will help you better understand.
 
-<img class="common_img" style="width:50%" src="../_static/media/chapter_10/section_11/image50.png" alt="loading" />
+<img class="common_img" style="width:400px" src="../_static/media/chapter_10/section_11/image50.png" alt="loading" />
 
 Process AC segment first. When d, distance between B and AC, is more than epsilon, then keep AB. Then, process BC segment.
 
@@ -3440,7 +3442,7 @@ Process AC segment first. When d, distance between B and AC, is more than epsilo
 
 {lineno-start=140}
 
-```
+```python
         if len(shape_list) == 24:
             shape_length = int(round(np.mean(shape_list)))
             shape_list = []
@@ -3454,7 +3456,7 @@ Process AC segment first. When d, distance between B and AC, is more than epsilo
 
 {lineno-start=71}
 
-```
+```python
 # 主要控制函数(main control function)
 def move():
     #global shape_length, board
@@ -3477,19 +3479,20 @@ def move():
         else:
             time.sleep(1)
 ```
+
 ### 6.11.5 Function Extension
 
 * **Changing the Default Recognition Color** 
 
 The default recognizable color of this game is blue. Here, taking **changing the default recognition color to red** as an example, the specific modification steps are as follows:
 
-(1) Enter command "cd spiderpi/advanced" to the catalog where the game programs are stored.
+(1) Enter command to the catalog where the game programs are stored.
 
 ```bash
 cd spiderpi/advanced
 ```
 
-(2) Enter command "sudo vim shape_recognition_plain.py" to open the program file.
+(2) Enter command to open the program file.
 
 ```bash
 sudo vim shape_recognition_plain.py
@@ -3500,32 +3503,32 @@ sudo vim shape_recognition_plain.py
 <img class="common_img" src="../_static/media/chapter_10/section_11/image14.png" />
 
 :::{Note}
-press "Shift+G" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation. 
+press "**Shift+G**" after inputting the line number to directly jump to the corresponding line. This section aims to introduce the quick jump method, therefore, the code location numbers are for reference only. Please refer to the actual situation. 
 :::
 
-(4) Press "i" key to enter the editing mode, then modify "blue" of "color = 'blue'" as "red".
+(4) Press "**i**" key to enter the editing mode, then modify "**blue**" of "**color = 'blue'**" as "**red**".
 
 <img class="common_img" src="../_static/media/chapter_10/section_11/image16.png" />
 
-(5) After modification, press "Esc" and input ":wq" to save the file and exit.
+(5) After modification, press "**Esc**" and input "**:wq**" to save the file and exit.
 
 ```bash
 :wq
 ```
 
-(6) Execute the steps in "[6.11.2 Operation Steps]()" to check the modification effect.
+(6) Execute the steps in "[**6.11.2 Operation Steps**](#anchor_6_11_2)" to check the modification effect.
 
 * **Changing the Feedback Sound**
 
 When triangle is recognized, the buzzer will beep once. When rectangle is recognized, the buzzer will beep twice. When circle is recognized, the buzzer will beep third times. And we make the buzzer beep twice when the circle is recognized for example. 
 
-(1) Enter the command **"cd spiderpi/advanced"** and press **"Enter"** to enter the catalog where the game programs are stored.
+(1) Enter the command and press **"Enter"** to enter the catalog where the game programs are stored.
 
 ```bash
 cd spiderpi/advanced
 ```
 
-(2) Enter the command **"sudo vim shape_recognition_plain.py"** and press **"Enter"** to open the program file.
+(2) Enter the command and press **"Enter"** to open the program file.
 
 ```bash
 sudo vim shape_recognition_plain.py
@@ -3535,7 +3538,7 @@ sudo vim shape_recognition_plain.py
 
 <img class="common_img" src="../_static/media/chapter_10/section_11/image21.png" />
 
-(4) Press "i" key to enter the editing mode and modify the "3" in `board.set_buzzer(2400, 0.1, 0.4, 3)` to "2".
+(4) Press "**i**" key to enter the editing mode and modify the "**3**" in `board.set_buzzer(2400, 0.1, 0.4, 3)` to "**2**".
 
 <img class="common_img" src="../_static/media/chapter_10/section_11/image23.png" />
 
@@ -3545,7 +3548,7 @@ sudo vim shape_recognition_plain.py
 :wq
 ```
 
-(6) Execute the steps in "[6.11.2 Operation Steps]()" to check the modification effect.
+(6) Execute the steps in "[**6.11.2 Operation Steps**](#anchor_6_11_2)" to check the modification effect.
 
 ## 6.12 Shape Recognition
 
@@ -3567,19 +3570,19 @@ The input command should be case sensitive and space sensitive.
 
 <img class="common_img" src="../_static/media/chapter_10/section_12/image4.png" />
 
-(3) Enter the command "cd spiderpi/advanced" and press "Enter" to navigate to the directory where the game program is located.
+(3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 
-```
+```bash
 cd spiderpi/advanced
 ```
 
-(4) Enter command "python3 shape_recognition.py", and then press "Enter" to start the game.
+(4) Enter command, and then press "**Enter**" to start the game.
 
 ```bash
 python3 shape_recognition.py
 ```
 
-(5) If want to close this game, press "Ctrl+C" on LX terminal. If the game cannot be quit, please try again.
+(5) If want to close this game, press "**Ctrl+C**" on LX terminal. If the game cannot be quit, please try again.
 
 ### 6.12.3 Project outcome
 
@@ -3593,13 +3596,13 @@ When the shape is recognized, the corresponding shape pattern will be displayed 
 
 ### 6.12.4 Program Parameter Description
 
-The source code of this program is located at [/home/pi/spiderpi/advanced/shape_recognition.py]()
+The source code of this program is located at [/home/pi/spiderpi/advanced/shape_recognition.py](https://store.hiwonder.com.cn/docs/spiderpi_pro/source_code/recognition_tracking/shape_recognition.zip)
 
 * **Import Function Library** 
 
 {lineno-start=4}
 
-```
+```python
 import sys
 import cv2
 import math
@@ -3618,15 +3621,15 @@ from sensor.ultrasonic_sensor import Ultrasonic
 import sensor.dot_matrix_sensor as DMS
 ```
 
-(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "library name+function name (parameter, parameter)". For example:
+(1) Import the libraries related to OpenCV, time, math, and threads. If want to call a function in library, you can use "**library name+function name (parameter, parameter)**". For example:
 
 {lineno-start=198}
 
-```
+```python
             time.sleep(0.01)
 ```
 
-Call `sleep` function in "time" library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
+Call `sleep` function in "**time**" library. The function `sleep ()` is used to delay. There are some built-in libraries in Python, so they can be called directly. For example, `time`, `cv2` and `math`. You can also write a new library like `yaml_handle`.
 
 (2) Instantiating Function Libraries
 
@@ -3634,7 +3637,7 @@ The name of function library is too long to memorize. For calling function easil
 
 {lineno-start=15}
 
-```
+```python
 from common.ros_robot_controller_sdk import Board
 from common.action_group_controller import ActionGroupController
 import arm_ik.arm_move_ik as AMK
@@ -3648,7 +3651,7 @@ In a Python program,  `__name__ == '__main__:'` is the main function of the prog
 
 {lineno-start=172}
 
-```
+```python
 if __name__ == '__main__':
     #加载参数(load parameter)
     param_data = np.load(calibration_param_path + '.npz')
@@ -3664,7 +3667,7 @@ if __name__ == '__main__':
 
 {lineno-start=42}
 
-```
+```python
 # 读取颜色阈值函数(read color threshold and parameters of coordinate transformation)
 def load_config():
     global lab_data
@@ -3686,7 +3689,7 @@ Before converting the image from RGB into LAB space, denoise the image and use G
 
 {lineno-start=132}
 
-```
+```python
     frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间(convert the image to LAB space)
 ```
 
@@ -3704,7 +3707,7 @@ Adopt `inRange()` function in cv2 library to perform binaryzation on the image.
 
 {lineno-start=139}
 
-```
+```python
             frame_mask = cv2.inRange(frame_lab,
                              (lab_data[i]['min'][0],
                               lab_data[i]['min'][1],
@@ -3724,7 +3727,7 @@ To reduce distraction and make the image smoother, use `morphologyEx()` function
 
 {lineno-start=146}
 
-```
+```python
             opened = cv2.morphologyEx(frame_mask, cv2.MORPH_OPEN, np.ones((6,6),np.uint8))  #开运算(opening operation)
             closed = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, np.ones((6,6),np.uint8)) #闭运算(Closing operation)
 ```
@@ -3747,7 +3750,7 @@ After processing the image, acquire the contour of the target to be recognized, 
 
 {lineno-start=148}
 
-```
+```python
             contours = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓(find contours)
 ```
 
@@ -3757,7 +3760,7 @@ Find the contour of the maximum area among the obtained contours. To avoid inter
 
 {lineno-start=68}
 
-```
+```python
             if contour_area_temp > 50:  # 只有在面积大于50时，最大面积的轮廓才是有效的，以过滤干扰(Only when the area is greater than the set value, the contour with the maximum area is considered valid to filter out interference)
                 area_max_contour = c
 ```
@@ -3766,7 +3769,7 @@ After obtaining the contour with largest area, use `drawContours()` function in 
 
 {lineno-start=68}
 
-```
+```python
         cv2.drawContours(img, areaMaxContour_max, -1, (0, 0, 255), 2)
 ```
 
@@ -3776,7 +3779,7 @@ Calculate the perimeter of the contour with `arcLength()` function in cv2 librar
 
 {lineno-start=157}
 
-```
+```python
         # 识别形状(shape recognition)
         # 周长  0.035 根据识别情况修改，识别越好，越小(Perimeter 0.035. Adjust according to the detection performance, the better the detection, the smaller the value)
         epsilon = 0.035 * cv2.arcLength(areaMaxContour_max, True)
@@ -3788,7 +3791,7 @@ Based on the contour approximation result, acquire the number of the side of the
 
 {lineno-start=162}
 
-```
+```python
         shape_list.append(len(approx))
         if len(shape_list) == 24:
             shape_length = int(round(np.mean(shape_list)))                            
@@ -3803,7 +3806,7 @@ According to the recognition result, the corresponding pattern will be displayed
 
 {lineno-start=75}
 
-```
+```python
         if shape_length == 3:
             print('三角形')
             ## 显示'三角形'(display 'triangle')
@@ -3832,7 +3835,7 @@ According to the recognition result, the corresponding pattern will be displayed
             print('None')
 ```
 
-There are 16 columns of LEDs on the dot matrix screen and each column is controlled with a hexadecimal value, that is **"10001000"**. The status of LEDs corresponding to this value, from top to bottom, is "on off off off on off off off".
+There are 16 columns of LEDs on the dot matrix screen and each column is controlled with a hexadecimal value, that is **"10001000"**. The status of LEDs corresponding to this value, from top to bottom, is "**on off off off on off off off**".
 
 <img class="common_img" style="width:60%" src="../_static/media/chapter_10/section_12/image22.png" alt="loading" />
 
