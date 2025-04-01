@@ -1,10 +1,8 @@
-# 10. Raspberry Pi Series Robot Network Configuration Instruction
+# 9. Raspberry Pi Series Robot Network Configuration Instruction
 
-## 1. Network Configuration Overview
+## 9.1 Network Configuration Overview
 
 This tutorial uses the MasterPi Pi5 version as an example, and it applies to other Pi5 models in this series as well.
-
-### 1.1 Network Configuration Overview
 
 The robot's network can be configured in two modes:
 
@@ -14,9 +12,9 @@ The robot's network can be configured in two modes:
 
 By default, the robot operates in AP (direct connection) mode. The features and functions of the robot remain the same whether in AP mode or STA (local area network) mode.
 
-### 1.2 AP Direct Connection Mode
+## 9.2 AP Direct Connection Mode
 
-**1.2.1 Mode Switching through Phone**
+**9.2.1 Mode Switching through Phone** 
 
 Using t**he Android system** as an example, these instructions also apply to iOS.
 
@@ -24,24 +22,24 @@ Using t**he Android system** as an example, these instructions also apply to iOS
 
 <img class="common_img" src="../_static/media/11.network_configuration/section_1/image1.png" style="width:700px" />
 
-(2)  Tap the "+" button in the bottom right corner of the screen, and choose **"Direct Connection Mode".**
+(2)  Tap the **"+"** button in the bottom right corner of the screen, and choose **"Direct Connection Mode".**
 
 <img class="common_img" src="../_static/media/11.network_configuration/section_1/image2.png" style="width:700px"/>
 
 :::{Note}
-If you prefer to connect in LAN mode, refer to [1.3 Connecting in LAN Mode (optional)]().
+If you prefer to connect in LAN mode, refer to [9.3 Connecting in LAN Mode (optional)]().
 :::
 
 (3) Tap **"Connect to Device Hotspot"**. This will take you to your phone's settings to connect to the hotspot created by the robot.
 
 <img class="common_img" src="../_static/media/11.network_configuration/section_1/image3.png" style="width:700px" />
 
-(4) Look for a hotspot name starting with "HW". The password is "hiwonder".
+(4) Look for a hotspot name starting with **"HW"**. The password is **"hiwonder"**.
 
 <img class="common_img" src="../_static/media/11.network_configuration/section_1/image4.png" style="width:350px" />
 
 :::{Note}
-for iOS: Wait until the Wi-Fi icon<img src="../_static/media/11.network_configuration/section_1/image5.png" style="width:40px" />appears in your phone's status bar before returning to the app. If you don't see the device listed, you can refresh by tapping the refresh icon<img src="../_static/media/11.network_configuration/section_1/image6.png" style="width:50px" />in the upper-right corner of the app.
+For iOS: Wait until the Wi-Fi icon<img src="../_static/media/11.network_configuration/section_1/image5.png" style="width:40px" />appears in your phone's status bar before returning to the app. If you don't see the device listed, you can refresh by tapping the refresh icon<img src="../_static/media/11.network_configuration/section_1/image6.png" style="width:50px" />in the upper-right corner of the app.
 :::
 
 (5) Return to the app, and tap the robot icon to enter the mode selection screen.
@@ -64,7 +62,7 @@ For details on each mode, refer to the documentation provided earlier.
 
 <p id="anchor_1_2_2"></p>
 
-**1.2.2 Switching via Network Configuration File**
+**9.2.2 Switching via Network Configuration File**
 
 (1) Power on the robot and connect it to the remote control software, VNC.
 
@@ -124,7 +122,7 @@ sudo systemctl restart hw_wifi.service
 
 <p id="anchor_1_3"></p>
 
-### 1.3 Connecting in LAN Mode (optional)
+## 9.3 Connecting in LAN Mode (optional)
 
 :::{Note}
 
@@ -133,7 +131,7 @@ sudo systemctl restart hw_wifi.service
 * Switching to LAN mode cannot be done directly through the system's network settings, as the Wi-Fi has custom configurations. Please follow the instructions in Section 1.3.2 to switch modes using the network configuration file.
   :::
 
-**1.3.1 Switching via the Mobile App**
+**9.3.1 Switching via the Mobile App**
 
 :::{Note}
 For LAN mode, please enable location services on your smartphone.
@@ -155,7 +153,7 @@ For LAN mode, please enable location services on your smartphone.
 
 <img class="common_img" src="../_static/media/11.network_configuration/section_1/image25.png" style="width:700px" />
 
-(5) Tap "Connect to Device Hotspot".
+(5) Tap **"Connect to Device Hotspot"**.
 
 <img class="common_img" src="../_static/media/11.network_configuration/section_1/image26.png" style="width:700px" />
 
@@ -179,7 +177,7 @@ For LAN mode, please enable location services on your smartphone.
 
 (11) To switch back to direct connection mode from LAN mode, press and hold the KEY1 button on the expansion board until the blue LED flashes, indicating that the switch is complete.
 
-**1.3.2 Switching via Network Configuration File**
+**9.3.2 Switching via Network Configuration File**
 
 (1) Power on the robot and connect it to the remote control software, NoMachine.
 
@@ -212,7 +210,7 @@ HW_WIFI_MODE = 2    #wifi的工作模式，1为AP模式，2为STA模式
 (6) Next, modify **"HW_WIFI_STA_SSID"** and **"HW_WIFI_STA_PASSWORD"** to match your router's Wi-Fi name and password.
 
 :::{Note}
- Selecting a 5G Wi-Fi signal will provide higher transfer speeds. If there is lag on standard Wi-Fi, consider switching to a 5G signal.
+Selecting a 5G Wi-Fi signal will provide higher transfer speeds. If there is lag on standard Wi-Fi, consider switching to a 5G signal.
 :::
 
 <img class="common_img" src="../_static/media/11.network_configuration/section_1/image32.png" style="width:700px" />
