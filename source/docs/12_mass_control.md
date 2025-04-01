@@ -1,4 +1,4 @@
-# 8. Mass Control
+# 8. Group Control Course
 
 ## 8.1 Handle Control
 

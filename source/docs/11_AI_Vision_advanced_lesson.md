@@ -1,4 +1,4 @@
-#  7. AI Vision Advanced Lesson
+#  7. AI Visual Transporting & Kicking Ball Course
 
 ## 7.1 Locate the Ball
 

@@ -1,4 +1,4 @@
-# 6. AI Vision Basic Lesson
+# 6. AI Visual Recognition & Tracking Course
 
 ## 6.1 Single Color Recognition
 

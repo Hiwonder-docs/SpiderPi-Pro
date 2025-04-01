@@ -1,6 +1,6 @@
-# 3. Installing VNC Remote Connection Tool
+# 3. Remote Desktop Installation and Connection
 
-<p id="anchor_1"></p>
+<p id="anchor_3_1"></p>
 
 ## 3.1 VNC Installation and Connection
 
@@ -36,23 +36,23 @@ Raspberry Pi directly from your computer by connecting the hotspot created by Ra
 
 <img class="common_img" src="../_static/media/chapter_6/section_1/image7.png"  />
 
-(6) After installing completely, click<img src="../_static/media/chapter_6/section_1/image8.png" style="width:0.31458in;height:0.31458in" />icon to open VNC.
+(6) After installing completely, click <img src="../_static/media/chapter_6/section_1/image8.png" style="width:0.31458in;height:0.31458in" /> icon to open VNC.
 
 * **Turn on Device** 
 
-Please refer to the tutorial  [Getting Ready/1.4 Charging and Power-On Status Explanation]()  to turn on the robot. Wait a moment, LED1 and LED2 of Raspberry Pi will be on firstly and then the LED2 will flash every 2 seconds, which means SpiderPi Pro is turned on successfully.
+Please refer to the tutorial  [Getting Ready/1.4 Charging and Power-On Status Explanation](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/1_read_before_studying.html#charging-and-power-on-status-explanation)  to turn on the robot. Wait a moment, LED1 and LED2 of Raspberry Pi will be on firstly and then the LED2 will flash every 2 seconds, which means SpiderPi Pro is turned on successfully.
 
 ### 3.1.2 Connect Device
 
-(1) SpiderPi Pro defaults to AP direct connection mode before shipping. After turning on the robot, it will generate a hotspot starting with “ HW” . You need to search and connect to this hotspot, as the figure shown below:
+(1) SpiderPi Pro defaults to AP direct connection mode before shipping. After turning on the robot, it will generate a hotspot starting with "**HW**" . You need to search and connect to this hotspot, as the figure shown below:
 
 <img class="common_img" src="../_static/media/chapter_6/section_1/image9.png"  />
 
-(2) Open VNC Viewer, and enter the default IP address of Raspberry Pi(192.168.149.1), and then press “ Enter” . If If the software warns that the connection is not safe just Click **"Continue"** .
+(2) Open VNC Viewer, and enter the default IP address of Raspberry Pi(192.168.149.1), and then press "**Enter**" . If the software warns that the connection is not safe just Click **"Continue"** .
 
 <img src="../_static/media/chapter_6/section_1/image10.png"  />
 
-(4) Input the required information in the login window. Enter the Username "pi"  and the password  **"raspberrypi"** , and check  **"Remember password"** box. Then click **"OK"** to start Raspberry Pi.
+(4) Input the required information in the login window. Enter the Username "**pi**"  and the password  **"raspberrypi"** , and check  **"Remember password"** box. Then click **"OK"** to start Raspberry Pi.
 
 <img class="common_img" src="../_static/media/chapter_6/section_1/image11.png"  />
 
@@ -86,11 +86,11 @@ After remote connection via VNC, the Raspberry Pi system desktop is as shown in 
 
 The input command must be case sensitive and space, and the keyword supports **"TAB"** key to fill.
 
-(1) Click<img src="../_static/media/chapter_6/section_2/image9.png" style="width:0.39375in;height:0.425in" />or press **"Ctrl+Alt+T"** to open the command line terminal.
+(1) Click <img src="../_static/media/chapter_6/section_2/image9.png" style="width:0.39375in;height:0.425in" /> or press **"Ctrl+Alt+T"** to open the command line terminal.
 
-(2) Enter **"ls"** command and then press “Enter” to list all the documents. Let’s focus on the three directories shown in the figure below:
+(2) Enter **"ls"** command and then press "**Enter**" to list all the documents. Let's focus on the three directories shown in the figure below:
 
-```commandline
+```bash
 ls
 ```
 
@@ -107,13 +107,13 @@ ls
 For AI vision games, you only need to check the folder SpiderPi.
 :::
 
-(3) Enter `cd SpiderPi` to open all the games and program source code. In the SpiderPi, let’s focus on the directories as shown below:
+(3) Enter `cd SpiderPi` to open all the games and program source code. In the SpiderPi, let's focus on the directories as shown below:
 
-```commandline
+```bash
 cd spiderpi
 ```
 
-```commandline
+```bash
 ls
 ```
 
@@ -130,11 +130,11 @@ ls
 
 (4) Enter the  `cd functions` and `ls` instructions in turn again. Let's take a look at the corresponding games of the AI vision basic program:
 
-```commandline
+```bash
 cd functions
 ```
 
-```commandline
+```bash
 ls
 ```
 
@@ -157,15 +157,15 @@ ls
 
 (5) Enter the `cd..`, `cd advanced`, and `ls` instructions in turn again. Let's take a look at the corresponding games of the AI vision advanced program:
 
-```commandline
+```bash
 cd ..
 ```
 
-```commandline
+```bash
 cd advanced
 ```
 
-```commandline
+```bash
 ls
 ```
 
@@ -185,15 +185,15 @@ ls
 
 (6) Enter the `cd..`, `cd kinematic_routines`, and `ls` instructions in turn again. Let's take a look at the corresponding games of the program:
 
-```commandline
+```bash
 cd ..
 ```
 
-```commandline
+```bash
 cd kinematic_routines
 ```
 
-```commandline
+```bash
 ls
 ```
 

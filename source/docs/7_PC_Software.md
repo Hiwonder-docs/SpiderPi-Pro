@@ -1,10 +1,10 @@
-# 4. Action Editing
+# 4. PC Software&Programming
 
 ## 4.1 PC Software Introduction
 
 The functions of PC software are introduced in details for you to master it quickly.
 
-Firstly, connect to VNC remote desktop and double-click PC software “**SpiderPi**” to start it. If window pops up, click “**Run**”.
+Firstly, connect to VNC remote desktop and double-click PC software "**SpiderPi**" to start it. If window pops up, click "**Run**".
 
 <img class="common_img" src="../_static/media/chapter_7/section_1/image2.png"  />
 
@@ -18,7 +18,6 @@ The interface is divided into 5 areas.
 
 You can drag the slider to control the position of the corresponding servo so as to switch the moving posture of the SpiderPi Pro.
 
-
 |                             Icon                             |                 Function                 |
 | :----------------------------------------------------------: | :--------------------------------------: |
 | <img src="../_static/media/chapter_7/section_1/image6.png"  alt="loading" /> |  ID number. Take NO.3 servo as example   |
@@ -28,7 +27,6 @@ You can drag the slider to control the position of the corresponding servo so as
 ### 4.1.2 Robotic arm control area
 
 You can adjust the servo value in this area to control the posture of the robotic arm. Note: the ID of the servo on the robotic arm from the top to the bottom is 25 - 21.
-
 
 |                             Icon                             |                 Function                 |
 | :----------------------------------------------------------: | :--------------------------------------: |
@@ -42,7 +40,6 @@ The running time and servo data of the current action are displayed on the actio
 
 <img class="common_img" src="../_static/media/chapter_7/section_1/image10.png"  alt="loading" />
 
-
 |                             Icon                             |                           Function                           |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="../_static/media/chapter_7/section_1/image11.png"  alt="loading" /> | The serial number of the action group. Here refer to NO.1 action. |
@@ -50,7 +47,6 @@ The running time and servo data of the current action are displayed on the actio
 | <img src="../_static/media/chapter_7/section_1/image13.png"  alt="loading" /> | Action data of the corresponding servo. Double click the figure to revise. |
 
 ### 4.1.4 Action group setting
-
 
 |                             Icon                             |                           Function                           |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
@@ -60,8 +56,8 @@ The running time and servo data of the current action are displayed on the actio
 | <img src="../_static/media/chapter_7/section_1/image18.png"  alt="loading" /> | Read the servo angle you have designed before. This button should be used with<img src="../_static/media/chapter_7/section_1/image17.png"  alt="loading" /> |
 | <img src="../_static/media/chapter_7/section_1/image19.png"  alt="loading" /> | Add the servo value as a action to the last line of the action list |
 | <img src="../_static/media/chapter_7/section_1/image20.png"  alt="loading" /> |        Delete the action selected in the action list         |
-| <img src="../_static/media/chapter_7/section_1/image21.png"  alt="loading" /> | Replace the angle value of the action selected in the action list with the servo value in the servo control area. And update the running time as the time set in “**Time**” |
-| <img src="../_static/media/chapter_7/section_1/image22.png"  alt="loading" /> | Insert a new action above the selected action. The running time of this new action is the time set in “**Time**” and angle value is the current value in servo control area. |
+| <img src="../_static/media/chapter_7/section_1/image21.png"  alt="loading" /> | Replace the angle value of the action selected in the action list with the servo value in the servo control area. And update the running time as the time set in "**Time**" |
+| <img src="../_static/media/chapter_7/section_1/image22.png"  alt="loading" /> | Insert a new action above the selected action. The running time of this new action is the time set in "**Time**" and angle value is the current value in servo control area. |
 | <img src="../_static/media/chapter_7/section_1/image23.png"  alt="loading" /> |             Move the selected action up one line             |
 | <img src="../_static/media/chapter_7/section_1/image24.png"  alt="loading" /> |            Move the selected action down one line            |
 | <img src="../_static/media/chapter_7/section_1/image25.png"  alt="loading" /> |     Click to run all the actions on the action list once     |
@@ -77,20 +73,19 @@ The running time and servo data of the current action are displayed on the actio
 
 ### 4.1.5 Servo deviation setting area
 
-
 |                             Icon                             |                          Function                           |
 | :----------------------------------------------------------: | :---------------------------------------------------------: |
 | <img src="../_static/media/chapter_7/section_1/image35.png"  alt="loading" /> |          Click to read the saved servo deviation.           |
 | <img src="../_static/media/chapter_7/section_1/image36.png"  alt="loading" /> |   Click to download the adjusted deviation to the robot.    |
 | <img src="../_static/media/chapter_7/section_1/image37.png"  alt="loading" /> | Click to return all the servos to the middle position(500). |
 
-<p id="anchor_2"></p>
+<p id="anchor_4_2"></p>
 
 ## 4.2 Action Editing
 
 ### 4.2.1 Project outcome
 
-Create an action group consisting of 26 independent actions to allow the SpiderPi Pro to “move forward and pick”.
+Create an action group consisting of 26 independent actions to allow the SpiderPi Pro to "**move forward and pick**".
 
 ### 4.2.2 Action design
 
@@ -102,7 +97,7 @@ The robot body consists of 6 legs, that is 1-6 zones, as shown in the figure bel
 
 <img src="../_static/media/chapter_7/section_2/image1.png"  alt="loading" />
 
-(1) Firstly, before starting the robot, set a initial posture for the robot. Click “**Open Action File**” and select the built-in action file “**stand_low.d6a**”, and then click “**Open**”. Then the first action is added to the action list.
+(1) Firstly, before starting the robot, set a initial posture for the robot. Click "**Open Action File**" and select the built-in action file "**stand_low.d6a**", and then click "**Open**". Then the first action is added to the action list.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image2.png"  />
 
@@ -116,11 +111,11 @@ The robot body consists of 6 legs, that is 1-6 zones, as shown in the figure bel
 
 <img src="../_static/media/chapter_7/section_2/image5.png"  alt="loading" />
 
-(4) Set the time as 300ms and click “**Add Action**”. Then the second action is added to the action list.
+(4) Set the time as 300ms and click "**Add Action**". Then the second action is added to the action list.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image6.png"  alt="loading" />
 
-(5) To make the transition between each action more fluent, it is necessary add transitional action between actions. Remain the servo value unchanged and modify the running time as 1000ms, and click “**Add Action**”.
+(5) To make the transition between each action more fluent, it is necessary add transitional action between actions. Remain the servo value unchanged and modify the running time as 1000ms, and click "**Add Action**".
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image7.png"  alt="loading" />
 
@@ -128,13 +123,13 @@ The robot body consists of 6 legs, that is 1-6 zones, as shown in the figure bel
 
 <img src="../_static/media/chapter_7/section_2/image8.png"  alt="loading" />
 
-Set the time as 300ms, and click “**Add Action**” to add NO.4 action.
+Set the time as 300ms, and click "**Add Action**" to add NO.4 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image9.png"  alt="loading" />
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image10.png"  alt="loading" />
 
-(7) Add other transitional action and set the time as 200ms, and then click “**Add Action**” to form NO.5 action.
+(7) Add other transitional action and set the time as 200ms, and then click "**Add Action**" to form NO.5 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image11.png"  alt="loading" />
 
@@ -142,11 +137,11 @@ Set the time as 300ms, and click “**Add Action**” to add NO.4 action.
 
 <img src="../_static/media/chapter_7/section_2/image12.png"  alt="loading" />
 
-(9) Set the time as 400ms and click **“Add Action**” to obtain NO.6 action.
+(9) Set the time as 400ms and click **"Add Action**" to obtain NO.6 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image13.png"  alt="loading" />
 
-(10) Add a transitional action and set the time as 100ms and then click “Add Action”. Then, NO.7 action is created.
+(10) Add a transitional action and set the time as 100ms and then click "**Add Action**". Then, NO.7 action is created.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image14.png"  alt="loading" />
 
@@ -154,7 +149,7 @@ Set the time as 300ms, and click “**Add Action**” to add NO.4 action.
 
 <img src="../_static/media/chapter_7/section_2/image15.png"  alt="loading" />
 
-(12) Set the time as 600ms and click “**Add Action**” to add NO.8 action.
+(12) Set the time as 600ms and click "**Add Action**" to add NO.8 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image16.png"  alt="loading" />
 
@@ -164,7 +159,7 @@ The action of moving forward is complete, which involves 8 independent actions. 
 
 * **Pick the object** 
 
-After editing the action of “**moving forward**”, design an action to make the robotic arm pick the block and place it to its right side. In the following steps, the values in robotic arm control area will be adjusted.
+After editing the action of "**moving forward**", design an action to make the robotic arm pick the block and place it to its right side. In the following steps, the values in robotic arm control area will be adjusted.
 
 <img src="../_static/media/chapter_7/section_2/image18.png" class="common_img"  alt="loading" />
 
@@ -177,11 +172,11 @@ You can take steps to set the servo value.
 
 <img src="../_static/media/chapter_7/section_2/image19.png" class="common_img"  alt="loading" />
 
-(2) Then set the time as 600ms and click “**Add Action**” to create NO.9 action.
+(2) Then set the time as 600ms and click "**Add Action**" to create NO.9 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image20.png"  alt="loading" />
 
-(3) As before, we need to add a transitional action. Set the time as 200ms and click **“Add Action**”.
+(3) As before, we need to add a transitional action. Set the time as 200ms and click **"Add Action**".
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image21.png"  alt="loading" />
 
@@ -189,7 +184,7 @@ You can take steps to set the servo value.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image22.png"  alt="loading" />
 
-(5) Set the time as 500ms and click “**Add Action**” to get NO.11 action.
+(5) Set the time as 500ms and click "**Add Action**" to get NO.11 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image23.png"  alt="loading" />
 
@@ -201,7 +196,7 @@ You can take steps to set the servo value.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image25.jpeg"  alt="loading" />
 
-(8) Set the time as 600ms and click “**Add Action**” to form NO.13 action.
+(8) Set the time as 600ms and click "**Add Action**" to form NO.13 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image26.png"  alt="loading" />
 
@@ -213,7 +208,7 @@ You can take steps to set the servo value.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image28.jpeg"  alt="loading" />
 
-(11) Set the time as 400ms and click “**Add Action**” to design NO.15 action.
+(11) Set the time as 400ms and click "**Add Action**" to design NO.15 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image29.png"  alt="loading" />
 
@@ -221,11 +216,11 @@ You can take steps to set the servo value.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image30.png"  alt="loading" />
 
-Set the time as 200ms and click “**Add Action**” to get NO.16 action.
+Set the time as 200ms and click "**Add Action**" to get NO.16 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image31.png"  alt="loading" />
 
-(13) Set the time as 100ms and click **“Add Action”**  to add a transitional action.
+(13) Set the time as 100ms and click **"Add Action"**  to add a transitional action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image32.png"  alt="loading" />
 
@@ -233,11 +228,11 @@ Set the time as 200ms and click “**Add Action**” to get NO.16 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image33.png"  alt="loading" />
 
-(15) Set the time as 700ms and click “**Add Action**” to obtain NO.18 action.
+(15) Set the time as 700ms and click "**Add Action**" to obtain NO.18 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image34.png"  alt="loading" />
 
-(16) Set the time as 300ms and click “**Add Action**” to add a transitional action.
+(16) Set the time as 300ms and click "**Add Action**" to add a transitional action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image35.png"  alt="loading" />
 
@@ -245,11 +240,11 @@ Set the time as 200ms and click “**Add Action**” to get NO.16 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image36.png"  alt="loading" />
 
-(18) Set the time as 1000ms and click **“Add Action”** to receive NO.20 action.
+(18) Set the time as 1000ms and click **"Add Action"** to receive NO.20 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image37.png"  alt="loading" />
 
-(19) Set the time as 600ms and click **“Add Action”** to create a transitional action.
+(19) Set the time as 600ms and click **"Add Action"** to create a transitional action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image38.png"  alt="loading" />
 
@@ -257,7 +252,7 @@ Set the time as 200ms and click “**Add Action**” to get NO.16 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image39.png"  alt="loading" />
 
-(21) Set the time as 1000ms and click “**Add Action”** to generate NO.22 action.
+(21) Set the time as 1000ms and click "**Add Action"** to generate NO.22 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image40.png"  alt="loading" />
 
@@ -265,7 +260,7 @@ Set the time as 200ms and click “**Add Action**” to get NO.16 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image41.jpeg"  alt="loading" />
 
-(23) Set the time as 800ms and click “**Add Action**” to add NO.23 action.
+(23) Set the time as 800ms and click "**Add Action**" to add NO.23 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image42.png"  alt="loading" />
 
@@ -273,19 +268,19 @@ Set the time as 200ms and click “**Add Action**” to get NO.16 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image43.jpeg"  alt="loading" />
 
-(25) Set the time as 1000ms and click “**Add Action**” to get NO.24 action.
+(25) Set the time as 1000ms and click "**Add Action**" to get NO.24 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image44.png"  alt="loading" />
 
-(26) Set the time as 1000ms and click “**Add Action**” to add a transitional action.
+(26) Set the time as 1000ms and click "**Add Action**" to add a transitional action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image45.png"  alt="loading" />
 
-(27) Lastly, make the robotic arm return to the initial posture. Move to the action list and select NO.8 action, and then click<img src="../_static/media/chapter_7/section_2/image3.png" style="width:0.31496in;height:0.14161in" />to update the value of this action to the servo controlling area.
+(27) Lastly, make the robotic arm return to the initial posture. Move to the action list and select NO.8 action, and then click <img src="../_static/media/chapter_7/section_2/image3.png" style="width:0.31496in;height:0.14161in" /> to update the value of this action to the servo controlling area.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image46.png"  alt="loading" />
 
-(28) Set the time as 1000ms and click “**Add Action**” to get NO.26 action.
+(28) Set the time as 1000ms and click "**Add Action**" to get NO.26 action.
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image47.png"  alt="loading" />
 
@@ -295,10 +290,10 @@ The servo value of the whole action group is as follow.
 
 ### 4.2.3 Save the Action
 
-For the convenience of later debugging and management, it is recommended to save the action. Click “**Save Action File**” and select the path to save, `/home/pi/SpiderPi/ActionGroups`, and the enter the action group name “**go_forward_and_grip**”. Lastly, click “**Save**”.
+For the convenience of later debugging and management, it is recommended to save the action. Click "**Save Action File**" and select the path to save, `/home/pi/SpiderPi/ActionGroups`, and the enter the action group name "**go_forward_and_grip**". Lastly, click "**Save**".
 
 :::{Note}
-when entering the action group name, please do not press “**Space**”, otherwise it may fail to save the action group.
+when entering the action group name, please do not press "**Space**", otherwise it may fail to save the action group.
 :::
 
 <img class="common_img" src="../_static/media/chapter_7/section_2/image49.png"  />
@@ -311,13 +306,13 @@ SpiderPi Pro has 15 built-in action groups which are stored in the path `/home/p
 
 ### 4.3.1 Operation steps
 
-(1) According to the tutorial in “[3.1 VNC Installation and Connection]()”, install VNC and remotely connect to Raspberry Pi system desktop.
+(1) According to the tutorial in "[**Remote Desktop Installation and Connection/ 3.1 VNC Installation and Connection**](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/6_remote_tool.html#vnc-installation-and-connection)", install VNC and remotely connect to Raspberry Pi system desktop.
 
-(2) Double click<img src="../_static/media/chapter_7/section_3/image1.png" style="width:0.39306in;height:0.40347in" alt="loading" />and click “**Run**” in the pop-up window to enter the editing interface, as shown in the below figure.
+(2) Double click<img src="../_static/media/chapter_7/section_3/image1.png" style="width:0.39306in;height:0.40347in" alt="loading" />and click "**Run**" in the pop-up window to enter the editing interface, as shown in the below figure.
 
 <img class="common_img" src="../_static/media/chapter_7/section_3/image2.png"  alt="loading" />
 
-(3) Next, click “**Open Action File**” to select the action group to run. Then click “**Open**”.
+(3) Next, click "**Open Action File**" to select the action group to run. Then click "**Open**".
 
 <img class="common_img" src="../_static/media/chapter_7/section_3/image3.png"  />
 
@@ -327,7 +322,7 @@ SpiderPi Pro has 15 built-in action groups which are stored in the path `/home/p
 
 <img class="common_img" src="../_static/media/chapter_7/section_3/image4.png"  />
 
-(5) Click “**Run**” to run all the actions in the action list. If you want to make the robot repeat the action group, you can tick “**Loop**”.
+(5) Click "**Run**" to run all the actions in the action list. If you want to make the robot repeat the action group, you can tick "**Loop**".
 
 <img class="common_img" src="../_static/media/chapter_7/section_3/image5.png"  alt="loading" />
 
@@ -335,12 +330,10 @@ SpiderPi Pro has 15 built-in action groups which are stored in the path `/home/p
 
 If you want to call the external actions, you can follow these steps to operate. 
 
-Take importing “**dance.d6a**” action group for example.
+Take importing "**dance.d6a**" action group for example.
 
- :::{Note}
-
-the action group file must end with “**.d6a**” suffix.
-
+:::{Note}
+the action group file must end with "**.d6a**" suffix.
 :::
 
 (1) Insert the U disk containing the action files into any USB interface on Raspberry Pi. And copy and paste the action group files to the system desktop.
@@ -351,9 +344,9 @@ the action group file must end with “**.d6a**” suffix.
 
 <img class="common_img" src="../_static/media/chapter_7/section_3/image7.png"  />
 
-(3) Next, double click PC software icon<img src="../_static/media/chapter_7/section_3/image1.png" style="width:0.39306in;height:0.40347in" alt="loading" />and click “Run”
+(3) Next, double click PC software icon <img src="../_static/media/chapter_7/section_3/image1.png" style="width:0.39306in;height:0.40347in" alt="loading" /> and click "**Run**"
 
-(4) Click “**Open Action File**” and select the action group file to import, and then click “**Open**”.
+(4) Click "**Open Action File**" and select the action group file to import, and then click "**Open**".
 
 <img class="common_img" src="../_static/media/chapter_7/section_3/image8.png"  />
 
@@ -363,17 +356,17 @@ the action group file must end with “**.d6a**” suffix.
 
 <img class="common_img" src="../_static/media/chapter_7/section_3/image9.png"  />
 
-## 4.4 **Integrate Action Files**
+## 4.4 Integrate Action Files
 
-### 4.4.1 **Project outcome**
+### 4.4.1 Project outcome
 
-Integrating action files is to integrate two actions to form a new action group. And, we will integrate “wave” and “**go_forward_and_grip**” for example.
+Integrating action files is to integrate two actions to form a new action group. And, we will integrate "**wave**" and "**go_forward_and_grip**" for example.
 
-### 4.4.2 **Start integrating**
+### 4.4.2 Start integrating
 
 (1) Having connected to VNC, open SpiderPi PC software.
 
-(2) Click “**Open action file**”and select “**wave.d6a**”file in the pop-up window, and click **“Open**”.
+(2) Click "**Open action file**"and select "**wave.d6a**"file in the pop-up window, and click **"Open**".
 
 <img class="common_img" src="../_static/media/chapter_7/section_4/image1.png"  />
 
@@ -383,7 +376,7 @@ Integrating action files is to integrate two actions to form a new action group.
 
 <img class="common_img" src="../_static/media/chapter_7/section_4/image3.png"  alt="loading" />
 
-(4) Click “**Integrate file**” and select **“go_forward_and_grip**” action group, and then click “**Open**” again to integrate these two action groups.
+(4) Click "**Integrate file**" and select **"go_forward_and_grip**" action group, and then click "**Open**" again to integrate these two action groups.
 
 <img class="common_img" src="../_static/media/chapter_7/section_4/image4.png"  />
 
@@ -391,17 +384,17 @@ Integrating action files is to integrate two actions to form a new action group.
 
 <img class="common_img" src="../_static/media/chapter_7/section_4/image5.png"  alt="loading" />
 
-(5) Click “**Run**” to execute the new integrated actions online.
+(5) Click "**Run**" to execute the new integrated actions online.
 
 <img class="common_img" src="../_static/media/chapter_7/section_4/image6.png"  />
 
-(6) Click “**Save action file**” button and enter new action group name (such as “**wave_and_grip**” ) to save the new integrated action group for the future debugging.
+(6) Click "**Save action file**" button and enter new action group name (such as "**wave_and_grip**" ) to save the new integrated action group for the future debugging.
 
 <img class="common_img" src="../_static/media/chapter_7/section_4/image7.png"  />
 
 <img class="common_img" src="../_static/media/chapter_7/section_4/image8.png"  />
 
-## 4.5 **Call Action Group Using Command**
+## 4.5 Call Action Group Using Command
 
 ### 4.5.1 Goal
 
@@ -421,17 +414,19 @@ Click-on <img src="../_static/media/chapter_7/section_5/image1.png" style="width
 
 (2) Execute the command and press Enter to navigate to the folder where game programs are saved.
 
-```commandline
+```bash
 cd spiderpi/functions/
 ```
 
 (3) Run the command  and press Enter to start the game.
 
-```commandline
+```bash
 python3 action_group_control_demo.py
 ```
 
-At this time, SpiderPi Pro will execute “**stand**” action group, then execute “**go_forward**” action group twice. Once SpiderPi Pro completes running the action group, the program will be terminated automatically.
+At this time, SpiderPi Pro will execute "**stand**" action group, then execute "**go_forward**" action group twice. Once SpiderPi Pro completes running the action group, the program will be terminated automatically.
+
+<p id="anchor_4_5_3"></p>
 
 ### 4.5.3 Change Action Group to be Called
 
@@ -443,17 +438,17 @@ User can modify the program to enable SpiderPi Pro to execute single action grou
 
 (2) Execute the command and press Enter to switch the directory where game programs are saved.
 
-```commandline
+```bash
 cd spiderpi/functions
 ```
 
 (3) Execute the command  and press Enter to open the program file.
 
-```commandline
+```bash
 sudo vim action_group_control_demo.py
 ```
 
-(4) Press “I” key to enter program editing mode.
+(4) Press "**I**" key to enter program editing mode.
 
 <img class="common_img" src="../_static/media/chapter_7/section_5/image8.png"  />
 
@@ -461,7 +456,7 @@ sudo vim action_group_control_demo.py
 
 <img class="common_img" src="../_static/media/chapter_7/section_5/image9.png"  />
 
-(6) Use the function `AGC.run_action_group（）` to call action groups saved in “/home/pi/spiderpi/action_groups/”. Enter the action group name within the single quotation mark, then save the command. After that, you can call the action group using command.
+(6) Use the function `AGC.run_action_group（）` to call action groups saved in "**/home/pi/spiderpi/action_groups/**". Enter the action group name within the single quotation mark, then save the command. After that, you can call the action group using command.
 
 The 28th line of code introduces an extra runtime parameter 'time=2,' indicating that it will run twice. In this section, we'll illustrate using the 27th line as an example, and initially, you can comment out the 28th line of code.
 
@@ -469,29 +464,27 @@ To do this, you can navigate the mouse cursor using the keyboard's arrow keys an
 
 <img class="common_img" src="../_static/media/chapter_7/section_5/image10.png"  />
 
-(7) Enter the action group to be executed within the single quotation mark of the 29th line of code. Take executing “attack” action group as example.
+(7) Enter the action group to be executed within the single quotation mark of the 29th line of code. Take executing "**attack**" action group as example.
 
 <img class="common_img" src="../_static/media/chapter_7/section_5/image11.png"  />
 
 :::{Note}
-the action group files must be saved in the directory `/home/pi/spiderpi/action_groups/`. If you want to call the customized action group, you need to edit the action group first according to the file saved in “[Action Editing\2.Action Editing]()”.
+the action group files must be saved in the directory `/home/pi/spiderpi/action_groups/`. If you want to call the customized action group, you need to edit the action group first according to the file saved in "[4,2 Action Editing](#anchor_4_2)".
 :::
 
 <img class="common_img" src="../_static/media/chapter_7/section_5/image12.png"  />
 
 (8) After modification, press `Esc` to exit the editing mode. Then input `:wq` and press `Enter` to save and close the program file.
 
-```commandline
+```bash
 :wq
 ```
 
 (9) Execute the command `python3 action_group_control_demo.py` and press `Enter` to start the game. SpiderPi Pro will execute the action group `attack` once.
 
-```commandline
+```bash
 python3 action_group_control_demo.py
 ```
-
-<img class="common_img" src="../_static/media/chapter_7/section_5/image14.png"  />
 
 * **Call Multiple Action Groups**
 
@@ -501,9 +494,9 @@ The following operation is carried out based on the preceding operation.
 
 :::
 
-User can enable SpiderPi Pro to execute several action groups through copying multiple lines of codes. Take calling action groups “**left_move**” and “**kick**” as example.
+User can enable SpiderPi Pro to execute several action groups through copying multiple lines of codes. Take calling action groups "**left_move**" and "**kick**" as example.
 
-(1) Repeat steps 1-3 provided in “[4.5.3 Change Action Group to be Called ->Call Individual Action]()” to open the program file. Please note that never enter the editing mode, otherwise you will fail to copy the codes. If you find you are in editing mode, press  `Esc`  key to exit this mode.
+(1) Repeat steps 1-3 provided in "[**4.5.3 Change Action Group to be Called ->Call Individual Action**](#anchor_4_5_3)" to open the program file. Please note that never enter the editing mode, otherwise you will fail to copy the codes. If you find you are in editing mode, press  `Esc`  key to exit this mode.
 
 (2) Position the cursor just before the 29th line using the arrow keys, and then press 'yy' on the keyboard. To copy 2 lines, use '2yy,' with '2' indicating the number of lines to be copied. You can specify the desired number of lines to copy; for instance, use '5yy' to copy 5 lines.
 
@@ -513,24 +506,22 @@ User can enable SpiderPi Pro to execute several action groups through copying mu
 
 <img class="common_img" src="../_static/media/chapter_7/section_5/image16.png"  />
 
-(4) Press `i` key to enter the editing mode, and change the number of the 29th and 31st lines respectively to “left_move” and “kick”.
+(4) Press `i` key to enter the editing mode, and change the number of the 29th and 31st lines respectively to "**left_move**" and "**kick**".
 
 <img class="common_img" src="../_static/media/chapter_7/section_5/image17.png"  />
 
 :::{Note}
-action group files are saved in the directory `/home/pi/spiderpi/action_groups/` The name of action group entered in the program should be consistent with the action groups saved in the “ActionGroups” folder.
+action group files are saved in the directory `/home/pi/spiderpi/action_groups/` The name of action group entered in the program should be consistent with the action groups saved in the "**ActionGroups**" folder.
 :::
 
 (5) After modification, press `Esc` key to exit the editing mode. Input `:wq` and press Enter to save and close the program file.
 
-```commandline
+```bash
 :wq
 ```
 
-(6) Execute the command `python3 action_group_control_demo.py` to start the game. SpiderPi Pro will execute the action groups “**left_move**” and “**kick**” in sequence.
+(6) Execute the command `python3 action_group_control_demo.py` to start the game. SpiderPi Pro will execute the action groups "**left_move**" and "**kick**" in sequence.
 
-```commandline
+```bash
 python3 action_group_control_demo.py
 ```
-
-<img class="common_img" src="../_static/media/chapter_7/section_5/image14.png"  />

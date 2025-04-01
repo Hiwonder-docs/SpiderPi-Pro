@@ -13,7 +13,6 @@ SpiderPi Pro
 
    docs/1_read_before_studying.md
    docs/2_Getting Ready.md
-   docs/general_basic_courses.md
    docs/6_remote_tool.md
    docs/7_PC_Software.md
    docs/8_forward_inverse_kinematics.md

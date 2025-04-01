@@ -53,76 +53,77 @@ Furthermore, unless explicitly stated by Hiwonder, we are not responsible for an
       <td style="text-align: center;">1</td>
       <td style="text-align: center;">SpiderPi Pro</td>
       <td style="text-align: center;">1</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image1.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image1.png"  alt="" style="width:300px;" /></td>
     </tr>
        <tr>
       <td style="text-align: center;">2</td>
       <td style="text-align: center;">Robot Arm</td>
       <td style="text-align: center;">1</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image2.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image2.png"  alt="" style="width:180px;" /></td>
     </tr>
     <tr>
       <td style="text-align: center;">3</td>
       <td style="text-align: center;">12.6V 2A charger<br>(DC5.5*2.5 maleconnector)</td>
       <td style="text-align: center;">1</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image3.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image3.png"  alt="" style="width:180px;" /></td>
     </tr>
      <tr>
       <td style="text-align: center;">4</td>
       <td style="text-align: center;">Wireless handle</td>
       <td style="text-align: center;">1</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image4.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image4.png"  alt="" style="width:150px;" /></td>
     </tr>
         <tr>
       <td style="text-align: center;">5</td>
       <td style="text-align: center;">Camera</td>
       <td style="text-align: center;">1</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image5.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image5.png"  alt="" style="width:60px;" /></td>
     </tr>
     <tr>
       <td style="text-align: center;">6</td>
       <td style="text-align: center;">40mm Balls</td>
       <td style="text-align: center;">3</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image6.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image6.png"  alt="" style="width:180px;" /></td>
     </tr>
     <tr>
       <td style="text-align: center;">7</td>
       <td style="text-align: center;">Sponge cubes</td>
       <td style="text-align: center;">3</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image7.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image7.png"  alt="" style="width:180px;" /></td>
     </tr>
     <tr>
       <td style="text-align: center;">8</td>
       <td style="text-align: center;">65*65 mm Tags</td>
       <td style="text-align: center;">3</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image8.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image8.png"  alt=""  style="width:180px;"/></td>
     </tr>
     <tr>
       <td style="text-align: center;">9</td>
       <td style="text-align: center;">Card reader</td>
       <td style="text-align: center;">1</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image9.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image9.png"  alt="" style="width:40px;" /></td>
     </tr>
     <tr>
       <td style="text-align: center;">10</td>
       <td style="text-align: center;">Scewdiver</td>
       <td style="text-align: center;">1</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image10.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image10.png"  alt="" style="width:150px;" /></td>
     </tr>
     <tr>
       <td style="text-align: center;">11</td>
       <td style="text-align: center;">Accessory bag</td>
       <td style="text-align: center;">1</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image11.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image11.png"  alt="" style="width:150px;" /></td>
     </tr>
     <tr>
       <td style="text-align: center;">12</td>
       <td style="text-align: center;">User manual</td>
       <td style="text-align: center;">1</td>
-      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image12.png"  alt="" /></td>
+      <td style="text-align: center;"><img src="../_static/media/chapter_1/section_1/image12.png"  alt="" style="width:270px;" /></td>
     </tr>
   </tbody>
 </table>
+
 ## 1.3 Assembly Tutorial
 
 <p class="step">Step1：Installing the Camera</p>
@@ -149,11 +150,11 @@ Furthermore, unless explicitly stated by Hiwonder, we are not responsible for an
 
 (1) Before charging, please check whether the red wire is connected to red wire and black to black.
 
-<img src="../_static/media/chapter_1/section_3/image2.png" class="common_img" alt="7" />
+<img src="../_static/media/chapter_1/section_3/image2.png" class="common_img" alt="7" style="width:600px;" />
 
 (2) Connect the charger to the hole on the Raspberry Pi expansion board on the back of the robot.
 
-<img src="../_static/media/chapter_1/section_3/image4.png"  class="common_img" alt="6" />
+<img src="../_static/media/chapter_1/section_3/image4.png"  class="common_img" alt="6" style="width:600px;" />
 
 (3) When the charger isn’t plugged in, the indicator of the charger is green. When it is plugged in, its indicator is red, which means that the SpiderPi Pro is charging. It takes about 3 hours to fully charge the SpiderPi Pro.
 
@@ -175,7 +176,7 @@ As Raspberry Pi is a computer, it takes some time to boot up. Please be patient!
 
 <img style="width:50%" src="../_static/media/chapter_1/section_3/image9.png" class="common_img" />
 
-Now you can turn to "[2. Quick User Experience]()" for more。
+Now you can turn to "[2. Quick User Experience](https://docs.hiwonder.com/projects/SpiderPi_Pro/en/latest/docs/2_Getting%20Ready.html)" for more。
 
 **1.4.3 Check battery level**
 
