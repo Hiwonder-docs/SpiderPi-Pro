@@ -1437,8 +1437,6 @@ The input command should be case sensitive and space sensitive.
 
 (2) Click <img src="../_static/media/chapter_12/section_5/media/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-<img class="common_img" src="../_static/media/chapter_12/section_5/media/image4.png"  />
-
 (3) Enter the command and press **"Enter"** to navigate to the directory where the game program is located.
 
 ```bash
@@ -1936,8 +1934,6 @@ The input command should be case sensitive and space sensitive.
 
 (2) Click <img src="../_static/media/chapter_12/section_6/media/image3.png"  /> at upper left corner of desktop to open the Terminator.
 
-<img class="common_img" src="../_static/media/chapter_12/section_6/media/image4.png"  />
-
 (3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 
 ```bash
@@ -2346,8 +2342,6 @@ The input command should be case sensitive and space sensitive.
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC.
 
 (2) Click <img src="../_static/media/chapter_12/section_7/media/image3.png"  /> at upper left corner of desktop to open the Terminator.
-
-<img class="common_img" src="../_static/media/chapter_12/section_7/media/image4.png"  />
 
 (3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 

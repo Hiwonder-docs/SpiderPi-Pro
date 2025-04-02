@@ -856,8 +856,6 @@ The input of commands must strictly distinguish between uppercase and lowercase 
 
 (2) Click the icon <img src="../_static/media/chapter_10/section_3/image6.png" style="width:0.375in;height:0.3125in" /> in the top left corner of the system desktop or press the shortcut "**Ctrl+Alt+T**" to open the LX terminal.
 
-<img class="common_img" src="../_static/media/chapter_10/section_3/image8.png"  />
-
 (3) In the terminal, enter the command to navigate to the directory where the program is located, then press Enter:
 
 ```bash
@@ -1258,7 +1256,7 @@ Before converting the image from RGB into LAB space, denoise the image and use "
 
 {lineno-start=146}
 
-```
+```python
     frame_gb = cv2.GaussianBlur(frame_resize, (5, 5), 5) 
 ```
 
@@ -1332,7 +1330,7 @@ Find the contour of the maximum area among the obtained contours. To avoid inter
         cv2.circle(img, (int(centerX), int(centerY)), int(radius), range_rgb[detect_color], 2)
 ```
 
-**4.5.2 Feedback Information**
+* **Feedback Information**
 
 After the contour of the maximum area is obtained, call `minEnclosingCircle()` function in cv2 library to obtain the smallest circumscribed circle of the target contour.
 
@@ -1350,7 +1348,7 @@ Then circle the recognized target, which involves `circle()` function in cv2 lib
         cv2.circle(img, (int(centerX), int(centerY)), int(radius), range_rgb[detect_color], 2)
 ```
 
-**4.5.3 Drive the servo**
+* **Drive the servo**
 
 Take X and Y coordinate of the center of the image as setting value. And take the X and Y coordinate of the recognized target as the input value to update PID.
 
@@ -2077,8 +2075,6 @@ The input command should be case sensitive and space sensitive.
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
 (2) Click <img src="../_static/media/chapter_10/section_7/image2.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "**Ctrl+Alt+T**" to open LX terminal.
-
-<img class="common_img" src="../_static/media/chapter_10/section_7/image3.png"  />
 
 (3) Enter the command and press "**Enter**" to navigate to the directory where the game program is located.
 
@@ -2917,8 +2913,6 @@ The input command should be case sensitive and space sensitive.
 (1) Boot up SpiderPi Pro, then remotely connect to Raspberry Pi desktop through VNC. 
 
 (2) Click <img src="../_static/media/chapter_10/section_10/image4.png" style="width:0.39583in;height:0.33333in" /> at upper left corner of desktop, or press "**Ctrl+Alt+T**" to open LX terminal.
-
-<img class="common_img" src="../_static/media/chapter_10/section_10/image5.png"  />
 
 (3) Enter the command  and press "**Enter**" to navigate to the directory where the game program is located.
 
