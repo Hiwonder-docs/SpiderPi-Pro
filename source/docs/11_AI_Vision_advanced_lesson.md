@@ -298,15 +298,12 @@ The program defaults to recognize green ball and display its coordinate. If you 
 cd spiderpi/advanced
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_1/media/image5.png"  />
-
 (2) Input command and press **"Enter"** to open the program file.
 
 ```bash
 sudo vim ball_orientation.py
 ```
 
-<img class="common_img" src="../_static/media/chapter_12/section_1/media/image19.png"  />
 
 (3) Locate these codes.
 
