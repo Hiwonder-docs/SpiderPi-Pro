@@ -21,3 +21,4 @@ SpiderPi Pro
    docs/12_mass_control.md
    docs/13_network_configuration.md
    docs/resources_download.md
+   Download <https://drive.google.com/drive/folders/1SUszlZJI284oX6z-nKrW330yU2lNRjdI?usp=sharing>
